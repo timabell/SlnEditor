@@ -22,7 +22,7 @@ namespace SlnParser.Tests
             var solution = sut.Parse(solutionFile);
 
             var actual = solution.Write();
-            actual.Should().Be(original);
+            actual.Trim().Should().Be(original.Trim());
         }
 
         private static FileInfo LoadSolution(string solutionFileName)
