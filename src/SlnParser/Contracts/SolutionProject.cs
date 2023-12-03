@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 
@@ -9,6 +10,7 @@ namespace SlnParser.Contracts
     /// <summary>
     ///     A Solution Project that can be contained in a <see cref="Solution" />
     /// </summary>
+    [DebuggerDisplay("{DebuggerDisplay,nq}")]
     public class SolutionProject : IProject
     {
         private readonly ICollection<ConfigurationPlatform> _configurationPlatforms =
@@ -65,5 +67,7 @@ namespace SlnParser.Contracts
 
             _configurationPlatforms.Add(configurationPlatform);
         }
+
+        private string DebuggerDisplay => $"\"{Name}\" Id: \"{Id}\"";
     }
 }

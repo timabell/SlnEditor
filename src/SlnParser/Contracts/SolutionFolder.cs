@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 
@@ -9,6 +10,7 @@ namespace SlnParser.Contracts
     /// <summary>
     ///     A Solution Folder that can be contained in a <see cref="Solution" />
     /// </summary>
+    [DebuggerDisplay("{DebuggerDisplay,nq}")]
     public class SolutionFolder : IProject
     {
         private readonly ICollection<FileInfo> _files = new Collection<FileInfo>();
@@ -64,5 +66,7 @@ namespace SlnParser.Contracts
         {
             _files.Add(fileInfo);
         }
+
+        private string DebuggerDisplay => $"\"{Name}\" Id: \"{Id}\"";
     }
 }
