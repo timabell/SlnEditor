@@ -18,6 +18,11 @@ namespace SlnParser.Contracts
         string Name { get; }
 
         /// <summary>
+        ///
+        /// </summary>
+        string Path { get; }
+
+        /// <summary>
         ///     The Id of the Project-Type
         /// </summary>
         Guid TypeGuid { get; }

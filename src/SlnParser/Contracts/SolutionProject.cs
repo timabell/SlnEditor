@@ -21,18 +21,21 @@ namespace SlnParser.Contracts
         /// </summary>
         /// <param name="id">The id</param>
         /// <param name="name">The name</param>
+        /// <param name="path"></param>
         /// <param name="typeGuid">The project-type id</param>
         /// <param name="type">The well-known project-type</param>
         /// <param name="fileInfo">The <see cref="FileInfo" /> for the Project-File</param>
         public SolutionProject(
             Guid id,
             string name,
+            string path,
             Guid typeGuid,
             ProjectType type,
             FileInfo fileInfo)
         {
             Id = id;
             Name = name;
+            Path = path;
             TypeGuid = typeGuid;
             Type = type;
             File = fileInfo;
@@ -54,6 +57,9 @@ namespace SlnParser.Contracts
 
         /// <inheritdoc />
         public string Name { get; }
+
+        /// <inheritdoc />
+        public string Path { get; }
 
         /// <inheritdoc />
         public Guid TypeGuid { get; }
