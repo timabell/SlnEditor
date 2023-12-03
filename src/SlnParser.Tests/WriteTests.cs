@@ -11,10 +11,11 @@ namespace SlnParser.Tests
     {
 
         [Theory]
-        [InlineData("./Solutions/SlnParser.sln")]
-        [InlineData("./Solutions/sln-items-sync.sln")]
-        public void Should_RoundTripFile(string solutionPath)
+        [InlineData("SlnParser.sln")]
+        [InlineData("sln-items-sync.sln")]
+        public void Should_RoundTripFile(string solutionName)
         {
+            var solutionPath = $"./Solutions/{solutionName}";
             var solutionFile = LoadSolution(solutionPath);
             var original = File.ReadAllText(solutionPath);
             var sut = new SolutionParser();
@@ -22,6 +23,8 @@ namespace SlnParser.Tests
             var solution = sut.Parse(solutionFile);
 
             var actual = solution.Write();
+            Directory.CreateDirectory($"./roundtrip/");
+            File.WriteAllText($"./roundtrip/{solutionName}", actual);
             actual.Trim().Should().Be(original.Trim());
         }
 
