@@ -40,5 +40,15 @@ namespace SlnParser.Contracts
 
         /// <inheritdoc/>
         public Guid? Guid { get; internal set; }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public string Write()
+        {
+            return SolutionWriter.Write(this);
+        }
     }
 }
