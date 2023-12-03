@@ -10,13 +10,13 @@ namespace SlnParser.Tests
     public class WriteTests
     {
 
-        [Fact]
-        [Category("ParseSolution:SlnParser")]
-        public void Should_RoundTripFile()
+        [Theory]
+        [InlineData("./Solutions/SlnParser.sln")]
+        [InlineData("./Solutions/sln-items-sync.sln")]
+        public void Should_RoundTripFile(string solutionPath)
         {
-            const string solutionFileName = $"./Solutions/SlnParser.sln";
-            var solutionFile = LoadSolution(solutionFileName);
-            var original = File.ReadAllText(solutionFileName);
+            var solutionFile = LoadSolution(solutionPath);
+            var original = File.ReadAllText(solutionPath);
             var sut = new SolutionParser();
 
             var solution = sut.Parse(solutionFile);
