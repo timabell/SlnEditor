@@ -73,7 +73,7 @@ namespace SlnParser.Tests
                 .File
                 .FullName
                 .Should()
-                .Contain(@"Solutions\SlnParser.sln");
+                .Contain(@"Solutions/SlnParser.sln");
 
             solution
                 .FileFormatVersion
@@ -250,7 +250,7 @@ namespace SlnParser.Tests
                 .File
                 .FullName
                 .Should()
-                .Contain(@"SlnParser\SlnParser.csproj");
+                .Contain(@"SlnParser/SlnParser.csproj");
             solution
                 .AllProjects
                 .ElementAt(0)
@@ -311,7 +311,7 @@ namespace SlnParser.Tests
                 .File
                 .FullName
                 .Should()
-                .Contain(@"SlnParser.Tests\SlnParser.Tests.csproj");
+                .Contain(@"SlnParser.Tests/SlnParser.Tests.csproj");
             solution
                 .AllProjects
                 .ElementAt(2)
@@ -418,12 +418,12 @@ namespace SlnParser.Tests
             project.TypeGuid.Should().Be("D183A3D8-5FD8-494B-B014-37F57B35E655");
             project.Type.Should().Be(ProjectType.Unknown);
         }
- 
+
         [Fact]
         public void Parse_WithSolutionGuid_IsParsedCorrectly()
         {
             var solutionFile = LoadSolution("SolutionGuid");
-          
+
             var sut = new SolutionParser();
 
             var solution = sut.Parse(solutionFile);
@@ -433,7 +433,7 @@ namespace SlnParser.Tests
                 .Should()
                 .Be("7F92F20E-4C3D-4316-BF60-105559EFEAFF");
         }
-   
+
         private static FileInfo LoadSolution(string solutionName)
         {
             var solutionFileName = $"./Solutions/{solutionName}.sln";
