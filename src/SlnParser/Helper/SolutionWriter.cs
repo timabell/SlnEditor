@@ -1,12 +1,14 @@
+using SlnParser.Contracts;
 using System;
+using System.Linq;
 using System.Text;
 
-namespace SlnParser.Contracts
+namespace SlnParser.Helper
 {
     /// <summary>
     ///
     /// </summary>
-    public class SolutionWriter
+    public static class SolutionWriter
     {
         /// <summary>
         ///
@@ -22,15 +24,23 @@ namespace SlnParser.Contracts
             sb.AppendLine($"# Visual Studio Version {solution.VisualStudioVersion.MajorVersion}");
             sb.AppendLine($"VisualStudioVersion = {solution.VisualStudioVersion.Version}");
             sb.AppendLine($"MinimumVisualStudioVersion = {solution.VisualStudioVersion.MinimumVersion}");
-            sb.Append(@"Project(""{9A19103F-16F7-4668-BE54-9A1E7A4F7556}"") = ""SlnParser"", ""SlnParser\SlnParser.csproj"", ""{EDC2B9FC-02D0-4541-8484-CAB27B00252D}""
-EndProject
-Project(""{2150E333-8FDC-42A3-9474-1A3956D46DE8}"") = ""Solution Items"", ""Solution Items"", ""{6D0A7ECB-8812-42C3-8CB4-3DD2C8296591}""
-	ProjectSection(SolutionItems) = preProject
-		.editorconfig = .editorconfig
-	EndProjectSection
-EndProject
-Project(""{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"") = ""SlnParser.Tests"", ""SlnParser.Tests\SlnParser.Tests.csproj"", ""{BB52A27D-766E-4ECD-B888-BD86405134C1}""
-EndProject
+            foreach (var project in solution.AllProjects)
+            {
+                sb.AppendLine($"Project(\"{{{project.TypeGuid.ToString().ToUpper()}}}\") = \"{project.Name}\", \"{project.Path}\", \"{{{project.Id.ToString().ToUpper()}}}\"");
+                if (project is SolutionFolder solutionFolder && solutionFolder.Files.Any())
+                {
+                    sb.AppendLine("\tProjectSection(SolutionItems) = preProject");
+                    foreach (var file in solutionFolder.Files)
+                    {
+                        sb.AppendLine($"\t\t{file.Name} = {file.Name}");
+                    }
+                    sb.AppendLine("\tEndProjectSection");
+                }
+                sb.AppendLine("EndProject");
+            }
+            sb.AppendLine("Global");
+            sb.AppendLine("EndGlobal");
+            /*
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -74,6 +84,7 @@ Global
 	EndGlobalSection
 EndGlobal
 ");
+*/
             return sb.ToString();
         }
     }
