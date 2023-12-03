@@ -14,5 +14,10 @@
         ///     The minimum Version of Visual Studio that is compatible
         /// </summary>
         public string MinimumVersion { get; set; } = string.Empty;
+
+        /// <summary>
+        ///
+        /// </summary>
+        public string MajorVersion => Version.Substring(0, Version.IndexOf('.'));
     }
 }

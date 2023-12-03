@@ -1,4 +1,5 @@
 using System;
+using System.Text;
 
 namespace SlnParser.Contracts
 {
@@ -15,12 +16,13 @@ namespace SlnParser.Contracts
         /// <exception cref="NotImplementedException"></exception>
         public static string Write(Solution solution)
         {
-            return @"
-Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.0.31410.414
-MinimumVisualStudioVersion = 10.0.40219.1
-Project(""{9A19103F-16F7-4668-BE54-9A1E7A4F7556}"") = ""SlnParser"", ""SlnParser\SlnParser.csproj"", ""{EDC2B9FC-02D0-4541-8484-CAB27B00252D}""
+            var sb = new StringBuilder();
+            sb.AppendLine("");
+            sb.AppendLine($"Microsoft Visual Studio Solution File, Format Version {solution.FileFormatVersion}");
+            sb.AppendLine($"# Visual Studio Version {solution.VisualStudioVersion.MajorVersion}");
+            sb.AppendLine($"VisualStudioVersion = {solution.VisualStudioVersion.Version}");
+            sb.AppendLine($"MinimumVisualStudioVersion = {solution.VisualStudioVersion.MinimumVersion}");
+            sb.Append(@"Project(""{9A19103F-16F7-4668-BE54-9A1E7A4F7556}"") = ""SlnParser"", ""SlnParser\SlnParser.csproj"", ""{EDC2B9FC-02D0-4541-8484-CAB27B00252D}""
 EndProject
 Project(""{2150E333-8FDC-42A3-9474-1A3956D46DE8}"") = ""Solution Items"", ""Solution Items"", ""{6D0A7ECB-8812-42C3-8CB4-3DD2C8296591}""
 	ProjectSection(SolutionItems) = preProject
@@ -71,7 +73,8 @@ Global
 		SolutionGuid = {7F92F20E-4C3D-4316-BF60-105559EFEAFF}
 	EndGlobalSection
 EndGlobal
-";
+");
+            return sb.ToString();
         }
     }
 }
