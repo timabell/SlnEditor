@@ -1,8 +1,11 @@
-﻿namespace SlnParser.Contracts
+﻿using System.Diagnostics;
+
+namespace SlnParser.Contracts
 {
     /// <summary>
     ///     A Configuration of a Solution or Project describing which configuration and build-platform is targeted
     /// </summary>
+    [DebuggerDisplay("{DebuggerDisplay,nq}")]
     public class ConfigurationPlatform
     {
         /// <summary>
@@ -35,5 +38,7 @@
         ///     The build-platform the <see cref="ConfigurationPlatform" /> is targeting
         /// </summary>
         public string Platform { get; }
+
+        private string DebuggerDisplay => $"{Name}";
     }
 }
