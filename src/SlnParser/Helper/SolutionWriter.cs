@@ -78,6 +78,13 @@ namespace SlnParser.Helper
             sb.AppendLine("\tGlobalSection(SolutionProperties) = preSolution");
             sb.AppendLine("\t\tHideSolutionNode = FALSE");
             sb.AppendLine("\tEndGlobalSection");
+
+            if (solution.Guid != null)
+            {
+                sb.AppendLine("\tGlobalSection(ExtensibilityGlobals) = postSolution");
+                sb.AppendLine($"\t\tSolutionGuid = {{{solution.Guid.ToString().ToUpper()}}}");
+                sb.AppendLine("\tEndGlobalSection");
+            }
             sb.AppendLine("EndGlobal");
             return sb.ToString();
         }
