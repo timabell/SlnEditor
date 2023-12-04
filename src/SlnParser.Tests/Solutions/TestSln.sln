@@ -4,16 +4,16 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 15.0.26124.0
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFolder1", "SolutionFolder1", "{DD601D16-308D-4B76-AB4B-2AA5B1D25876}"
-ProjectSection(SolutionItems) = preProject
-	something\something.txt = something\something.txt
-	test123.txt = test123.txt
-	test456.txt = test456.txt
-EndProjectSection
+	ProjectSection(SolutionItems) = preProject
+		something\something.txt = something\something.txt
+		test123.txt = test123.txt
+		test456.txt = test456.txt
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NestedSolutionFolder", "NestedSolutionFolder", "{DA01EB1C-A2F7-4851-AD58-D1319B29EE3D}"
-ProjectSection(SolutionItems) = preProject
-	testNested1.txt = testNested1.txt
-EndProjectSection
+	ProjectSection(SolutionItems) = preProject
+		testNested1.txt = testNested1.txt
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassLibraryInSolutionFolder1", "ClassLibraryInSolutionFolder1\ClassLibraryInSolutionFolder1.csproj", "{298A6739-2859-4A48-9EB7-55EDD65F4F65}"
 EndProject
@@ -109,7 +109,6 @@ Global
 		{20AD21B6-0ABB-4DB5-8BA0-D9896E58E3E4}.Release|x64.Build.0 = Release|Any CPU
 		{20AD21B6-0ABB-4DB5-8BA0-D9896E58E3E4}.Release|x86.ActiveCfg = Release|Any CPU
 		{20AD21B6-0ABB-4DB5-8BA0-D9896E58E3E4}.Release|x86.Build.0 = Release|Any CPU
-		{2FD6FF99-971A-470A-BB0D-CE738AB29D6C}.Debug|x64.ActiveCfg = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{DA01EB1C-A2F7-4851-AD58-D1319B29EE3D} = {DD601D16-308D-4B76-AB4B-2AA5B1D25876}
