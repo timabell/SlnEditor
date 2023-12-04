@@ -1,17 +1,17 @@
 ﻿using FluentAssertions;
-using SlnParser.Contracts;
-using System.ComponentModel;
 using System.IO;
-using System.Linq;
 using Xunit;
 
 namespace SlnParser.Tests
 {
     public class WriteTests
     {
-
         [Theory]
         [InlineData("SlnParser.sln")]
+        [InlineData("TestSln.sln")]
+        [InlineData("Empty.sln")]
+        [InlineData("SolutionGuid.sln")]
+        [InlineData("ProjectWithoutPlatform.sln")]
         [InlineData("sln-items-sync.sln")]
         public void Should_RoundTripFile(string solutionName)
         {
