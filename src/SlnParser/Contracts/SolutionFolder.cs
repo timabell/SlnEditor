@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 
@@ -9,6 +10,7 @@ namespace SlnParser.Contracts
     /// <summary>
     ///     A Solution Folder that can be contained in a <see cref="Solution" />
     /// </summary>
+    [DebuggerDisplay("{DebuggerDisplay,nq}")]
     public class SolutionFolder : IProject
     {
         private readonly ICollection<FileInfo> _files = new Collection<FileInfo>();
@@ -19,16 +21,19 @@ namespace SlnParser.Contracts
         /// </summary>
         /// <param name="id">The id</param>
         /// <param name="name">The name</param>
+        /// <param name="path"></param>
         /// <param name="typeGuid">The project-type id</param>
         /// <param name="type">The well-known project-type</param>
         public SolutionFolder(
             Guid id,
             string name,
+            string path,
             Guid typeGuid,
             ProjectType type)
         {
             Id = id;
             Name = name;
+            Path = path;
             TypeGuid = typeGuid;
             Type = type;
         }
@@ -50,6 +55,9 @@ namespace SlnParser.Contracts
         public string Name { get; }
 
         /// <inheritdoc />
+        public string Path { get; }
+
+        /// <inheritdoc />
         public Guid TypeGuid { get; }
 
         /// <inheritdoc />
@@ -64,5 +72,7 @@ namespace SlnParser.Contracts
         {
             _files.Add(fileInfo);
         }
+
+        private string DebuggerDisplay => $"\"{Name}\" Id: \"{Id}\"";
     }
 }

@@ -36,5 +36,12 @@ namespace SlnParser.Contracts
         /// <param name="solution">The parsed <see cref="Solution" /></param>
         /// <returns>If the solution could be successfully parsed or not</returns>
         bool TryParse(FileInfo solutionFile, out ISolution? solution);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="solution"></param>
+        /// <param name="outputSolutionFilePath"></param>
+        void Write(ISolution solution, string outputSolutionFilePath);
     }
 }

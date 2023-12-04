@@ -45,6 +45,17 @@ namespace SlnParser
         }
 
         /// <inheritdoc />
+        public void Write(ISolution solution, string outputSolutionFilePath)
+        {
+            if (solution is null) throw new ArgumentNullException(nameof(solution));
+            if (string.IsNullOrWhiteSpace(outputSolutionFilePath))
+                throw new ArgumentException($"'{nameof(outputSolutionFilePath)}' cannot be null or whitespace.",
+                    nameof(outputSolutionFilePath));
+
+            File.WriteAllText(outputSolutionFilePath, solution.Write());
+        }
+
+        /// <inheritdoc />
         public ISolution Parse(FileInfo solutionFile)
         {
             if (solutionFile is null)

@@ -39,10 +39,11 @@ namespace SlnParser.Helper
                 throw new UnexpectedSolutionStructureException("Solution-Directory could not be determined");
 
             // NOTE: the path to the project-file is usually separated using '\' - this does not work under linux
-            projectPath = projectPath.Replace('/', Path.DirectorySeparatorChar);
-            projectPath = projectPath.Replace('\\', Path.DirectorySeparatorChar);
-            
-            var projectFileCombinedWithSolution = Path.Combine(solutionDirectory, projectPath);
+            var normalizedPath = projectPath
+                .Replace('/', Path.DirectorySeparatorChar)
+                .Replace('\\', Path.DirectorySeparatorChar);
+
+            var projectFileCombinedWithSolution = Path.Combine(solutionDirectory, normalizedPath);
             var projectFile = new FileInfo(projectFileCombinedWithSolution);
 
             var projectType = _projectTypeMapper.Map(projectTypeGuid);
@@ -51,11 +52,13 @@ namespace SlnParser.Helper
                 ? (IProject)new SolutionFolder(
                     projectGuid,
                     projectName,
+                    projectPath,
                     projectTypeGuid,
                     projectType)
                 : new SolutionProject(
                     projectGuid,
                     projectName,
+                    projectPath,
                     projectTypeGuid,
                     projectType,
                     projectFile);
