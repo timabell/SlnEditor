@@ -434,6 +434,19 @@ namespace SlnParser.Tests
                 .Be("7F92F20E-4C3D-4316-BF60-105559EFEAFF");
         }
 
+        [Fact]
+        public void Parse_WithUnexpectedConfig_IsParsedCorrectly()
+        {
+            var solutionFile = LoadSolution("UnknownConfigGuid");
+
+            var sut = new SolutionParser();
+
+            var solution = sut.Parse(solutionFile);
+
+            solution.AllProjects.OfType<SolutionProject>().SelectMany(p => p.ConfigurationPlatforms).Count()
+                .Should().Be(2, because: "two out of the three configs have valid project guids");
+        }
+
         private static FileInfo LoadSolution(string solutionName)
         {
             var solutionFileName = $"./Solutions/{solutionName}.sln";
