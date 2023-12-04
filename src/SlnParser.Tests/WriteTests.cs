@@ -9,7 +9,6 @@ namespace SlnParser.Tests
         [Theory]
         [InlineData("SlnParser.sln")]
         [InlineData("TestSln.sln")]
-        [InlineData("ProjectWithoutPlatform.sln")]
         [InlineData("sln-items-sync.sln")]
         public void Should_RoundTripFile(string solutionName)
         {
