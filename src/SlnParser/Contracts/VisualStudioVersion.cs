@@ -18,6 +18,6 @@
         /// <summary>
         ///
         /// </summary>
-        public string MajorVersion => Version.Substring(0, Version.IndexOf('.'));
+        public string MajorVersion => Version.Contains(".") ? Version.Substring(0, Version.IndexOf('.')) : Version;
     }
 }
