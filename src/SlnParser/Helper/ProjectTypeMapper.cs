@@ -2,10 +2,11 @@
 using SlnParser.Contracts.Helper;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace SlnParser.Helper
 {
-    internal class ProjectTypeMapper : IProjectTypeMapper
+    public class ProjectTypeMapper : IProjectTypeMapper
     {
         private readonly IDictionary<Guid, ProjectType> _mapping;
 
@@ -19,6 +20,16 @@ namespace SlnParser.Helper
             return _mapping.ContainsKey(typeGuid)
                 ? _mapping[typeGuid]
                 : ProjectType.Unknown;
+        }
+
+        public Guid ToGuid(ProjectType projectType)
+        {
+            if (projectType == ProjectType.Unknown)
+            {
+                return Guid.Empty;
+            }
+
+            return _mapping.Single(x => x.Value == projectType).Key;
         }
 
         private static IDictionary<Guid, ProjectType> GetMapping()

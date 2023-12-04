@@ -4,8 +4,8 @@ namespace SlnParser.Contracts.Helper
 {
     internal interface ISectionParser
     {
-        IEnumerable<string> GetFileContentsInGlobalSection(
-            IEnumerable<string> fileContents,
+        IList<string> GetFileContentsInGlobalSection(
+            IList<string> fileContents,
             string sectionName);
     }
 }

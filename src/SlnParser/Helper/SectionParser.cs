@@ -6,8 +6,8 @@ namespace SlnParser.Helper
 {
     internal class SectionParser : ISectionParser
     {
-        public IEnumerable<string> GetFileContentsInGlobalSection(
-            IEnumerable<string> fileContents,
+        public IList<string> GetFileContentsInGlobalSection(
+            IList<string> fileContents,
             string sectionName)
         {
             var startSection = $"GlobalSection({sectionName}";
@@ -16,8 +16,8 @@ namespace SlnParser.Helper
             return GetFileContentsInSection(fileContents, startSection, endSection);
         }
 
-        private static IEnumerable<string> GetFileContentsInSection(
-            IEnumerable<string> fileContents,
+        private static IList<string> GetFileContentsInSection(
+            IList<string> fileContents,
             string startSection,
             string endSection)
         {

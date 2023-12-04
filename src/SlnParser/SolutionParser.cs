@@ -12,7 +12,7 @@ namespace SlnParser
     /// <inheritdoc />
     public sealed class SolutionParser : ISolutionParser
     {
-        private readonly IEnumerable<IEnrichSolution> _solutionEnrichers;
+        private readonly IList<IEnrichSolution> _solutionEnrichers;
 
         /// <summary>
         ///     Creates a new instance of <see cref="SolutionParser" />

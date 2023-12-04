@@ -4,8 +4,8 @@ namespace SlnParser.Contracts.Helper
 {
     internal interface IParseSolutionConfigurationPlatform
     {
-        IEnumerable<ProjectConfigurationPlatform> Parse(
-            IEnumerable<string> fileContents,
+        IList<ProjectConfigurationPlatform> Parse(
+            IList<string> fileContents,
             string sectionName);
     }
 }

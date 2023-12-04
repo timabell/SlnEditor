@@ -12,8 +12,8 @@ namespace SlnParser.Helper
     {
         private readonly ISectionParser _sectionParser = new SectionParser();
 
-        public IEnumerable<ProjectConfigurationPlatform> Parse(
-            IEnumerable<string> fileContents,
+        public IList<ProjectConfigurationPlatform> Parse(
+            IList<string> fileContents,
             string sectionName)
         {
             if (fileContents == null) throw new ArgumentNullException(nameof(fileContents));
@@ -25,13 +25,13 @@ namespace SlnParser.Helper
             return projectConfigurationPlatforms;
         }
 
-        private static IEnumerable<ProjectConfigurationPlatform> ParseConfigurationPlatforms(
-            IEnumerable<string> sectionFileContents)
+        private static IList<ProjectConfigurationPlatform> ParseConfigurationPlatforms(
+            IList<string> sectionFileContents)
         {
             var configurations = sectionFileContents
                 .Select(ParseConfigurationPlatform);
 
-            return configurations;
+            return configurations.ToList();
         }
 
         private static ProjectConfigurationPlatform ParseConfigurationPlatform(string line)

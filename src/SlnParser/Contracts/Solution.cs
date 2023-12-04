@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace SlnParser.Contracts
 {
@@ -13,7 +14,6 @@ namespace SlnParser.Contracts
         /// </summary>
         public Solution()
         {
-            AllProjects = new List<IProject>();
             Projects = new List<IProject>();
             ConfigurationPlatforms = new List<ConfigurationPlatform>();
         }
@@ -31,13 +31,34 @@ namespace SlnParser.Contracts
         public VisualStudioVersion VisualStudioVersion { get; set; } = new VisualStudioVersion();
 
         /// <inheritdoc />
-        public IReadOnlyCollection<IProject> AllProjects { get; internal set; }
+        public IList<IProject> AllProjects {
+            get
+            {
+                return Flatten(Projects);
+            }
+        }
+
+        private IList<IProject> Flatten(IList<IProject> projects)
+        {
+            var flattened = new List<IProject>();
+            foreach (var project in projects)
+            {
+                flattened.Add(project);
+                var folder = project as SolutionFolder;
+                if (folder?.Projects.Any() is true)
+                {
+                    flattened.AddRange(Flatten(folder.Projects));
+                }
+            }
+
+            return flattened;
+        }
 
         /// <inheritdoc />
-        public IReadOnlyCollection<IProject> Projects { get; internal set; }
+        public IList<IProject> Projects { get; internal set; }
 
         /// <inheritdoc />
-        public IReadOnlyCollection<ConfigurationPlatform> ConfigurationPlatforms { get; internal set; }
+        public IList<ConfigurationPlatform> ConfigurationPlatforms { get; internal set; }
 
         /// <inheritdoc/>
         public Guid? Guid { get; internal set; }
