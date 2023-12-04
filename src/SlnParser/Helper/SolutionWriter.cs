@@ -60,6 +60,21 @@ namespace SlnParser.Helper
             }
 
             sb.AppendLine("\tEndGlobalSection");
+
+            if (solution.Projects.OfType<SolutionFolder>().Any(f => f.Projects.Any()))
+            {
+                sb.AppendLine("\tGlobalSection(NestedProjects) = preSolution");
+                foreach (var project in solution.AllProjects.OfType<SolutionFolder>())
+                {
+                    foreach (var subProject in project.Projects)
+                    {
+                        sb.AppendLine($"\t\t{{{subProject.Id.ToString().ToUpper()}}} = {{{project.Id.ToString().ToUpper()}}}");
+                    }
+                }
+
+                sb.AppendLine("\tEndGlobalSection");
+            }
+
             sb.AppendLine("\tGlobalSection(SolutionProperties) = preSolution");
             sb.AppendLine("\t\tHideSolutionNode = FALSE");
             sb.AppendLine("\tEndGlobalSection");
