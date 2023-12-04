@@ -7,14 +7,13 @@
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
 
-        <PackageId>SlnParser</PackageId>
-        <Description>Easy (to use) Parser for your .NET Solution (.sln) Files.</Description>
+        <PackageId>SlnEditor</PackageId>
+        <Description>Easy (to use) Editor for your .NET Solution (.sln) Files.</Description>
 
-        <Authors>Martin Wagenführ</Authors>
-        <RepositoryUrl>https://github.com/wgnf/SlnParser/</RepositoryUrl>
-        <PackageTags>.net c# solution sln parser</PackageTags>
+        <Authors>Martin Wagenführ, Tim Abell</Authors>
+        <RepositoryUrl>https://github.com/timabell/SlnEditor</RepositoryUrl>
+        <PackageTags>.net c# solution sln editor</PackageTags>
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-        <PackageIcon>SlnParserLogo.png</PackageIcon>
 
         <PackageLicenseExpression>Unlicense</PackageLicenseExpression>
 
@@ -26,6 +25,8 @@
         
         <IsTrimmable>true</IsTrimmable>
         <Nullable>enable</Nullable>
+        <Company>Martin Wagenführ, Tim Abell</Company>
+        <Product>SlnEditor</Product>
     </PropertyGroup>
 
     <ItemGroup>
