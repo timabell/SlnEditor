@@ -14,7 +14,7 @@ namespace SlnParser.Helper
             _parseSolutionConfigurationPlatform = new SolutionConfigurationPlatformParser();
         }
 
-        public void Enrich(Solution solution, IEnumerable<string> fileContents)
+        public void Enrich(Solution solution, IList<string> fileContents)
         {
             var projectConfigurations = _parseSolutionConfigurationPlatform.Parse(
                 fileContents,
@@ -22,7 +22,7 @@ namespace SlnParser.Helper
             solution.ConfigurationPlatforms = projectConfigurations
                 .Select(projectConfiguration => projectConfiguration.ConfigurationPlatform)
                 .ToList()
-                .AsReadOnly();
+                ;
         }
     }
 }

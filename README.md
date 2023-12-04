@@ -1,4 +1,4 @@
-# 🛠️ SlnEditor
+# SlnEditor
 
 <https://github.com/timabell/SlnEditor>
 
@@ -12,15 +12,19 @@ This fork of [https://github.com/wgnf/SlnParser/](https://github.com/wgnf/SlnPar
 [![GitHub forks](https://img.shields.io/github/forks/OptiSchmopti/CsvProc9000?style=social)](https://github.com/OptiSchmopti/CsvProc9000/network/members)
 [![GitHub watchers](https://img.shields.io/github/watchers/OptiSchmopti/CsvProc9000?style=social)](https://github.com/OptiSchmopti/CsvProc9000/watchers)  
 
-🛠️ .NET: Easy (to use) Editor for your .NET Solution (.sln) Files. This project targets `netstandard2.0` so it can basically be used anywhere you want. I've not yet run any performance tests.
+Easy (to use) Editor for your .NET Solution (.sln) Files.
+
+This project targets `netstandard2.0` so it can basically be used anywhere you want. I've not yet run any performance tests.
 
 ## 💻 Usage
 
 ### Modifying a sln
 
 ```cs
-var parser = new SolutionParser();
-var parsedSolution = parser.Parse("path/to/your/solution.sln");
+var solution = new SolutionParser().Parse("path/to/your/solution.sln");
+solution.Projects.Add(new SolutionFolder(Guid.NewGuid(), name: "foo-project", path: "foo/", typeGuid: new ProjectTypeMapper().ToGuid(ProjectType.Test), ProjectType.Test));
+string modifiedSln = solution.Write();
+File.WriteAllText("path/to/your/solution.sln", actual);
 ```
 
 ### Accessing the projects
@@ -42,20 +46,4 @@ var noFolders = parsedSolution
 var csharpProjects = parsedSolution
   .AllProjects
   .Where(project => project.Type == ProjectType.CSharpClassLibrary);
-
 ```
-
-## ⌨️ Developing
-
-To develop and work with SlnEditor you just need to clone this Repo somewhere on your PC and then open the Solution or the complete Source-Folder (under `src`) with your favorite IDE. No additional tools required.  
-  
-Before you can start, you should restore all NuGet-Packages using `dotnet restore` if that's not done for you by your IDE.
-
-## 👋 Want to Contribute?
-
-Cool! We're always welcoming anyone that wants to contribute to this project! Take a look at the [Contributing Guidelines](CONTRIBUTING.md), which helps you get started. You can also look at the [Open Issues](https://github.com/timabell/SlnEditor/issues) for getting more info about current or upcoming tasks.
-
-## 💬 Want to discuss?
-
-If you have any questions, doubts, ideas, problems or you simply want to present your opinions and views, feel free to hop into [Discussions](https://github.com/timabell/SlnEditor/discussions) and write about what you care about. We'd love to hear from you!
-

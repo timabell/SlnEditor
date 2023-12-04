@@ -13,8 +13,8 @@ namespace SlnParser.Contracts
     [DebuggerDisplay("{DebuggerDisplay,nq}")]
     public class SolutionProject : IProject
     {
-        private readonly ICollection<ConfigurationPlatform> _configurationPlatforms =
-            new Collection<ConfigurationPlatform>();
+        private readonly IList<ConfigurationPlatform> _configurationPlatforms =
+            new List<ConfigurationPlatform>();
 
         /// <summary>
         ///     Creates a new instance of <see cref="SolutionProject" />
@@ -49,8 +49,8 @@ namespace SlnParser.Contracts
         /// <summary>
         ///     The <see cref="ConfigurationPlatform" />s configured for this solution
         /// </summary>
-        public IReadOnlyCollection<ConfigurationPlatform> ConfigurationPlatforms =>
-            _configurationPlatforms.ToList().AsReadOnly();
+        public IList<ConfigurationPlatform> ConfigurationPlatforms =>
+            _configurationPlatforms.ToList();
 
         /// <inheritdoc />
         public Guid Id { get; }

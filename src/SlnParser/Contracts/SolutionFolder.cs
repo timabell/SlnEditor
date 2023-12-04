@@ -13,9 +13,6 @@ namespace SlnParser.Contracts
     [DebuggerDisplay("{DebuggerDisplay,nq}")]
     public class SolutionFolder : IProject
     {
-        private readonly ICollection<FileInfo> _files = new Collection<FileInfo>();
-        private readonly ICollection<IProject> _projects = new Collection<IProject>();
-
         /// <summary>
         ///     Creates a new instance of <see cref="SolutionFolder" />
         /// </summary>
@@ -41,12 +38,12 @@ namespace SlnParser.Contracts
         /// <summary>
         ///     The contained <see cref="IProject" />s in the Solution Folder
         /// </summary>
-        public IReadOnlyCollection<IProject> Projects => _projects.ToList().AsReadOnly();
+        public IList<IProject> Projects { get; } = new List<IProject>();
 
         /// <summary>
         ///     The contained <see cref="FileInfo" />s in the Solution Folder
         /// </summary>
-        public IReadOnlyCollection<FileInfo> Files => _files.ToList().AsReadOnly();
+        public IList<FileInfo> Files { get; } = new List<FileInfo>();
 
         /// <inheritdoc />
         public Guid Id { get; }
@@ -65,12 +62,12 @@ namespace SlnParser.Contracts
 
         internal void AddProject(IProject project)
         {
-            _projects.Add(project);
+            Projects.Add(project);
         }
 
         internal void AddFile(FileInfo fileInfo)
         {
-            _files.Add(fileInfo);
+            Files.Add(fileInfo);
         }
 
         private string DebuggerDisplay => $"\"{Name}\" Id: \"{Id}\"";

@@ -11,7 +11,7 @@ namespace SlnParser.Helper
     {
         private readonly ISectionParser _sectionParser = new SectionParser();
 
-        public void Enrich(Solution solution, IEnumerable<string> fileContents)
+        public void Enrich(Solution solution, IList<string> fileContents)
         {
             var extensibilityGlobals = _sectionParser.GetFileContentsInGlobalSection(
                 fileContents,

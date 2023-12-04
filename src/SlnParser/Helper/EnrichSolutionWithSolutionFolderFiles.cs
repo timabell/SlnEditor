@@ -24,7 +24,7 @@ namespace SlnParser.Helper
          * file3/file3 /
          * EndProjectSection
          */
-        public void Enrich(Solution solution, IEnumerable<string> fileContents)
+        public void Enrich(Solution solution, IList<string> fileContents)
         {
             if (solution == null) throw new ArgumentNullException(nameof(solution));
             if (fileContents == null) throw new ArgumentNullException(nameof(fileContents));

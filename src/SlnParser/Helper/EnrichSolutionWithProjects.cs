@@ -18,37 +18,36 @@ namespace SlnParser.Helper
             _parseProjectDefinition = new ProjectDefinitionParser();
         }
 
-        public void Enrich(Solution solution, IEnumerable<string> fileContents)
+        public void Enrich(Solution solution, IList<string> fileContents)
         {
             if (solution == null) throw new ArgumentNullException(nameof(solution));
             if (fileContents == null) throw new ArgumentNullException(nameof(fileContents));
 
             var fileContentsList = fileContents.ToList();
             var flatProjects = GetProjectsFlat(solution, fileContentsList).ToList();
-            solution.AllProjects = flatProjects.ToList().AsReadOnly();
 
             var structuredProjects = GetProjectsStructured(fileContentsList, flatProjects);
-            solution.Projects = structuredProjects.ToList().AsReadOnly();
+            solution.Projects = structuredProjects.ToList();
         }
 
-        private IEnumerable<IProject> GetProjectsFlat(Solution solution, IEnumerable<string> fileContents)
+        private IList<IProject> GetProjectsFlat(Solution solution, IList<string> fileContents)
         {
-            var flatProjects = new Collection<IProject>();
+            var flatProjects = new List<IProject>();
             foreach (var line in fileContents)
             {
                 if (!_parseProjectDefinition.TryParseProjectDefinition(solution, line, out var project) || project == null) continue;
-                
+
                 flatProjects.Add(project);
             }
 
             return flatProjects;
         }
 
-        private static IEnumerable<IProject> GetProjectsStructured(
-            IEnumerable<string> fileContents,
-            IEnumerable<IProject> flatProjects)
+        private static IList<IProject> GetProjectsStructured(
+            IList<string> fileContents,
+            IList<IProject> flatProjects)
         {
-            var structuredProjects = new Collection<IProject>();
+            var structuredProjects = new List<IProject>();
             var nestedProjectMappings = GetGlobalSectionForNestedProjects(fileContents).ToList();
 
             ApplyProjectNesting(flatProjects, structuredProjects, nestedProjectMappings);
@@ -56,8 +55,8 @@ namespace SlnParser.Helper
             return structuredProjects;
         }
 
-        private static IEnumerable<NestedProjectMapping> GetGlobalSectionForNestedProjects(
-            IEnumerable<string> fileContents)
+        private static IList<NestedProjectMapping> GetGlobalSectionForNestedProjects(
+            IList<string> fileContents)
         {
             const string startNestedProjects = "GlobalSection(NestedProjects";
             const string endNestedProjects = "EndGlobalSection";
@@ -69,7 +68,7 @@ namespace SlnParser.Helper
                 .Where(line => !line.StartsWith(endNestedProjects))
                 .Where(line => !string.IsNullOrWhiteSpace(line));
 
-            var nestedProjectMappings = new Collection<NestedProjectMapping>();
+            var nestedProjectMappings = new List<NestedProjectMapping>();
             foreach (var nestedProject in section)
                 if (TryGetNestedProjectMapping(nestedProject, out var nestedProjectMapping) && nestedProjectMapping != null)
                     nestedProjectMappings.Add(nestedProjectMapping);
@@ -95,9 +94,9 @@ namespace SlnParser.Helper
         }
 
         private static void ApplyProjectNesting(
-            IEnumerable<IProject> flatProjects,
-            ICollection<IProject> structuredProjects,
-            ICollection<NestedProjectMapping> nestedProjectMappings)
+            IList<IProject> flatProjects,
+            IList<IProject> structuredProjects,
+            IList<NestedProjectMapping> nestedProjectMappings)
         {
             var flatProjectList = flatProjects.ToList();
             foreach (var project in flatProjectList)
@@ -106,9 +105,9 @@ namespace SlnParser.Helper
 
         private static void ApplyNestingForProject(
             IProject project,
-            IEnumerable<IProject> flatProjects,
-            ICollection<IProject> structuredProjects,
-            IEnumerable<NestedProjectMapping> nestedProjectMappings)
+            IList<IProject> flatProjects,
+            IList<IProject> structuredProjects,
+            IList<NestedProjectMapping> nestedProjectMappings)
         {
             var mappingCandidate = nestedProjectMappings.FirstOrDefault(mapping => mapping.TargetId == project.Id);
             if (mappingCandidate == null)

@@ -32,17 +32,17 @@ namespace SlnParser.Contracts
         /// <summary>
         ///     A flat list of all <see cref="IProject" />s contained in the solution
         /// </summary>
-        IReadOnlyCollection<IProject> AllProjects { get; }
+        IList<IProject> AllProjects { get; }
 
         /// <summary>
         ///     A structured list of all <see cref="IProject" />s contained in the solution
         /// </summary>
-        IReadOnlyCollection<IProject> Projects { get; }
+        IList<IProject> Projects { get; }
 
         /// <summary>
         ///     The <see cref="ConfigurationPlatform" />s configured for this solution
         /// </summary>
-        IReadOnlyCollection<ConfigurationPlatform> ConfigurationPlatforms { get; }
+        IList<ConfigurationPlatform> ConfigurationPlatforms { get; }
 
         /// <summary>
         /// The <see cref="Guid"/> of the solution.

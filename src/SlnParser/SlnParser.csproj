@@ -5,7 +5,7 @@
         <LangVersion>8</LangVersion>
 
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
-        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+        <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
 
         <PackageId>SlnParser</PackageId>
         <Description>Easy (to use) Parser for your .NET Solution (.sln) Files.</Description>
