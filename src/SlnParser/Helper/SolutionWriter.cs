@@ -50,6 +50,9 @@ namespace SlnParser.Helper
             }
 
             sb.AppendLine("\tEndGlobalSection");
+            sb.AppendLine("\tGlobalSection(SolutionProperties) = preSolution");
+            sb.AppendLine("\t\tHideSolutionNode = FALSE");
+            sb.AppendLine("\tEndGlobalSection");
             sb.AppendLine("EndGlobal");
             return sb.ToString();
         }
