@@ -50,6 +50,16 @@ namespace SlnParser.Helper
             }
 
             sb.AppendLine("\tEndGlobalSection");
+            sb.AppendLine("\tGlobalSection(ProjectConfigurationPlatforms) = postSolution");
+            foreach (var project in solution.AllProjects.OfType<SolutionProject>())
+            {
+                foreach (var platform in project.ConfigurationPlatforms)
+                {
+                    sb.AppendLine($"\t\t{{{project.Id.ToString().ToUpper()}}}.{platform.Name} = {platform.Configuration}|{platform.Platform}");
+                }
+            }
+
+            sb.AppendLine("\tEndGlobalSection");
             sb.AppendLine("\tGlobalSection(SolutionProperties) = preSolution");
             sb.AppendLine("\t\tHideSolutionNode = FALSE");
             sb.AppendLine("\tEndGlobalSection");
