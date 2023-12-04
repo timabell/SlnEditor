@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
-using SlnParser.Contracts;
-using SlnParser.Helper;
+using SlnEditor;
+using SlnEditor.Contracts;
+using SlnEditor.Helper;
 using System;
 using System.IO;
 using Xunit;

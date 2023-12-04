@@ -17,7 +17,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\SlnParser\SlnParser.csproj"/>
+        <ProjectReference Include="..\SlnEditor\SlnEditor.csproj" />
     </ItemGroup>
 
     <ItemGroup>
