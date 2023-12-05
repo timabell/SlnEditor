@@ -30,7 +30,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <None Include="../../res/SlnParserLogo.png" Pack="true" PackagePath="" />
         <None Include="../../LICENSE" Pack="true" PackagePath="" />
     </ItemGroup>
 
