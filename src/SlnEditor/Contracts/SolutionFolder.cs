@@ -64,7 +64,7 @@ namespace SlnEditor.Contracts
         /// <summary>
         ///     The contained <see cref="FileInfo" />s in the Solution Folder
         /// </summary>
-        public IList<FileInfo> Files { get; } = new List<FileInfo>();
+        public IList<string> Files { get; } = new List<string>();
 
         /// <inheritdoc />
         public Guid Id { get; }
@@ -80,16 +80,6 @@ namespace SlnEditor.Contracts
 
         /// <inheritdoc />
         public ProjectType Type { get; }
-
-        internal void AddProject(IProject project)
-        {
-            Projects.Add(project);
-        }
-
-        internal void AddFile(FileInfo fileInfo)
-        {
-            Files.Add(fileInfo);
-        }
 
         private string DebuggerDisplay => $"\"{Name}\" Id: \"{Id}\"";
     }

@@ -1,9 +1,7 @@
 ﻿using SlnEditor.Contracts;
-using SlnEditor.Contracts.Exceptions;
 using SlnEditor.Contracts.Helper;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 
 namespace SlnEditor.Helper
@@ -88,31 +86,17 @@ namespace SlnEditor.Helper
         {
             if (!_inASolutionItemsSection) return;
 
-            if (!TryGetSolutionItemFile(solution, line, out var solutionItemFile) || solutionItemFile == null)
+            var solutionItemFile = GetSolutionItemFile(line);
+
+            if (solutionItemFile is null)
+            {
                 return;
+            }
 
-            _solutionFolderForCurrentSection?.AddFile(solutionItemFile);
+            _solutionFolderForCurrentSection?.Files.Add(solutionItemFile);
         }
 
-        private static bool TryGetSolutionItemFile(
-            ISolution solution,
-            string line,
-            out FileInfo? solutionItemFile)
-        {
-            solutionItemFile = null;
-
-            var solutionItem = line.Split('=').FirstOrDefault();
-            if (solutionItem == null) return false;
-
-            solutionItem = solutionItem.Trim();
-
-            var solutionDirectory = Path.GetDirectoryName(solution.File?.FullName);
-            if (solutionDirectory == null)
-                throw new UnexpectedSolutionStructureException("Solution-Directory could not be determined");
-
-            var solutionItemCombined = Path.Combine(solutionDirectory, solutionItem);
-            solutionItemFile = new FileInfo(solutionItemCombined);
-            return true;
-        }
+        private static string? GetSolutionItemFile(string line)
+            => line.Split('=').FirstOrDefault()?.Trim();
     }
 }
