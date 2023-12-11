@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SlnEditor.Helper;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -37,6 +38,29 @@ namespace SlnEditor.Contracts
             Name = name;
             Path = path;
             TypeGuid = typeGuid;
+            Type = type;
+            File = fileInfo;
+        }
+
+        /// <summary>
+        ///     Creates a new instance of <see cref="SolutionProject" />
+        /// </summary>
+        /// <param name="id">The id</param>
+        /// <param name="name">The name</param>
+        /// <param name="path"></param>
+        /// <param name="type">The well-known project-type</param>
+        /// <param name="fileInfo">The <see cref="FileInfo" /> for the Project-File</param>
+        public SolutionProject(
+            Guid id,
+            string name,
+            string path,
+            ProjectType type,
+            FileInfo fileInfo)
+        {
+            Id = id;
+            Name = name;
+            Path = path;
+            TypeGuid = new ProjectTypeMapper().ToGuid(type);
             Type = type;
             File = fileInfo;
         }
