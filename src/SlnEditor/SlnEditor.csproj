@@ -22,12 +22,12 @@
         <EmbedUntrackedSources>true</EmbedUntrackedSources>
         <IncludeSymbols>true</IncludeSymbols>
         <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-        
+
         <IsTrimmable>true</IsTrimmable>
         <Nullable>enable</Nullable>
         <Company>Martin Wagenführ, Tim Abell</Company>
         <Product>SlnEditor</Product>
-        <Version>1.1.0</Version>
+        <Version>2.1.0</Version>
     </PropertyGroup>
 
     <ItemGroup>
