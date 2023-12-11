@@ -358,9 +358,9 @@ namespace SlnParser.Tests
             firstSolutionFolder
                 .Files
                 .Should()
-                .Contain(file => file.Name == "something.txt" ||
-                                 file.Name == "test123.txt" ||
-                                 file.Name == "test456.txt");
+                .Contain(file => file == "something.txt" ||
+                                 file == "test123.txt" ||
+                                 file == "test456.txt");
 
             var nestedSolutionFolder = solution
                 .AllProjects
@@ -372,7 +372,7 @@ namespace SlnParser.Tests
             nestedSolutionFolder
                 .Files
                 .Should()
-                .Contain(file => file.Name == "testNested1.txt");
+                .Contain(file => file == "testNested1.txt");
         }
 
         [Fact]

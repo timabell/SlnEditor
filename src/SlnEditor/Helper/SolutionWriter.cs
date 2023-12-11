@@ -33,7 +33,7 @@ namespace SlnEditor.Helper
                     sb.AppendLine("\tProjectSection(SolutionItems) = preProject");
                     foreach (var file in solutionFolder.Files)
                     {
-                        sb.AppendLine($"\t\t{file.Name} = {file.Name}");
+                        sb.AppendLine($"\t\t{file} = {file}");
                     }
 
                     sb.AppendLine("\tEndProjectSection");
