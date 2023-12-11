@@ -91,7 +91,7 @@ namespace SlnEditor.Helper
             if (!TryGetSolutionItemFile(solution, line, out var solutionItemFile) || solutionItemFile == null)
                 return;
 
-            _solutionFolderForCurrentSection?.AddFile(solutionItemFile);
+            _solutionFolderForCurrentSection?.Files.Add(solutionItemFile);
         }
 
         private static bool TryGetSolutionItemFile(

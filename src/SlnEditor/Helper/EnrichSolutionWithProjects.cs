@@ -125,7 +125,7 @@ namespace SlnEditor.Helper
                 throw new UnexpectedSolutionStructureException(
                     $"Expected project with id '{destinationCandidate.Id}' to be a Solution-Folder but found '{destinationCandidate.GetType()}'");
 
-            solutionFolder.AddProject(project);
+            solutionFolder.Projects.Add(project);
         }
     }
 }

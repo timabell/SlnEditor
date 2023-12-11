@@ -81,16 +81,6 @@ namespace SlnEditor.Contracts
         /// <inheritdoc />
         public ProjectType Type { get; }
 
-        internal void AddProject(IProject project)
-        {
-            Projects.Add(project);
-        }
-
-        internal void AddFile(FileInfo fileInfo)
-        {
-            Files.Add(fileInfo);
-        }
-
         private string DebuggerDisplay => $"\"{Name}\" Id: \"{Id}\"";
     }
 }
