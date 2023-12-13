@@ -12,7 +12,7 @@ namespace SlnEditor.Contracts
         /// <summary>
         ///     The name of the solution
         /// </summary>
-        string Name { get; set; }
+        string? Name { get; set; }
 
         /// <summary>
         ///     The File of the solution

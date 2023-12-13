@@ -67,7 +67,9 @@ namespace SlnEditor
 
             try
             {
-                var solution = ParseInternal(solutionFile);
+                var allLines = File.ReadAllLines(solutionFile.FullName);
+                var name = Path.GetFileNameWithoutExtension(solutionFile.FullName);
+                var solution = ParseInternal(allLines, solutionFile, name);
                 return solution;
             }
             catch (Exception exception)
@@ -105,13 +107,20 @@ namespace SlnEditor
             }
         }
 
-        private ISolution ParseInternal(FileInfo solutionFile)
+        public ISolution ParseText(string content)
+        {
+            var separators = new[] { "\r\n", "\r", "\n" };
+            var lines = content.Split( separators, StringSplitOptions.None ); // https://stackoverflow.com/questions/1547476/split-a-string-on-newlines-in-net/1547483#1547483
+            return ParseInternal(lines);
+        }
+
+        private ISolution ParseInternal(string[] allLines, FileInfo? solutionFile = null, string? solutionName = null)
         {
             var solution = new Solution
             {
-                Name = Path.GetFileNameWithoutExtension(solutionFile.FullName), File = solutionFile
+                Name = solutionName,
+                File = solutionFile,
             };
-            var allLines = File.ReadAllLines(solutionFile.FullName);
             var allLinesTrimmed = allLines
                 .Select(line => line.Trim())
                 .Where(line => line.Length > 0)

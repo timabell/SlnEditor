@@ -31,6 +31,33 @@ namespace SlnParser.Tests
         }
 
         [Fact]
+        public void Should_RoundTripStrings()
+        {
+            var solutionParser = new SolutionParser();
+            var input = @"
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30114.105
+MinimumVisualStudioVersion = 10.0.40219.1
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal";
+
+            var solution = solutionParser.ParseText(input);
+
+            var output = solution.Write();
+            output.Trim().Should().Be(input.Trim());
+        }
+
+        [Fact]
         public void Should_ModifyFile()
         {
             const string sourceSolutionName = "SlnParser.sln";

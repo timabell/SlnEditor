@@ -19,7 +19,7 @@ namespace SlnEditor.Contracts
         }
 
         /// <inheritdoc />
-        public string Name { get; set; } = string.Empty;
+        public string? Name { get; set; } = string.Empty;
 
         /// <inheritdoc />
         public FileInfo? File { get; set; }
