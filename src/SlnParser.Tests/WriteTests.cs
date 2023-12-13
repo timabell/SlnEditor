@@ -13,6 +13,7 @@ namespace SlnParser.Tests
         [Theory]
         [InlineData("SlnParser.sln")]
         [InlineData("TestSln.sln")]
+        [InlineData("DotnetNew.sln")]
         [InlineData("sln-items-sync.sln")]
         public void Should_RoundTripFile(string sourceSolutionName)
         {
