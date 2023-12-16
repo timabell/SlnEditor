@@ -1,12 +1,11 @@
 ﻿using FluentAssertions;
-using SlnEditor;
 using SlnEditor.Contracts;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using Xunit;
 
-namespace SlnParser.Tests
+namespace SlnEditor.Tests
 {
     public class IntegrationTests
     {

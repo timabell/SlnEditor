@@ -1,12 +1,11 @@
 ﻿using FluentAssertions;
-using SlnEditor;
 using SlnEditor.Contracts;
 using SlnEditor.Helper;
 using System;
 using System.IO;
 using Xunit;
 
-namespace SlnParser.Tests
+namespace SlnEditor.Tests
 {
     public class WriteTests
     {
