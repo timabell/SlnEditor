@@ -54,6 +54,14 @@ There's a `dotnet new sln` and `dotnet sln` which provides some create/edit capa
 
 There's SlnTools <https://www.nuget.org/packages/SLNTools.Core> / <https://github.com/mtherien/slntools>
 
+### sln-items-sync
+
+- <https://github.com/timabell/sln-items-sync>
+
+sln-items-sync uses this SlnEditor nuget package so might be a good example of using this library.
+
+sln-items-sync is the reason this SlnEditor fork of SlnParser exists at all.
+
 ### Stackoverflow
 
 The usual host of people asking on stackoverflow, with mixed responses for this one.
