@@ -11,7 +11,7 @@ This fork of [https://github.com/wgnf/SlnParser/](https://github.com/wgnf/SlnPar
 
 Easy (to use) Editor for your .NET Solution (.sln) Files.
 
-This project targets `netstandard2.0` so it can basically be used anywhere you want. I've not yet run any performance tests.
+This project targets `netstandard2.0` so it can basically be used anywhere you want.
 
 ## 💻 Usage
 
