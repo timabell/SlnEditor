@@ -44,3 +44,21 @@ var csharpProjects = parsedSolution
   .AllProjects
   .Where(project => project.Type == ProjectType.CSharpClassLibrary);
 ```
+## Other sln editing tools
+
+### dotnet sln
+
+There's a `dotnet new sln` and `dotnet sln` which provides some create/edit capabilities - see <https://andrewlock.net/creating-and-editing-solution-files-with-the-net-cli/>
+
+### SlnTools
+
+There's SlnTools <https://www.nuget.org/packages/SLNTools.Core> / <https://github.com/mtherien/slntools>
+
+### Stackoverflow
+
+The usual host of people asking on stackoverflow, with mixed responses for this one.
+
+- <https://stackoverflow.com/questions/707107/parsing-visual-studio-solution-files>
+- <https://stackoverflow.com/questions/8742316/how-to-create-visual-studio-solution-sln-files-programmatically-including-we>
+- <https://stackoverflow.com/questions/2736260/programmatically-generate-visual-studio-solution>
+- <https://stackoverflow.com/questions/14153614/how-to-generate-a-new-visual-studio-project-in-a-visual-studio-project-programma>
