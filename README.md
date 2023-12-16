@@ -8,9 +8,6 @@ This fork of [https://github.com/wgnf/SlnParser/](https://github.com/wgnf/SlnPar
 [![Uses SemVer 2.0.0](https://img.shields.io/badge/Uses%20SemVer-2.0.0-green)](https://semver.org/spec/v2.0.0.html)
 [![Latest Release](https://img.shields.io/nuget/v/SlnEditor)](https://www.nuget.org/packages/SlnEditor/)
 [![Downloads](https://img.shields.io/nuget/dt/SlnEditor)](https://www.nuget.org/packages/SlnEditor/)  
-[![GitHub stars](https://img.shields.io/github/stars/OptiSchmopti/CsvProc9000?style=social)](https://github.com/OptiSchmopti/CsvProc9000/stargazers)
-[![GitHub forks](https://img.shields.io/github/forks/OptiSchmopti/CsvProc9000?style=social)](https://github.com/OptiSchmopti/CsvProc9000/network/members)
-[![GitHub watchers](https://img.shields.io/github/watchers/OptiSchmopti/CsvProc9000?style=social)](https://github.com/OptiSchmopti/CsvProc9000/watchers)  
 
 Easy (to use) Editor for your .NET Solution (.sln) Files.
 
