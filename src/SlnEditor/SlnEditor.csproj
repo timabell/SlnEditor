@@ -28,6 +28,7 @@
         <Company>Martin Wagenführ, Tim Abell</Company>
         <Product>SlnEditor</Product>
         <Version>2.2.0</Version>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
     </PropertyGroup>
 
     <ItemGroup>
