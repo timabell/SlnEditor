@@ -21,8 +21,8 @@ jobs:
       with:
         dotnet-version: 6.0.x
     - name: Restore dependencies
-      run: dotnet restore src/SlnEditor.sln
+      run: dotnet restore SlnEditor.sln
     - name: Build
-      run: dotnet build --no-restore src/SlnEditor.sln
+      run: dotnet build --no-restore SlnEditor.sln
     - name: Test
-      run: dotnet test --no-build --verbosity normal src/SlnEditor.sln
+      run: dotnet test --no-build --verbosity normal SlnEditor.sln
