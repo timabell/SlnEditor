@@ -1,8 +1,6 @@
 ﻿using FluentAssertions;
-using SlnEditor.Mappings;
 using SlnEditor.Models;
 using System;
-using System.IO;
 using Xunit;
 
 namespace SlnEditor.Tests
@@ -203,8 +201,6 @@ Global
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
-	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
@@ -260,11 +256,11 @@ EndGlobal
 ";
 
         [Theory]
-        [InlineData(SlnContentsSlnParser)]
-        [InlineData(SlnContentsTestSln)]
-        [InlineData(SlnContentsDotnetNew)]
-        [InlineData(SlnContentsSlnSync)]
-        public void Should_RoundTripFile(string originalSln)
+        [InlineData(nameof(SlnContentsSlnParser), SlnContentsSlnParser)]
+        [InlineData(nameof(SlnContentsTestSln), SlnContentsTestSln)]
+        [InlineData(nameof(SlnContentsDotnetNew), SlnContentsDotnetNew)]
+        [InlineData(nameof(SlnContentsSlnSync), SlnContentsSlnSync)]
+        public void Should_RoundTripFile(string name, string originalSln)
         {
             var solution = new Solution(originalSln);
             var output = solution.ToString();

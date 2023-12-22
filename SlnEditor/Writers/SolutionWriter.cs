@@ -33,23 +33,32 @@ namespace SlnEditor.Writers
             }
 
             sb.AppendLine("Global");
-            sb.AppendLine("\tGlobalSection(SolutionConfigurationPlatforms) = preSolution");
-            foreach (var platform in solution.ConfigurationPlatforms)
-            {
-                sb.AppendLine($"\t\t{platform.Name} = {platform.Name}");
-            }
 
-            sb.AppendLine("\tEndGlobalSection");
-            sb.AppendLine("\tGlobalSection(ProjectConfigurationPlatforms) = postSolution");
-            foreach (var project in solution.AllProjects.OfType<SolutionProject>())
+            if (solution.ConfigurationPlatforms.Any())
             {
-                foreach (var platform in project.ConfigurationPlatforms)
+                sb.AppendLine("\tGlobalSection(SolutionConfigurationPlatforms) = preSolution");
+                foreach (var platform in solution.ConfigurationPlatforms)
                 {
-                    sb.AppendLine($"\t\t{{{project.Id.ToString().ToUpper()}}}.{platform.Name} = {platform.Configuration}|{platform.Platform}");
+                    sb.AppendLine($"\t\t{platform.Name} = {platform.Name}");
                 }
+
+                sb.AppendLine("\tEndGlobalSection");
             }
 
-            sb.AppendLine("\tEndGlobalSection");
+            if (solution.AllProjects.OfType<SolutionProject>().Any(p => p.ConfigurationPlatforms.Any()))
+            {
+                sb.AppendLine("\tGlobalSection(ProjectConfigurationPlatforms) = postSolution");
+                foreach (var project in solution.AllProjects.OfType<SolutionProject>())
+                {
+                    foreach (var platform in project.ConfigurationPlatforms)
+                    {
+                        sb.AppendLine(
+                            $"\t\t{{{project.Id.ToString().ToUpper()}}}.{platform.Name} = {platform.Configuration}|{platform.Platform}");
+                    }
+                }
+
+                sb.AppendLine("\tEndGlobalSection");
+            }
 
             if (solution.Projects.OfType<SolutionFolder>().Any(f => f.Projects.Any()))
             {
@@ -58,7 +67,8 @@ namespace SlnEditor.Writers
                 {
                     foreach (var subProject in project.Projects)
                     {
-                        sb.AppendLine($"\t\t{{{subProject.Id.ToString().ToUpper()}}} = {{{project.Id.ToString().ToUpper()}}}");
+                        sb.AppendLine(
+                            $"\t\t{{{subProject.Id.ToString().ToUpper()}}} = {{{project.Id.ToString().ToUpper()}}}");
                     }
                 }
 
@@ -75,6 +85,7 @@ namespace SlnEditor.Writers
                 sb.AppendLine($"\t\tSolutionGuid = {{{solution.Guid.ToString().ToUpper()}}}");
                 sb.AppendLine("\tEndGlobalSection");
             }
+
             sb.AppendLine("EndGlobal");
             return sb.ToString();
         }
