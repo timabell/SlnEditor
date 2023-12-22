@@ -1,5 +1,4 @@
 ﻿using SlnEditor.Mappings;
-using SlnEditor.Parsers;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

@@ -1,9 +1,7 @@
 ﻿using FluentAssertions;
 using SlnEditor.Mappings;
 using SlnEditor.Models;
-using SlnEditor.Parsers;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using Xunit;
 
