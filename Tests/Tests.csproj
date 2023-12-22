@@ -19,11 +19,4 @@
     <ItemGroup>
         <ProjectReference Include="..\SlnEditor\SlnEditor.csproj" />
     </ItemGroup>
-
-    <ItemGroup>
-        <None Include="Solutions\*.sln">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-    </ItemGroup>
-
 </Project>
