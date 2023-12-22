@@ -27,7 +27,7 @@
         <Nullable>enable</Nullable>
         <Company>Martin Wagenführ, Tim Abell</Company>
         <Product>SlnEditor</Product>
-        <Version>2.2.1</Version>
+        <Version>2.2.2</Version>
         <PackageReadmeFile>README.md</PackageReadmeFile>
     </PropertyGroup>
 
