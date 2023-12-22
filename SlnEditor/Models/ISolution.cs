@@ -37,11 +37,5 @@ namespace SlnEditor.Models
         /// The <see cref="Guid"/> of the solution.
         /// </summary>
         Guid? Guid { get; }
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <returns></returns>
-        string Write();
     }
 }

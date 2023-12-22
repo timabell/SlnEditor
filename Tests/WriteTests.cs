@@ -267,7 +267,7 @@ EndGlobal
         public void Should_RoundTripFile(string originalSln)
         {
             var solution = new Solution(originalSln);
-            var output = solution.Write();
+            var output = solution.ToString();
             output.Trim().Should().Be(originalSln.Trim());
         }
 
@@ -282,26 +282,7 @@ EndGlobal
                 new SolutionFolder(Guid.NewGuid(), name: "foo-project", path: "foo/", ProjectType.Test));
 
             // Assert
-            solution.Write().Should().Contain("foo-project");
-        }
-
-        [Fact]
-        public void Should_CreateFile()
-        {
-            const string solutionName = "NewSolution.sln";
-
-            var solution = new Solution();
-
-            solution.Projects.Add(new SolutionFolder(
-                Guid.NewGuid(),
-                name: "foo",
-                path: "foo/",
-                typeGuid: new ProjectTypeMap().Guids[ProjectType.Test],
-                ProjectType.Test));
-
-            var actual = solution.Write();
-            Directory.CreateDirectory($"./newsln/");
-            File.WriteAllText($"./newsln/{solutionName}", actual);
+            solution.ToString().Should().Contain("foo-project");
         }
     }
 }

@@ -67,11 +67,9 @@ namespace SlnEditor.Models
         public Guid? Guid { get; internal set; }
 
         /// <summary>
-        ///
+        /// Convert in memory solution to sln file format for writing to or overwriting a .sln file
         /// </summary>
-        /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
-        public string Write()
+        public override string ToString()
         {
             return SolutionWriter.Write(this);
         }
