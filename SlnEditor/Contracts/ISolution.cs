@@ -1,24 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 
 namespace SlnEditor.Contracts
 {
     /// <summary>
-    ///     An interface representing all the information contained in a Visual Studio Solution File (sln)
+    /// An interface representing all the information contained in a Visual Studio Solution File (sln)
     /// </summary>
     public interface ISolution
     {
-        /// <summary>
-        ///     The name of the solution
-        /// </summary>
-        string? Name { get; set; }
-
-        /// <summary>
-        ///     The File of the solution
-        /// </summary>
-        FileInfo? File { get; set; }
-
         /// <summary>
         ///     The file format version of the solution
         /// </summary>
@@ -53,6 +42,6 @@ namespace SlnEditor.Contracts
         ///
         /// </summary>
         /// <returns></returns>
-        string Write();
+        string ToString();
     }
 }

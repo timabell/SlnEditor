@@ -1,8 +1,6 @@
 ﻿using SlnEditor.Contracts;
-using SlnEditor.Contracts.Exceptions;
 using SlnEditor.Contracts.Helper;
 using System;
-using System.IO;
 using System.Text.RegularExpressions;
 
 namespace SlnEditor.Helper
@@ -34,20 +32,6 @@ namespace SlnEditor.Helper
             var projectTypeGuid = Guid.Parse(projectTypeGuidString);
             var projectGuid = Guid.Parse(projectGuidString);
 
-            var solutionDirectory = Path.GetDirectoryName(solution.File?.FullName);
-
-            // NOTE: the path to the project-file is usually separated using '\' - this does not work under linux
-            var normalizedPath = projectPath
-                .Replace('/', Path.DirectorySeparatorChar)
-                .Replace('\\', Path.DirectorySeparatorChar);
-
-            FileInfo? projectFile = null;
-            if (solutionDirectory != null)
-            {
-                var projectFileCombinedWithSolution = Path.Combine(solutionDirectory, normalizedPath);
-                projectFile = new FileInfo(projectFileCombinedWithSolution);
-            }
-
             var projectType = _projectTypeMapper.Map(projectTypeGuid);
 
             project = projectType == ProjectType.SolutionFolder
@@ -62,8 +46,7 @@ namespace SlnEditor.Helper
                     projectName,
                     projectPath,
                     projectTypeGuid,
-                    projectType,
-                    projectFile);
+                    projectType);
 
             return true;
         }

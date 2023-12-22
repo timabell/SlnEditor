@@ -1,7 +1,7 @@
 ﻿using SlnEditor.Helper;
+using SlnEditor.Parser;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 
 namespace SlnEditor.Contracts
@@ -10,7 +10,7 @@ namespace SlnEditor.Contracts
     public class Solution : ISolution
     {
         /// <summary>
-        ///     Creates a new instance of <see cref="Solution" />
+        /// Creates a new instance of <see cref="Solution" />
         /// </summary>
         public Solution()
         {
@@ -18,11 +18,14 @@ namespace SlnEditor.Contracts
             ConfigurationPlatforms = new List<ConfigurationPlatform>();
         }
 
-        /// <inheritdoc />
-        public string? Name { get; set; } = string.Empty;
-
-        /// <inheritdoc />
-        public FileInfo? File { get; set; }
+        /// <summary>
+        /// Parse an existing sln file's contents
+        /// </summary>
+        /// <param name="contents">The raw text of a solution file</param>
+        public Solution(string contents)
+        {
+            new SolutionParser().ParseInto(contents, this);
+        }
 
         /// <inheritdoc />
         public string FileFormatVersion { get; set; } = string.Empty;
@@ -38,7 +41,7 @@ namespace SlnEditor.Contracts
             }
         }
 
-        private IList<IProject> Flatten(IList<IProject> projects)
+        private static IList<IProject> Flatten(IEnumerable<IProject> projects)
         {
             var flattened = new List<IProject>();
             foreach (var project in projects)
@@ -55,20 +58,19 @@ namespace SlnEditor.Contracts
         }
 
         /// <inheritdoc />
-        public IList<IProject> Projects { get; internal set; }
+        public IList<IProject> Projects { get; internal set; } = new List<IProject>();
 
         /// <inheritdoc />
-        public IList<ConfigurationPlatform> ConfigurationPlatforms { get; internal set; }
+        public IList<ConfigurationPlatform> ConfigurationPlatforms { get; internal set; } = new List<ConfigurationPlatform>();
 
         /// <inheritdoc/>
         public Guid? Guid { get; internal set; }
 
         /// <summary>
-        ///
+        /// Write to a text format understood by visual studio etc.
+        /// Suitable for writing to (or overwriting) a .sln file.
         /// </summary>
-        /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
-        public string Write()
+        public override string ToString()
         {
             return SolutionWriter.Write(this);
         }

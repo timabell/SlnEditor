@@ -1,21 +1,11 @@
 using SlnEditor.Contracts;
-using System;
 using System.Linq;
 using System.Text;
 
 namespace SlnEditor.Helper
 {
-    /// <summary>
-    ///
-    /// </summary>
-    public static class SolutionWriter
+    internal static class SolutionWriter
     {
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="solution"></param>
-        /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
         public static string Write(Solution solution)
         {
             var sb = new StringBuilder();

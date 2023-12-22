@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 
 namespace SlnEditor.Contracts
@@ -25,21 +24,18 @@ namespace SlnEditor.Contracts
         /// <param name="path"></param>
         /// <param name="typeGuid">The project-type id</param>
         /// <param name="type">The well-known project-type</param>
-        /// <param name="fileInfo">The <see cref="FileInfo" /> for the Project-File</param>
         public SolutionProject(
             Guid id,
             string name,
             string path,
             Guid typeGuid,
-            ProjectType type,
-            FileInfo fileInfo)
+            ProjectType type)
         {
             Id = id;
             Name = name;
             Path = path;
             TypeGuid = typeGuid;
             Type = type;
-            File = fileInfo;
         }
 
         /// <summary>
@@ -49,26 +45,18 @@ namespace SlnEditor.Contracts
         /// <param name="name">The name</param>
         /// <param name="path"></param>
         /// <param name="type">The well-known project-type</param>
-        /// <param name="fileInfo">The <see cref="FileInfo" /> for the Project-File</param>
         public SolutionProject(
             Guid id,
             string name,
             string path,
-            ProjectType type,
-            FileInfo fileInfo)
+            ProjectType type)
         {
             Id = id;
             Name = name;
             Path = path;
             TypeGuid = new ProjectTypeMapper().ToGuid(type);
             Type = type;
-            File = fileInfo;
         }
-
-        /// <summary>
-        ///     The File of the Project
-        /// </summary>
-        public FileInfo File { get; }
 
         /// <summary>
         ///     The <see cref="ConfigurationPlatform" />s configured for this solution
