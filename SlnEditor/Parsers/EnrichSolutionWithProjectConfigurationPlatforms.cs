@@ -7,16 +7,11 @@ namespace SlnEditor.Parsers
 {
     internal class EnrichSolutionWithProjectConfigurationPlatforms : IEnrichSolution
     {
-        private readonly IParseSolutionConfigurationPlatform _parseSolutionConfigurationPlatform;
-
-        public EnrichSolutionWithProjectConfigurationPlatforms()
-        {
-            _parseSolutionConfigurationPlatform = new SolutionConfigurationPlatformParser();
-        }
+        private readonly SolutionConfigurationPlatformParser _solutionConfigurationPlatformParser = new SolutionConfigurationPlatformParser();
 
         public void Enrich(Solution solution, IList<string> fileContents)
         {
-            var projectConfigurations = _parseSolutionConfigurationPlatform.Parse(
+            var projectConfigurations = _solutionConfigurationPlatformParser.Parse(
                 fileContents,
                 "ProjectConfiguration");
             MapConfigurationPlatformsToProjects(solution, projectConfigurations);

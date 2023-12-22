@@ -7,7 +7,7 @@ namespace SlnEditor.Parsers
 {
     internal class EnrichSolutionWithSolutionFolderFiles : IEnrichSolution
     {
-        private readonly IParseProjectDefinition _parseProjectDefinition = new ProjectDefinitionParser();
+        private readonly ProjectDefinitionParser _projectDefinitionParser = new ProjectDefinitionParser();
         private bool _inASolutionItemsSection;
 
         private SolutionFolder? _solutionFolderForCurrentSection;
@@ -50,7 +50,7 @@ namespace SlnEditor.Parsers
             out SolutionFolder? solutionFolder)
         {
             solutionFolder = null;
-            if (!_parseProjectDefinition.TryParseProjectDefinition(solution, line, out var project))
+            if (!_projectDefinitionParser.TryParseProjectDefinition(solution, line, out var project))
                 return;
 
             if (!(project is SolutionFolder slnFolder))

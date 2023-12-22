@@ -9,12 +9,7 @@ namespace SlnEditor.Parsers
 {
     internal class EnrichSolutionWithProjects : IEnrichSolution
     {
-        private readonly IParseProjectDefinition _parseProjectDefinition;
-
-        public EnrichSolutionWithProjects()
-        {
-            _parseProjectDefinition = new ProjectDefinitionParser();
-        }
+        private readonly ProjectDefinitionParser _projectDefinitionParser = new ProjectDefinitionParser();
 
         public void Enrich(Solution solution, IList<string> fileContents)
         {
@@ -33,7 +28,7 @@ namespace SlnEditor.Parsers
             var flatProjects = new List<IProject>();
             foreach (var line in fileContents)
             {
-                if (!_parseProjectDefinition.TryParseProjectDefinition(solution, line, out var project) || project == null) continue;
+                if (!_projectDefinitionParser.TryParseProjectDefinition(solution, line, out var project) || project == null) continue;
 
                 flatProjects.Add(project);
             }

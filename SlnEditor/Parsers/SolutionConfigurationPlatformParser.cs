@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 
 namespace SlnEditor.Parsers
 {
-    internal class SolutionConfigurationPlatformParser : IParseSolutionConfigurationPlatform
+    internal class SolutionConfigurationPlatformParser
     {
         private readonly ISectionParser _sectionParser = new SectionParser();
 
