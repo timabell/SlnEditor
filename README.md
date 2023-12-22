@@ -18,10 +18,10 @@ This project targets `netstandard2.0` so it can basically be used anywhere you w
 ### Modifying a sln
 
 ```cs
-var solution = new SolutionParser().Parse("path/to/your/solution.sln");
+var solution = new Solution("path/to/your/solution.sln");
 solution.Projects.Add(new SolutionFolder(Guid.NewGuid(), name: "foo-project", path: "foo/", typeGuid: new ProjectTypeMapper().ToGuid(ProjectType.Test), ProjectType.Test));
-string modifiedSln = solution.Write();
-File.WriteAllText("path/to/your/solution.sln", actual);
+var modifiedSln = solution.ToString();
+File.WriteAllText("path/to/your/solution.sln", modifiedSln);
 ```
 
 ### Accessing the projects
