@@ -512,7 +512,7 @@ EndGlobal
                 .ElementAt(2)
                 .Type
                 .Should()
-                .Be(ProjectType.CSharp);
+                .Be(ProjectType.CSharp2);
 
             solution
                 .AllProjects
@@ -604,7 +604,7 @@ EndGlobal
             project.Id.Should().Be("D5BDBC46-CEAF-4C92-8335-31450B76914F");
             project.Name.Should().Be("Test");
             project.TypeGuid.Should().Be("D183A3D8-5FD8-494B-B014-37F57B35E655");
-            project.Type.Should().Be(ProjectType.Unknown);
+            project.Type.Should().Be(ProjectType.SSIS);
         }
 
         [Fact]

@@ -1,15 +1,10 @@
 ﻿namespace SlnEditor.Models
 {
     /// <summary>
-    ///     The well-known <see cref="ProjectType" />s
+    /// The well-known project types
     /// </summary>
     public enum ProjectType
     {
-        /// <summary>
-        ///     The <see cref="ProjectType" /> is not known
-        /// </summary>
-        Unknown,
-
         /// <summary>
         ///     Deployment Merge Module
         /// </summary>
@@ -69,6 +64,11 @@
         ///     Database
         /// </summary>
         Database,
+
+        /// <summary>
+        ///     Database - alternative guid
+        /// </summary>
+        Database2,
 
         /// <summary>
         ///     Visual Studio 2015 Installer Project Extension
@@ -139,6 +139,18 @@
         ///     C# Class Library
         /// </summary>
         CSharp,
+
+        /// <summary>
+        /// SQL Server Integration Services Projects
+        /// https://marketplace.visualstudio.com/items?itemName=SSIS.SqlServerIntegrationServicesProjects
+        /// </summary>
+        SSIS,
+
+
+        /// <summary>
+        ///     C# Class Library, alternative guid
+        /// </summary>
+        CSharp2,
 
         /// <summary>
         ///     SilverLight

@@ -293,23 +293,16 @@ EndGlobal
 
             var solution = new Solution();
 
-            var mapper = new ProjectTypeMapper();
-            solution.Projects.Add(
-                new SolutionFolder(Guid.NewGuid(), name: "foo", path: "foo/", typeGuid: mapper.ToGuid(ProjectType.Test),
-                    ProjectType.Test));
+            solution.Projects.Add(new SolutionFolder(
+                Guid.NewGuid(),
+                name: "foo",
+                path: "foo/",
+                typeGuid: new ProjectTypeMap().Guids[ProjectType.Test],
+                ProjectType.Test));
+
             var actual = solution.Write();
             Directory.CreateDirectory($"./newsln/");
             File.WriteAllText($"./newsln/{solutionName}", actual);
-        }
-
-        private static FileInfo LoadSolution(string solutionFileName)
-        {
-            var solutionFile = new FileInfo(solutionFileName);
-
-            if (!solutionFile.Exists)
-                throw new FileNotFoundException();
-
-            return solutionFile;
         }
     }
 }

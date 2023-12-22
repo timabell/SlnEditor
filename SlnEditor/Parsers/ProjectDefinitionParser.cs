@@ -6,7 +6,7 @@ namespace SlnEditor.Parsers
 {
     internal sealed class ProjectDefinitionParser : IParseProjectDefinition
     {
-        private readonly IProjectTypeMapper _projectTypeMapper = new ProjectTypeMapper();
+        private readonly ProjectTypeMap _projectTypeMapMapper = new ProjectTypeMap();
 
         public bool TryParseProjectDefinition(
             Solution solution,
@@ -31,7 +31,7 @@ namespace SlnEditor.Parsers
             var projectTypeGuid = Guid.Parse(projectTypeGuidString);
             var projectGuid = Guid.Parse(projectGuidString);
 
-            var projectType = _projectTypeMapper.Map(projectTypeGuid);
+            var projectType = _projectTypeMapMapper.Types[projectTypeGuid];
 
             project = projectType == ProjectType.SolutionFolder
                 ? (IProject)new SolutionFolder(

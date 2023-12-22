@@ -53,7 +53,7 @@ namespace SlnEditor.Models
             Id = id;
             Name = name;
             Path = path;
-            TypeGuid = new ProjectTypeMapper().ToGuid(type);
+            TypeGuid = new ProjectTypeMap().Guids[type];
             Type = type;
         }
 
