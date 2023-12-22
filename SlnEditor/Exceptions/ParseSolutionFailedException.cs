@@ -2,7 +2,7 @@
 using System.IO;
 using System.Runtime.Serialization;
 
-namespace SlnEditor.Contracts.Exceptions
+namespace SlnEditor.Exceptions
 {
     /// <summary>
     ///     Exception that is thrown when a solution could not be parsed

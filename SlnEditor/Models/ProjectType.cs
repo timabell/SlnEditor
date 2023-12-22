@@ -1,4 +1,4 @@
-﻿namespace SlnEditor.Contracts
+﻿namespace SlnEditor.Models
 {
     /// <summary>
     ///     The well-known <see cref="ProjectType" />s

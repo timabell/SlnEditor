@@ -1,6 +1,7 @@
-﻿using System;
+﻿using SlnEditor.Models;
+using System;
 
-namespace SlnEditor.Contracts.Helper
+namespace SlnEditor.Parsers
 {
     internal interface IProjectTypeMapper
     {

@@ -1,8 +1,7 @@
-﻿using SlnEditor.Contracts.Helper;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace SlnEditor.Helper
+namespace SlnEditor.Parsers
 {
     internal class SectionParser : ISectionParser
     {

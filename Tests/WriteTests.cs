@@ -1,6 +1,6 @@
 ﻿using FluentAssertions;
-using SlnEditor.Contracts;
-using SlnEditor.Helper;
+using SlnEditor.Models;
+using SlnEditor.Parsers;
 using System;
 using System.Collections.Generic;
 using System.IO;

@@ -1,12 +1,10 @@
-﻿using SlnEditor.Helper;
+﻿using SlnEditor.Parsers;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 
-namespace SlnEditor.Contracts
+namespace SlnEditor.Models
 {
     /// <summary>
     ///     A Solution Folder that can be contained in a <see cref="Solution" />

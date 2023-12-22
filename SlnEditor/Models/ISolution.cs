@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace SlnEditor.Contracts
+namespace SlnEditor.Models
 {
     /// <summary>
     ///     An interface representing all the information contained in a Visual Studio Solution File (sln)

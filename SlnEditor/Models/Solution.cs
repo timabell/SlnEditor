@@ -1,10 +1,9 @@
-﻿using SlnEditor.Helper;
+﻿using SlnEditor.Writers;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 
-namespace SlnEditor.Contracts
+namespace SlnEditor.Models
 {
     /// <inheritdoc />
     public class Solution : ISolution

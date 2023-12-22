@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace SlnEditor.Contracts.Helper
+namespace SlnEditor.Parsers
 {
     internal interface IParseSolutionConfigurationPlatform
     {

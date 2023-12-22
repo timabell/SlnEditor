@@ -1,5 +1,5 @@
 ﻿using FluentAssertions;
-using SlnEditor.Contracts;
+using SlnEditor.Models;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;

@@ -1,13 +1,11 @@
-﻿using SlnEditor.Contracts;
-using SlnEditor.Contracts.Exceptions;
-using SlnEditor.Contracts.Helper;
+﻿using SlnEditor.Exceptions;
+using SlnEditor.Models;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace SlnEditor.Helper
+namespace SlnEditor.Parsers
 {
     internal sealed class EnrichSolutionWithProjects : IEnrichSolution
     {

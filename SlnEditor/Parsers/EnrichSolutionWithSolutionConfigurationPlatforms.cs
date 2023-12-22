@@ -1,9 +1,8 @@
-﻿using SlnEditor.Contracts;
-using SlnEditor.Contracts.Helper;
+﻿using SlnEditor.Models;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace SlnEditor.Helper
+namespace SlnEditor.Parsers
 {
     internal sealed class EnrichSolutionWithSolutionConfigurationPlatforms : IEnrichSolution
     {

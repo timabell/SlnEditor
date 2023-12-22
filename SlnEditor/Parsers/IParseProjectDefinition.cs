@@ -1,4 +1,6 @@
-﻿namespace SlnEditor.Contracts.Helper
+﻿using SlnEditor.Models;
+
+namespace SlnEditor.Parsers
 {
     internal interface IParseProjectDefinition
     {

@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-namespace SlnEditor.Contracts
+namespace SlnEditor.Models
 {
     /// <summary>
     ///     A Configuration of a Solution or Project describing which configuration and build-platform is targeted

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SlnEditor.Contracts.Helper
+namespace SlnEditor.Parsers
 {
     internal class NestedProjectMapping
     {

@@ -1,7 +1,5 @@
-﻿using SlnEditor.Contracts;
-using SlnEditor.Contracts.Exceptions;
-using SlnEditor.Contracts.Helper;
-using SlnEditor.Helper;
+﻿using SlnEditor.Models;
+using SlnEditor.Parsers;
 using System;
 using System.Collections.Generic;
 using System.Linq;

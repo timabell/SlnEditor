@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using SlnEditor.Models;
+using System.Collections.Generic;
 
-namespace SlnEditor.Contracts.Helper
+namespace SlnEditor.Parsers
 {
     internal interface IEnrichSolution
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace SlnEditor.Contracts.Exceptions
+namespace SlnEditor.Exceptions
 {
     /// <summary>
     ///     An <see cref="Exception" /> that describes an unexpected structure of a Solution

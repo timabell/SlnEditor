@@ -1,4 +1,4 @@
-﻿namespace SlnEditor.Contracts
+﻿namespace SlnEditor.Models
 {
     /// <summary>
     ///     A Visual Studio Version

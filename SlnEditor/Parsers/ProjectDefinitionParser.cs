@@ -1,9 +1,8 @@
-﻿using SlnEditor.Contracts;
-using SlnEditor.Contracts.Helper;
+﻿using SlnEditor.Models;
 using System;
 using System.Text.RegularExpressions;
 
-namespace SlnEditor.Helper
+namespace SlnEditor.Parsers
 {
     internal sealed class ProjectDefinitionParser : IParseProjectDefinition
     {

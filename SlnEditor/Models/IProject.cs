@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SlnEditor.Contracts
+namespace SlnEditor.Models
 {
     /// <summary>
     ///     A project that can be contained in a <see cref="Solution" />
