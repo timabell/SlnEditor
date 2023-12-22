@@ -35,16 +35,18 @@ namespace SlnEditor.Helper
             var projectGuid = Guid.Parse(projectGuidString);
 
             var solutionDirectory = Path.GetDirectoryName(solution.File?.FullName);
-            if (solutionDirectory == null)
-                throw new UnexpectedSolutionStructureException("Solution-Directory could not be determined");
 
             // NOTE: the path to the project-file is usually separated using '\' - this does not work under linux
             var normalizedPath = projectPath
                 .Replace('/', Path.DirectorySeparatorChar)
                 .Replace('\\', Path.DirectorySeparatorChar);
 
-            var projectFileCombinedWithSolution = Path.Combine(solutionDirectory, normalizedPath);
-            var projectFile = new FileInfo(projectFileCombinedWithSolution);
+            FileInfo? projectFile = null;
+            if (solutionDirectory != null)
+            {
+                var projectFileCombinedWithSolution = Path.Combine(solutionDirectory, normalizedPath);
+                projectFile = new FileInfo(projectFileCombinedWithSolution);
+            }
 
             var projectType = _projectTypeMapper.Map(projectTypeGuid);
 
