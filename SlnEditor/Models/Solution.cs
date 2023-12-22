@@ -63,6 +63,9 @@ namespace SlnEditor.Models
         /// <inheritdoc />
         public IList<ConfigurationPlatform> ConfigurationPlatforms { get; internal set; } = new List<ConfigurationPlatform>();
 
+        /// <inheritdoc />
+        public SolutionProperties SolutionProperties { get; internal set; } = new SolutionProperties();
+
         /// <inheritdoc/>
         public Guid? Guid { get; internal set; }
 

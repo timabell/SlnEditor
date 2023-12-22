@@ -207,6 +207,37 @@ Global
 EndGlobal
 ";
 
+        private const string SlnContentsHideSolutionNode = @"
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30114.105
+MinimumVisualStudioVersion = 10.0.40219.1
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = TRUE
+	EndGlobalSection
+EndGlobal
+";
+
+        private const string SlnContentsNoProperties = @"
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30114.105
+MinimumVisualStudioVersion = 10.0.40219.1
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+EndGlobal
+";
+
         private const string SlnContentsSlnSync = @"
 
 Microsoft Visual Studio Solution File, Format Version 12.00
@@ -259,6 +290,8 @@ EndGlobal
         [InlineData(nameof(SlnContentsSlnParser), SlnContentsSlnParser)]
         [InlineData(nameof(SlnContentsTestSln), SlnContentsTestSln)]
         [InlineData(nameof(SlnContentsDotnetNew), SlnContentsDotnetNew)]
+        [InlineData(nameof(SlnContentsHideSolutionNode), SlnContentsHideSolutionNode)]
+        [InlineData(nameof(SlnContentsNoProperties), SlnContentsNoProperties)]
         [InlineData(nameof(SlnContentsSlnSync), SlnContentsSlnSync)]
         public void Should_RoundTripFile(string name, string originalSln)
         {

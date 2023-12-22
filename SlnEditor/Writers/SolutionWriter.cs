@@ -75,9 +75,12 @@ namespace SlnEditor.Writers
                 sb.AppendLine("\tEndGlobalSection");
             }
 
-            sb.AppendLine("\tGlobalSection(SolutionProperties) = preSolution");
-            sb.AppendLine("\t\tHideSolutionNode = FALSE");
-            sb.AppendLine("\tEndGlobalSection");
+            if (solution.SolutionProperties.HideSolutionNode.HasValue)
+            {
+                sb.AppendLine("\tGlobalSection(SolutionProperties) = preSolution");
+                sb.AppendLine($"\t\tHideSolutionNode = {solution.SolutionProperties.HideSolutionNode.ToString().ToUpper()}");
+                sb.AppendLine("\tEndGlobalSection");
+            }
 
             if (solution.Guid != null)
             {

@@ -18,6 +18,7 @@ namespace SlnEditor.Parsers
             new EnrichSolutionWithProjectConfigurationPlatforms(),
             new EnrichSolutionWithSolutionFolderFiles(),
             new EnrichSolutionWithSolutionGuid(),
+            new EnrichSolutionWithSolutionProperties(),
         };
 
         /// <summary>

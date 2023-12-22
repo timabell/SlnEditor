@@ -12,16 +12,16 @@ namespace SlnEditor.Parsers
 
         public void Enrich(Solution solution, IList<string> fileContents)
         {
-            var extensibilityGlobals = _sectionParser.GetFileContentsInGlobalSection(
+            var sectionContents = _sectionParser.GetFileContentsInGlobalSection(
                 fileContents,
                 "ExtensibilityGlobals");
 
-            solution.Guid = extensibilityGlobals
+            solution.Guid = sectionContents
                 .Select(ExtractSolutionGuid)
                 .FirstOrDefault(x => x.HasValue);
         }
 
-        private Guid? ExtractSolutionGuid(string line)
+        private static Guid? ExtractSolutionGuid(string line)
         {
             const string pattern = @"\s*SolutionGuid\s*=\s*{([A-Fa-f0-9\-]+)}";
             var match = Regex.Match(line, pattern);
