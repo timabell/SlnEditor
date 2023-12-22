@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace SlnEditor.Contracts
 {
     /// <summary>
-    /// An interface representing all the information contained in a Visual Studio Solution File (sln)
+    ///     An interface representing all the information contained in a Visual Studio Solution File (sln)
     /// </summary>
     public interface ISolution
     {
@@ -42,6 +42,6 @@ namespace SlnEditor.Contracts
         ///
         /// </summary>
         /// <returns></returns>
-        string ToString();
+        string Write();
     }
 }

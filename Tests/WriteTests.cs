@@ -268,7 +268,7 @@ EndGlobal
         public void Should_RoundTripFile(string originalSln)
         {
             var solution = new Solution(originalSln);
-            var output = solution.ToString();
+            var output = solution.Write();
             output.Trim().Should().Be(originalSln.Trim());
         }
 
@@ -283,7 +283,7 @@ EndGlobal
                 new SolutionFolder(Guid.NewGuid(), name: "foo-project", path: "foo/", ProjectType.Test));
 
             // Assert
-            solution.ToString().Should().Contain("foo-project");
+            solution.Write().Should().Contain("foo-project");
         }
 
         [Fact]
@@ -297,7 +297,7 @@ EndGlobal
             solution.Projects.Add(
                 new SolutionFolder(Guid.NewGuid(), name: "foo", path: "foo/", typeGuid: mapper.ToGuid(ProjectType.Test),
                     ProjectType.Test));
-            var actual = solution.ToString();
+            var actual = solution.Write();
             Directory.CreateDirectory($"./newsln/");
             File.WriteAllText($"./newsln/{solutionName}", actual);
         }

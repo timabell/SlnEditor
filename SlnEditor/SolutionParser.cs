@@ -1,13 +1,14 @@
 ﻿using SlnEditor.Contracts;
+using SlnEditor.Contracts.Exceptions;
 using SlnEditor.Contracts.Helper;
 using SlnEditor.Helper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace SlnEditor.Parser
+namespace SlnEditor
 {
-    internal class SolutionParser
+    public class SolutionParser
     {
         private readonly IList<IEnrichSolution> _solutionEnrichers;
 
@@ -30,25 +31,27 @@ namespace SlnEditor.Parser
             };
         }
 
-        public void ParseInto(string slnContents, Solution targetSolution)
+        public ISolution ParseText(string content, Solution solution)
         {
             var separators = new[] { "\r\n", "\r", "\n" };
-            var lines = slnContents.Split(separators, StringSplitOptions.None); // https://stackoverflow.com/questions/1547476/split-a-string-on-newlines-in-net/1547483#1547483
+            var lines = content.Split( separators, StringSplitOptions.None ); // https://stackoverflow.com/questions/1547476/split-a-string-on-newlines-in-net/1547483#1547483
+            return ParseInternal(lines, solution);
+        }
 
-            var allLinesTrimmed = lines
+        private ISolution ParseInternal(string[] allLines, Solution solution)
+        {
+            var allLinesTrimmed = allLines
                 .Select(line => line.Trim())
                 .Where(line => line.Length > 0)
                 .ToList();
 
             foreach (var enricher in _solutionEnrichers)
-            {
-                enricher.Enrich(targetSolution, allLinesTrimmed);
-            }
+                enricher.Enrich(solution, allLinesTrimmed);
 
-            foreach (var line in lines)
-            {
-                ProcessLine(line, targetSolution);
-            }
+            foreach (var line in allLines)
+                ProcessLine(line, solution);
+
+            return solution;
         }
 
         private static void ProcessLine(string line, Solution solution)
@@ -65,7 +68,7 @@ namespace SlnEditor.Parser
             /*
              * 54 characters, because...
              * "Microsoft Visual Studio Solution File, Format Version " is 54 characters long
-             */
+            */
             var fileFormatVersion = string.Concat(line.Skip(54));
             solution.FileFormatVersion = fileFormatVersion;
         }
