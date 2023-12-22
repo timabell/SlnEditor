@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace SlnEditor.Parsers
+namespace SlnEditor.Mappings
 {
     /// <summary>
     /// List of known project type to guid mappings.

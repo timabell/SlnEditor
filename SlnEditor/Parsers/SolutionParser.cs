@@ -1,10 +1,9 @@
 ﻿using SlnEditor.Models;
-using SlnEditor.Parsers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace SlnEditor
+namespace SlnEditor.Parsers
 {
     public class SolutionParser
     {

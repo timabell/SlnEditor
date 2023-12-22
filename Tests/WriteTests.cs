@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using SlnEditor.Mappings;
 using SlnEditor.Models;
 using SlnEditor.Parsers;
 using System;
