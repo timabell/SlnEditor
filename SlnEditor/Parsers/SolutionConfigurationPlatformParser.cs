@@ -9,7 +9,7 @@ namespace SlnEditor.Parsers
 {
     internal class SolutionConfigurationPlatformParser
     {
-        private readonly ISectionParser _sectionParser = new SectionParser();
+        private readonly SectionParser _sectionParser = new SectionParser();
 
         public IList<ProjectConfigurationPlatform> Parse(
             IList<string> fileContents,

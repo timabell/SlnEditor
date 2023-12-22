@@ -8,7 +8,7 @@ namespace SlnEditor.Parsers
 {
     internal class EnrichSolutionWithSolutionGuid : IEnrichSolution
     {
-        private readonly ISectionParser _sectionParser = new SectionParser();
+        private readonly SectionParser _sectionParser = new SectionParser();
 
         public void Enrich(Solution solution, IList<string> fileContents)
         {

@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace SlnEditor.Parsers
 {
-    internal class SectionParser : ISectionParser
+    internal class SectionParser
     {
         public IList<string> GetFileContentsInGlobalSection(
             IList<string> fileContents,
