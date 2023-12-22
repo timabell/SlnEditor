@@ -24,7 +24,7 @@ namespace SlnEditor.Models
         /// <param name="contents">The raw text of a solution file</param>
         public Solution(string contents)
         {
-            new SolutionParser().ParseText(contents, this);
+            new SolutionParser().ParseInto(contents, this);
         }
 
         /// <inheritdoc />
