@@ -3,7 +3,7 @@ using System;
 
 namespace SlnEditor.Parsers
 {
-    internal sealed class ProjectConfigurationPlatform
+    internal class ProjectConfigurationPlatform
     {
         public ProjectConfigurationPlatform(
             Guid? projectId,

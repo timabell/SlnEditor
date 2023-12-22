@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 
 namespace SlnEditor.Parsers
 {
-    internal sealed class EnrichSolutionWithProjects : IEnrichSolution
+    internal class EnrichSolutionWithProjects : IEnrichSolution
     {
         private readonly IParseProjectDefinition _parseProjectDefinition;
 

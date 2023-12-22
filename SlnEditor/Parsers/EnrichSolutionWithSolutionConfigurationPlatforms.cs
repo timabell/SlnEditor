@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace SlnEditor.Parsers
 {
-    internal sealed class EnrichSolutionWithSolutionConfigurationPlatforms : IEnrichSolution
+    internal class EnrichSolutionWithSolutionConfigurationPlatforms : IEnrichSolution
     {
         private readonly IParseSolutionConfigurationPlatform _parseSolutionConfigurationPlatform;
 

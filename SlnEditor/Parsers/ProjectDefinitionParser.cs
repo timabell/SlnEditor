@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 
 namespace SlnEditor.Parsers
 {
-    internal sealed class ProjectDefinitionParser : IParseProjectDefinition
+    internal class ProjectDefinitionParser : IParseProjectDefinition
     {
         private readonly ProjectTypeMap _projectTypeMapMapper = new ProjectTypeMap();
 

@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 
 namespace SlnEditor.Parsers
 {
-    internal sealed class EnrichSolutionWithSolutionGuid : IEnrichSolution
+    internal class EnrichSolutionWithSolutionGuid : IEnrichSolution
     {
         private readonly ISectionParser _sectionParser = new SectionParser();
 

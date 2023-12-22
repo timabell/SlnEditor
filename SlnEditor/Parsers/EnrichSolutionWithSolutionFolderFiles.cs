@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace SlnEditor.Parsers
 {
-    internal sealed class EnrichSolutionWithSolutionFolderFiles : IEnrichSolution
+    internal class EnrichSolutionWithSolutionFolderFiles : IEnrichSolution
     {
         private readonly IParseProjectDefinition _parseProjectDefinition = new ProjectDefinitionParser();
         private bool _inASolutionItemsSection;
