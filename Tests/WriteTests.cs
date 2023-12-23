@@ -634,5 +634,20 @@ EndGlobal";
             // Assert
             solution.ToString().Should().Contain("foo-project");
         }
+
+        [Fact]
+        public void Should_RenderNewSolution()
+        {
+            // todo: better default values
+            var solution = new Solution();
+            solution.ToString().Should().Be(@"
+Microsoft Visual Studio Solution File, Format Version 
+# Visual Studio Version 
+VisualStudioVersion = 
+MinimumVisualStudioVersion = 
+Global
+EndGlobal
+");
+        }
     }
 }
