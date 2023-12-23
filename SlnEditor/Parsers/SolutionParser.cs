@@ -14,11 +14,7 @@ namespace SlnEditor.Parsers
             new EnrichSolutionWithVersion(),
             new EnrichSolutionWithProjects(),
             new EnrichSolutionWithSolutionConfigurationPlatforms(),
-            /*
-                 * NOTE: It's important that this happens _after_ the 'EnrichSolutionWithProjects',
-                 * because we need the parsed projects before we can map the configurations to them
-                 */
-            new EnrichSolutionWithProjectConfigurationPlatforms(),
+            new EnrichSolutionWithProjectConfigurationPlatforms(), // It's important that this happens _after_ the 'EnrichSolutionWithProjects', because we need the parsed projects before we can map the configurations to them
             new EnrichSolutionWithSolutionFolderFiles(),
             new EnrichSolutionWithSolutionGuid(),
             new EnrichSolutionWithSolutionProperties(),
