@@ -6,7 +6,7 @@ namespace SlnEditor.Parsers
 {
     internal class EnrichSolutionWithVersion : IEnrichSolution
     {
-        public void Enrich(Solution solution, IList<string> fileContents)
+        public void Enrich(Solution solution, IList<string> fileContents, bool bestEffort)
         {
 
             foreach (var line in fileContents)

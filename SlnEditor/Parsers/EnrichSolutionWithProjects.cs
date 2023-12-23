@@ -11,16 +11,13 @@ namespace SlnEditor.Parsers
     {
         private readonly ProjectDefinitionParser _projectDefinitionParser = new ProjectDefinitionParser();
 
-        public void Enrich(Solution solution, IList<string> fileContents)
+        public void Enrich(Solution solution, IList<string> fileContents, bool bestEffort)
         {
             if (solution == null) throw new ArgumentNullException(nameof(solution));
             if (fileContents == null) throw new ArgumentNullException(nameof(fileContents));
 
-            var fileContentsList = fileContents.ToList();
-            var flatProjects = GetProjectsFlat(solution, fileContentsList).ToList();
-
-            var structuredProjects = GetProjectsStructured(fileContentsList, flatProjects);
-            solution.Projects = structuredProjects.ToList();
+            solution.Projects = GetProjectsFlat(solution, fileContents).ToList();
+            ParseProjectHierarchy(fileContents, solution.Projects);
         }
 
         private IList<IProject> GetProjectsFlat(Solution solution, IList<string> fileContents)
@@ -36,16 +33,13 @@ namespace SlnEditor.Parsers
             return flatProjects;
         }
 
-        private static IList<IProject> GetProjectsStructured(
-            IList<string> fileContents,
+        private static void ParseProjectHierarchy(IList<string> fileContents,
             IList<IProject> flatProjects)
         {
             var structuredProjects = new List<IProject>();
             var nestedProjectMappings = GetGlobalSectionForNestedProjects(fileContents).ToList();
 
             ApplyProjectNesting(flatProjects, structuredProjects, nestedProjectMappings);
-
-            return structuredProjects;
         }
 
         private static IList<NestedProjectMapping> GetGlobalSectionForNestedProjects(

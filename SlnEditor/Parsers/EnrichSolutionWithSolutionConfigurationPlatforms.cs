@@ -8,7 +8,7 @@ namespace SlnEditor.Parsers
     {
         private readonly ConfigurationPlatformParser _configurationPlatformParser = new ConfigurationPlatformParser();
 
-        public void Enrich(Solution solution, IList<string> fileContents)
+        public void Enrich(Solution solution, IList<string> fileContents, bool bestEffort)
         {
             var projectConfigurations = _configurationPlatformParser.Parse(
                 fileContents,

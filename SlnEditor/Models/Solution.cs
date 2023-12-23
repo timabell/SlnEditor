@@ -9,22 +9,18 @@ namespace SlnEditor.Models
     /// <inheritdoc />
     public class Solution : ISolution
     {
-        /// <summary>
-        ///     Creates a new instance of <see cref="Solution" />
-        /// </summary>
         public Solution()
         {
-            Projects = new List<IProject>();
-            ConfigurationPlatforms = new List<ConfigurationPlatform>();
         }
 
         /// <summary>
         /// Parse an existing sln file's contents
         /// </summary>
         /// <param name="contents">The raw text of a solution file</param>
-        public Solution(string contents)
+        /// <param name="bestEffort">If set to true will, will not throw errors for any parsing failures</param>
+        public Solution(string contents, bool bestEffort = false)
         {
-            new SolutionParser().ParseInto(contents, this);
+            new SolutionParser(bestEffort).ParseInto(contents, this);
         }
 
         /// <inheritdoc />
@@ -34,34 +30,19 @@ namespace SlnEditor.Models
         public VisualStudioVersion VisualStudioVersion { get; set; } = new VisualStudioVersion();
 
         /// <inheritdoc />
-        public IList<IProject> AllProjects {
-            get
-            {
-                return Flatten(Projects);
-            }
-        }
-
-        private static IList<IProject> Flatten(IEnumerable<IProject> projects)
-        {
-            var flattened = new List<IProject>();
-            foreach (var project in projects)
-            {
-                flattened.Add(project);
-                var folder = project as SolutionFolder;
-                if (folder?.Projects.Any() is true)
-                {
-                    flattened.AddRange(Flatten(folder.Projects));
-                }
-            }
-
-            return flattened;
-        }
-
-        /// <inheritdoc />
         public IList<IProject> Projects { get; internal set; } = new List<IProject>();
 
+        // Find all the projects with no parent solution folder
         /// <inheritdoc />
-        public IList<ConfigurationPlatform> ConfigurationPlatforms { get; internal set; } = new List<ConfigurationPlatform>();
+        public IReadOnlyList<IProject> RootProjects =>
+            Projects.Where(child =>
+                    Projects.OfType<SolutionFolder>().All(
+                        parent => parent.Projects.All(x => x != child)))
+                .ToList();
+
+        /// <inheritdoc />
+        public IList<ConfigurationPlatform> ConfigurationPlatforms { get; internal set; } =
+            new List<ConfigurationPlatform>();
 
         /// <inheritdoc />
         public SolutionProperties SolutionProperties { get; internal set; } = new SolutionProperties();

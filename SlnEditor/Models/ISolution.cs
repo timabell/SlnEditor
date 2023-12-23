@@ -19,14 +19,16 @@ namespace SlnEditor.Models
         VisualStudioVersion VisualStudioVersion { get; set; }
 
         /// <summary>
-        ///     A flat list of all <see cref="IProject" />s contained in the solution
-        /// </summary>
-        IList<IProject> AllProjects { get; }
-
-        /// <summary>
-        ///     A structured list of all <see cref="IProject" />s contained in the solution
+        /// All projects in the solution regardless of whether they are nested,
+        /// stored in the order they are found in the file.
         /// </summary>
         IList<IProject> Projects { get; }
+
+        /// <summary>
+        /// Projects that are not the child of any other project, i.e. the top level.
+        /// Calculated on the fly.
+        /// </summary>
+        IReadOnlyList<IProject> RootProjects { get; }
 
         /// <summary>
         ///     The <see cref="ConfigurationPlatform" />s configured for this solution

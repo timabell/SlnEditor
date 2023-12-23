@@ -9,7 +9,7 @@ namespace SlnEditor.Parsers
     {
         private readonly ConfigurationPlatformParser _configurationPlatformParser = new ConfigurationPlatformParser();
 
-        public void Enrich(Solution solution, IList<string> fileContents)
+        public void Enrich(Solution solution, IList<string> fileContents, bool bestEffort)
         {
             var projectConfigurations = _configurationPlatformParser.Parse(
                 fileContents,
@@ -35,19 +35,19 @@ namespace SlnEditor.Parsers
                     $"for the Project-Platform-Configuration '{configuration.ConfigurationPlatform.Name}'");
 
             var project = solution
-                .AllProjects
+                .Projects
                 .FirstOrDefault(project => project.Id == configuration.ProjectId.Value);
 
             if (project == null) return;
 
-            if (!(project is SolutionProject solutionProject))
+            if (!(project is Project solutionProject))
                 throw new UnexpectedSolutionStructureException(
                     "Expected to find a Solution-Project with the id " +
                     $"'{configuration.ProjectId.Value}' for the Project-Platform-Configuration " +
                     $"'{configuration.ConfigurationPlatform.Name}' but found " +
                     $" project of type '{project.GetType().Name}' instead");
 
-            solutionProject.AddConfigurationPlatform(configuration.ConfigurationPlatform);
+            solutionProject.ConfigurationPlatforms.Add(configuration.ConfigurationPlatform);
         }
     }
 }

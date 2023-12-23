@@ -21,7 +21,7 @@ namespace SlnEditor.Parsers
          * file3/file3 /
          * EndProjectSection
          */
-        public void Enrich(Solution solution, IList<string> fileContents)
+        public void Enrich(Solution solution, IList<string> fileContents, bool bestEffort)
         {
             if (solution == null) throw new ArgumentNullException(nameof(solution));
             if (fileContents == null) throw new ArgumentNullException(nameof(fileContents));
@@ -57,7 +57,7 @@ namespace SlnEditor.Parsers
                 return;
 
             var actualSolutionFolder = solution
-                .AllProjects
+                .Projects
                 .OfType<SolutionFolder>()
                 .FirstOrDefault(folder => folder.Id == slnFolder.Id);
             if (actualSolutionFolder == null) return;
@@ -97,5 +97,6 @@ namespace SlnEditor.Parsers
 
         private static string? GetSolutionItemFile(string line)
             => line.Split('=').FirstOrDefault()?.Trim();
+
     }
 }

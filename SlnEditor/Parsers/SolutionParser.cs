@@ -7,6 +7,8 @@ namespace SlnEditor.Parsers
 {
     internal class SolutionParser
     {
+        private readonly bool _bestEffort;
+
         private readonly IList<IEnrichSolution> _solutionEnrichers = new List<IEnrichSolution>
         {
             new EnrichSolutionWithVersion(),
@@ -25,8 +27,10 @@ namespace SlnEditor.Parsers
         /// <summary>
         /// Creates a new instance of <see cref="SolutionParser" />
         /// </summary>
-        public SolutionParser()
+        /// <param name="bestEffort"></param>
+        public SolutionParser(bool bestEffort)
         {
+            _bestEffort = bestEffort;
         }
 
         /// <summary>
@@ -45,7 +49,7 @@ namespace SlnEditor.Parsers
 
             foreach (var enricher in _solutionEnrichers)
             {
-                enricher.Enrich(solution, allLinesTrimmed);
+                enricher.Enrich(solution, allLinesTrimmed, _bestEffort);
             }
         }
 

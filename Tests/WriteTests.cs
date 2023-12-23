@@ -611,7 +611,9 @@ EndGlobal";
             // Act
             var output = solution.ToString();
 
-            // Write to files for easier debugging, e.g. `kdiff3 ./Tests/bin/Debug/net8.0/SlnContentsHttpAbstractions-{input,output}.sln &`
+            // Write to files for easier debugging,
+            // e.g. `dotnet test; kdiff3 ./Tests/bin/Debug/net8.0/SlnContentsHttpAbstractions-{input,output}.sln &`
+            // Note JetBrains Rider test runner doesn't write the files in the above folder, use the CLI to generate files.
             File.WriteAllText($"{name}-input.sln", originalSln);
             File.WriteAllText($"{name}-output.sln", output);
 
@@ -627,7 +629,7 @@ EndGlobal";
 
             // Act
             solution.Projects.Add(
-                new SolutionFolder(Guid.NewGuid(), name: "foo-project", path: "foo/", ProjectType.Test));
+                new SolutionFolder(Guid.NewGuid(), name: "foo-project", path: "foo/"));
 
             // Assert
             solution.ToString().Should().Contain("foo-project");

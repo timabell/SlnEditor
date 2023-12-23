@@ -12,7 +12,7 @@ namespace SlnEditor.Writers
             sb.AppendLine("");
             sb.AppendLine($"Microsoft Visual Studio Solution File, Format Version {solution.FileFormatVersion}");
             sb.Append(solution.VisualStudioVersion.Render());
-            foreach (var project in solution.AllProjects)
+            foreach (var project in solution.Projects)
             {
                 sb.AppendLine(
                     $"Project(\"{{{project.TypeGuid.ToString().ToUpper()}}}\") = \"{project.Name}\", \"{project.Path}\", \"{{{project.Id.ToString().ToUpper()}}}\"");
@@ -43,10 +43,10 @@ namespace SlnEditor.Writers
                 sb.AppendLine("\tEndGlobalSection");
             }
 
-            if (solution.AllProjects.OfType<SolutionProject>().Any(p => p.ConfigurationPlatforms.Any()))
+            if (solution.Projects.OfType<Project>().Any(p => p.ConfigurationPlatforms.Any()))
             {
                 sb.AppendLine("\tGlobalSection(ProjectConfigurationPlatforms) = postSolution");
-                foreach (var project in solution.AllProjects.OfType<SolutionProject>())
+                foreach (var project in solution.Projects.OfType<Project>())
                 {
                     foreach (var platform in project.ConfigurationPlatforms)
                     {
@@ -58,10 +58,10 @@ namespace SlnEditor.Writers
                 sb.AppendLine("\tEndGlobalSection");
             }
 
-            if (solution.Projects.OfType<SolutionFolder>().Any(f => f.Projects.Any()))
+            if (solution.RootProjects.OfType<SolutionFolder>().Any(f => f.Projects.Any()))
             {
                 sb.AppendLine("\tGlobalSection(NestedProjects) = preSolution");
-                foreach (var project in solution.AllProjects.OfType<SolutionFolder>())
+                foreach (var project in solution.Projects.OfType<SolutionFolder>())
                 {
                     foreach (var subProject in project.Projects)
                     {

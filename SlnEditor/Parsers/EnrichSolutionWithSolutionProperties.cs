@@ -11,7 +11,7 @@ namespace SlnEditor.Parsers
     {
         private readonly SectionParser _sectionParser = new SectionParser();
 
-        public void Enrich(Solution solution, IList<string> fileContents)
+        public void Enrich(Solution solution, IList<string> fileContents, bool bestEffort)
         {
             var sectionContents = _sectionParser.GetFileContentsInGlobalSection(
                 fileContents,
