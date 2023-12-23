@@ -5,7 +5,7 @@ namespace SlnEditor.Parsers
 {
     internal class SectionParser
     {
-        public IList<string> GetFileContentsInGlobalSection(
+        public static IList<string> GetFileContentsInGlobalSection(
             IList<string> fileContents,
             string sectionName)
         {

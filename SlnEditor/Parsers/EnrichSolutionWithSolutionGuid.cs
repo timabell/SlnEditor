@@ -8,11 +8,9 @@ namespace SlnEditor.Parsers
 {
     internal class EnrichSolutionWithSolutionGuid : IEnrichSolution
     {
-        private readonly SectionParser _sectionParser = new SectionParser();
-
         public void Enrich(Solution solution, IList<string> fileContents, bool bestEffort)
         {
-            var sectionContents = _sectionParser.GetFileContentsInGlobalSection(
+            var sectionContents = SectionParser.GetFileContentsInGlobalSection(
                 fileContents,
                 "ExtensibilityGlobals");
 
