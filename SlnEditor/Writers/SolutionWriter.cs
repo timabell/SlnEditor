@@ -11,9 +11,7 @@ namespace SlnEditor.Writers
             var sb = new StringBuilder();
             sb.AppendLine("");
             sb.AppendLine($"Microsoft Visual Studio Solution File, Format Version {solution.FileFormatVersion}");
-            sb.AppendLine($"# Visual Studio Version {solution.VisualStudioVersion.MajorVersion}");
-            sb.AppendLine($"VisualStudioVersion = {solution.VisualStudioVersion.Version}");
-            sb.AppendLine($"MinimumVisualStudioVersion = {solution.VisualStudioVersion.MinimumVersion}");
+            sb.Append(solution.VisualStudioVersion.Render());
             foreach (var project in solution.AllProjects)
             {
                 sb.AppendLine(

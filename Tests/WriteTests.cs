@@ -69,7 +69,7 @@ EndGlobal
         private const string SlnContentsTestSln = @"
 
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 15
+# Visual Studio 15
 VisualStudioVersion = 15.0.26124.0
 MinimumVisualStudioVersion = 15.0.26124.0
 Project(""{2150E333-8FDC-42A3-9474-1A3956D46DE8}"") = ""SolutionFolder1"", ""SolutionFolder1"", ""{DD601D16-308D-4B76-AB4B-2AA5B1D25876}""

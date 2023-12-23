@@ -6,8 +6,6 @@ namespace SlnEditor.Parsers
 {
     internal class EnrichSolutionWithVersion : IEnrichSolution
     {
-        private readonly SectionParser _sectionParser = new SectionParser();
-
         public void Enrich(Solution solution, IList<string> fileContents)
         {
 
@@ -19,7 +17,7 @@ namespace SlnEditor.Parsers
             }
         }
 
-        private static void ProcessSolutionFileFormatVersion(string line, Solution solution)
+        private static void ProcessSolutionFileFormatVersion(string line, ISolution solution)
         {
             if (!line.StartsWith("Microsoft Visual Studio Solution File, "))
             {
@@ -34,7 +32,7 @@ namespace SlnEditor.Parsers
             solution.FileFormatVersion = fileFormatVersion;
         }
 
-        private static void ProcessVisualStudioVersion(string line, Solution solution)
+        private static void ProcessVisualStudioVersion(string line, ISolution solution)
         {
             if (!line.StartsWith("VisualStudioVersion = "))
             {
