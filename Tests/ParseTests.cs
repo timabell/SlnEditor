@@ -1,6 +1,5 @@
 ﻿using FluentAssertions;
 using SlnEditor.Models;
-using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using Xunit;
