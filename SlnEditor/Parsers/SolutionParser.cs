@@ -9,6 +9,7 @@ namespace SlnEditor.Parsers
     {
         private readonly IList<IEnrichSolution> _solutionEnrichers = new List<IEnrichSolution>
         {
+            new EnrichSolutionWithVersion(),
             new EnrichSolutionWithProjects(),
             new EnrichSolutionWithSolutionConfigurationPlatforms(),
             /*
@@ -46,59 +47,7 @@ namespace SlnEditor.Parsers
             {
                 enricher.Enrich(solution, allLinesTrimmed);
             }
-
-            foreach (var line in lines)
-            {
-                ProcessLine(line, solution);
-            }
         }
 
-        private static void ProcessLine(string line, Solution solution)
-        {
-            ProcessSolutionFileFormatVersion(line, solution);
-            ProcessVisualStudioVersion(line, solution);
-            ProcessMinimumVisualStudioVersion(line, solution);
-        }
-
-        private static void ProcessSolutionFileFormatVersion(string line, Solution solution)
-        {
-            if (!line.StartsWith("Microsoft Visual Studio Solution File, "))
-            {
-                return;
-            }
-
-            /*
-             * 54 characters, because...
-             * "Microsoft Visual Studio Solution File, Format Version " is 54 characters long
-            */
-            var fileFormatVersion = string.Concat(line.Skip(54));
-            solution.FileFormatVersion = fileFormatVersion;
-        }
-
-        private static void ProcessVisualStudioVersion(string line, Solution solution)
-        {
-            if (!line.StartsWith("VisualStudioVersion = "))
-            {
-                return;
-            }
-
-            // because "VisualStudioVersion = " is 22 characters long
-            var visualStudioVersion = string.Concat(line.Skip(22));
-
-            solution.VisualStudioVersion.Version = visualStudioVersion;
-        }
-
-        private static void ProcessMinimumVisualStudioVersion(string line, ISolution solution)
-        {
-            if (!line.StartsWith("MinimumVisualStudioVersion = "))
-            {
-                return;
-            }
-
-            // because "MinimumVisualStudioVersion = " is 29 characters long
-            var minimumVisualStudioVersion = string.Concat(line.Skip(29));
-
-            solution.VisualStudioVersion.MinimumVersion = minimumVisualStudioVersion;
-        }
     }
 }
