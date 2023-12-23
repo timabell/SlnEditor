@@ -6,8 +6,10 @@ using System.Linq;
 
 namespace SlnEditor.Models
 {
-    /// <inheritdoc />
-    public class Solution : ISolution
+    /// <summary>
+    /// All the information contained in a Visual Studio Solution File (sln)
+    /// </summary>
+    public class Solution
     {
         public Solution()
         {
@@ -23,32 +25,34 @@ namespace SlnEditor.Models
             new SolutionParser(bestEffort).ParseInto(contents, this);
         }
 
-        /// <inheritdoc />
         public string FileFormatVersion { get; set; } = string.Empty;
 
-        /// <inheritdoc />
         public VisualStudioVersion VisualStudioVersion { get; set; } = new VisualStudioVersion();
 
-        /// <inheritdoc />
+        /// <summary>
+        /// All projects in the solution regardless of whether they are nested,
+        /// stored in the order they are found in the file.
+        /// </summary>
         public IList<IProject> Projects { get; internal set; } = new List<IProject>();
 
-        // Find all the projects with no parent solution folder
-        /// <inheritdoc />
+        /// <summary>
+        /// Projects that are not the child of any other project, i.e. the top level.
+        /// Calculated on the fly.
+        /// </summary>
         public IReadOnlyList<IProject> RootProjects =>
             Projects.Where(child =>
                     Projects.OfType<SolutionFolder>().All(
-                        parent => parent.Projects.All(x => x != child)))
+                        parent => parent.Projects.All(x => x != child))) // Find all the projects with no parent solution folder
                 .ToList();
 
         /// <inheritdoc />
         public IList<ConfigurationPlatform> ConfigurationPlatforms { get; internal set; } =
             new List<ConfigurationPlatform>();
 
-        /// <inheritdoc />
-        public SolutionProperties SolutionProperties { get; internal set; } = new SolutionProperties();
+        public SolutionProperties SolutionProperties { get; } = new SolutionProperties();
 
         /// <inheritdoc/>
-        public Guid? Guid { get; internal set; }
+        public Guid? Guid { get; set; }
 
         /// <summary>
         /// Convert in memory solution to sln file format for writing to or overwriting a .sln file

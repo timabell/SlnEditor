@@ -81,7 +81,7 @@ namespace SlnEditor.Parsers
             _inASolutionItemsSection = line.StartsWith("ProjectSection(SolutionItems)");
         }
 
-        private void AddSolutionItemFile(ISolution solution, string line)
+        private void AddSolutionItemFile(Solution solution, string line)
         {
             if (!_inASolutionItemsSection) return;
 

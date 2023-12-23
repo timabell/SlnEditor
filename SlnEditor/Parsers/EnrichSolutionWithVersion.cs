@@ -17,7 +17,7 @@ namespace SlnEditor.Parsers
             }
         }
 
-        private static void ProcessSolutionFileFormatVersion(string line, ISolution solution)
+        private static void ProcessSolutionFileFormatVersion(string line, Solution solution)
         {
             if (!line.StartsWith("Microsoft Visual Studio Solution File, "))
             {
@@ -32,7 +32,7 @@ namespace SlnEditor.Parsers
             solution.FileFormatVersion = fileFormatVersion;
         }
 
-        private static void ProcessVisualStudioVersion(string line, ISolution solution)
+        private static void ProcessVisualStudioVersion(string line, Solution solution)
         {
             if (!line.StartsWith("VisualStudioVersion = "))
             {
@@ -45,7 +45,7 @@ namespace SlnEditor.Parsers
             solution.VisualStudioVersion.Version = visualStudioVersion;
         }
 
-        private static void ProcessMinimumVisualStudioVersion(string line, ISolution solution)
+        private static void ProcessMinimumVisualStudioVersion(string line, Solution solution)
         {
             if (!line.StartsWith("MinimumVisualStudioVersion = "))
             {

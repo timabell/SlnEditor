@@ -18,7 +18,7 @@ namespace SlnEditor.Parsers
         }
 
         private static void MapConfigurationPlatformsToProjects(
-            ISolution solution,
+            Solution solution,
             IList<ProjectConfigurationPlatform> projectConfigurations)
         {
             foreach (var configuration in projectConfigurations)
@@ -26,7 +26,7 @@ namespace SlnEditor.Parsers
         }
 
         private static void MapConfigurationPlatformToProject(
-            ISolution solution,
+            Solution solution,
             ProjectConfigurationPlatform configuration)
         {
             if (!configuration.ProjectId.HasValue)
