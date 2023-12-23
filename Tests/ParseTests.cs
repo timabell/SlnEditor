@@ -524,7 +524,6 @@ EndGlobal
         }
 
         [Fact]
-        [Category("ParseSolution:TestSln")]
         public void Should_Be_Able_To_Parse_TestSln_Solution_Correctly()
         {
             var solution = new Solution(SlnContentsTestSln);
