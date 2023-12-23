@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using SlnEditor.Models;
 using System;
+using System.IO;
 using Xunit;
 
 namespace SlnEditor.Tests
@@ -604,8 +605,17 @@ EndGlobal";
         [InlineData(nameof(SlnContentsHttpAbstractions), SlnContentsHttpAbstractions)]
         public void Should_RoundTripFile(string name, string originalSln)
         {
+            // Arrange
             var solution = new Solution(originalSln);
+
+            // Act
             var output = solution.ToString();
+
+            // Write to files for easier debugging, e.g. `kdiff3 ./Tests/bin/Debug/net8.0/SlnContentsHttpAbstractions-{input,output}.sln &`
+            File.WriteAllText($"{name}-input.sln", originalSln);
+            File.WriteAllText($"{name}-output.sln", output);
+
+            // Assert
             output.Trim().Should().Be(originalSln.Trim());
         }
 
