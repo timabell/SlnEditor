@@ -9,16 +9,16 @@ namespace SlnEditor.Parsers
 {
     internal class ConfigurationPlatformParser
     {
-        public IList<ProjectConfigurationPlatform> Parse(
-            IList<string> fileContents,
-            string sectionName)
+        public IList<ProjectConfigurationPlatform> Parse(IList<string> fileContents,
+            string sectionName, out int sourceLine)
         {
             if (fileContents == null) throw new ArgumentNullException(nameof(fileContents));
             if (string.IsNullOrWhiteSpace(sectionName))
                 throw new ArgumentException("Value cannot be null or whitespace.", nameof(sectionName));
 
-            var sectionContents = SectionParser.GetFileContentsInGlobalSection(fileContents, sectionName);
+            var sectionContents = SectionParser.GetFileContentsInGlobalSection(fileContents, sectionName, out var parsedSourceLine);
             var projectConfigurationPlatforms = ParseConfigurationPlatforms(sectionContents);
+            sourceLine = parsedSourceLine;
             return projectConfigurationPlatforms;
         }
 

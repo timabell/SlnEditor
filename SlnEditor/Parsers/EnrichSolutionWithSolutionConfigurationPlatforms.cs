@@ -1,4 +1,5 @@
 ﻿using SlnEditor.Models;
+using SlnEditor.Models.GlobalSections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -12,11 +13,15 @@ namespace SlnEditor.Parsers
         {
             var projectConfigurations = _configurationPlatformParser.Parse(
                 fileContents,
-                "SolutionConfiguration");
-            solution.ConfigurationPlatforms = projectConfigurations
-                .Select(projectConfiguration => projectConfiguration.ConfigurationPlatform)
-                .ToList()
-                ;
+                "SolutionConfiguration", out var sourceLine);
+
+            solution.GlobalSections.Add(new ConfigurationPlatformsSection
+            {
+                SourceLine = sourceLine,
+                ConfigurationPlatforms = projectConfigurations
+                    .Select(projectConfiguration => projectConfiguration.ConfigurationPlatform)
+                    .ToList(),
+            });
         }
     }
 }

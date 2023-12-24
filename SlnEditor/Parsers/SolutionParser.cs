@@ -43,6 +43,7 @@ namespace SlnEditor.Parsers
                 .Where(line => line.Length > 0)
                 .ToList();
 
+            solution.GlobalSections.Clear();
             foreach (var enricher in _solutionEnrichers)
             {
                 enricher.Enrich(solution, allLinesTrimmed, _bestEffort);

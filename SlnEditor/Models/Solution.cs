@@ -1,4 +1,5 @@
-﻿using SlnEditor.Parsers;
+﻿using SlnEditor.Models.GlobalSections;
+using SlnEditor.Parsers;
 using SlnEditor.Writers;
 using System;
 using System.Collections.Generic;
@@ -25,6 +26,16 @@ namespace SlnEditor.Models
             new SolutionParser(bestEffort).ParseInto(contents, this);
         }
 
+        public IList<IGlobalSection> GlobalSections { get; } = new List<IGlobalSection>
+        {
+            new ConfigurationPlatformsSection(),
+            new ProjectConfigurationPlatformsSection(),
+            new NestedProjectsSection(),
+            new SolutionPropertiesSection(),
+            new ExtensibilityGlobalsSection(),
+        };
+
+
         public string FileFormatVersion { get; set; } = string.Empty;
 
         public VisualStudioVersion VisualStudioVersion { get; set; } = new VisualStudioVersion();
@@ -45,14 +56,13 @@ namespace SlnEditor.Models
                         parent => parent.Projects.All(x => x != child))) // Find all the projects with no parent solution folder
                 .ToList();
 
-        /// <inheritdoc />
-        public IList<ConfigurationPlatform> ConfigurationPlatforms { get; internal set; } =
-            new List<ConfigurationPlatform>();
+        public ConfigurationPlatformsSection ConfigurationPlatformsSection => GlobalSection<ConfigurationPlatformsSection>();
+        public IList<ConfigurationPlatform> ConfigurationPlatforms => ConfigurationPlatformsSection.ConfigurationPlatforms;
 
-        public SolutionProperties SolutionProperties { get; } = new SolutionProperties();
+        public SolutionPropertiesSection SolutionPropertiesSection => GlobalSection<SolutionPropertiesSection>();
+        public SolutionProperties SolutionProperties => SolutionPropertiesSection.SolutionProperties;
 
-        /// <inheritdoc/>
-        public Guid? Guid { get; set; }
+        public Guid? Guid => GlobalSection<ExtensibilityGlobalsSection>().SolutionGuid;
 
         /// <summary>
         /// Convert in memory solution to sln file format for writing to or overwriting a .sln file
@@ -60,6 +70,16 @@ namespace SlnEditor.Models
         public override string ToString()
         {
             return SolutionWriter.Write(this);
+        }
+
+        public T GlobalSection<T>()
+        {
+            var sections = GlobalSections.OfType<T>().ToList();
+            if (sections.Count != 1)
+            {
+                throw new InvalidOperationException( $"{sections.Count} {nameof(T)} in {GlobalSections}, sections must be unique");
+            }
+            return sections.Single();
         }
     }
 }

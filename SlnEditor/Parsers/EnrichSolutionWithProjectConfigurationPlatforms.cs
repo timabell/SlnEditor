@@ -1,5 +1,6 @@
 ﻿using SlnEditor.Exceptions;
 using SlnEditor.Models;
+using SlnEditor.Models.GlobalSections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -13,16 +14,24 @@ namespace SlnEditor.Parsers
         {
             var projectConfigurations = _configurationPlatformParser.Parse(
                 fileContents,
-                "ProjectConfiguration");
+                "ProjectConfiguration", // start of "ProjectConfigurationPlatforms"
+                out var sourceLine);
+
+            solution.GlobalSections.Add(new ProjectConfigurationPlatformsSection
+            {
+                SourceLine = sourceLine,
+
+            });
             MapConfigurationPlatformsToProjects(solution, projectConfigurations);
         }
 
-        private static void MapConfigurationPlatformsToProjects(
-            Solution solution,
-            IList<ProjectConfigurationPlatform> projectConfigurations)
+        private static void MapConfigurationPlatformsToProjects(Solution solution,
+            IEnumerable<ProjectConfigurationPlatform> projectConfigurations)
         {
             foreach (var configuration in projectConfigurations)
+            {
                 MapConfigurationPlatformToProject(solution, configuration);
+            }
         }
 
         private static void MapConfigurationPlatformToProject(
