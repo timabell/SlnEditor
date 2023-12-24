@@ -1,12 +1,11 @@
 ﻿using FluentAssertions;
 using SlnEditor.Models;
-using System;
 using System.IO;
 using Xunit;
 
 namespace SlnEditor.Tests
 {
-    public class WriteTests
+    public class RoundTripTests
     {
         private const string SlnContentsSlnParser = @"
 Microsoft Visual Studio Solution File, Format Version 12.00
@@ -596,19 +595,30 @@ Global
 	EndGlobalSection
 EndGlobal";
 
-        [Fact]
-        public void Should_RenderNewSolution()
+        [Theory]
+        [InlineData(nameof(SlnContentsSlnParser), SlnContentsSlnParser)]
+        [InlineData(nameof(SlnContentsTestSln), SlnContentsTestSln)]
+        [InlineData(nameof(SlnContentsDotnetNew), SlnContentsDotnetNew)]
+        [InlineData(nameof(SlnContentsHideSolutionNode), SlnContentsHideSolutionNode)]
+        [InlineData(nameof(SlnContentsNoProperties), SlnContentsNoProperties)]
+        [InlineData(nameof(SlnContentsSlnSync), SlnContentsSlnSync)]
+        [InlineData(nameof(SlnContentsHttpAbstractions), SlnContentsHttpAbstractions)]
+        public void Should_RoundTripFile(string name, string originalSln)
         {
-            // todo: better default values
-            var solution = new Solution();
-            solution.ToString().Should().Be(@"
-Microsoft Visual Studio Solution File, Format Version 
-# Visual Studio Version 
-VisualStudioVersion = 
-MinimumVisualStudioVersion = 
-Global
-EndGlobal
-");
+            // Arrange
+            var solution = new Solution(originalSln);
+
+            // Act
+            var output = solution.ToString();
+
+            // Write to files for easier debugging,
+            // e.g. `dotnet test; kdiff3 ./Tests/bin/Debug/net8.0/SlnContentsHttpAbstractions-{input,output}.sln &`
+            // Note JetBrains Rider test runner doesn't write the files in the above folder, use the CLI to generate files.
+            File.WriteAllText($"{name}-input.sln", originalSln);
+            File.WriteAllText($"{name}-output.sln", output);
+
+            // Assert
+            output.Trim().Should().Be(originalSln.Trim());
         }
     }
 }
