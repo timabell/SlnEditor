@@ -1,4 +1,5 @@
 using SlnEditor.Models;
+using SlnEditor.Models.GlobalSections;
 using System.Linq;
 using System.Text;
 
@@ -14,77 +15,34 @@ namespace SlnEditor.Writers
             sb.Append(solution.VisualStudioVersion.Render());
             foreach (var project in solution.Projects)
             {
-                sb.AppendLine(
-                    $"Project(\"{{{project.TypeGuid.ToString().ToUpper()}}}\") = \"{project.Name}\", \"{project.Path}\", \"{{{project.Id.ToString().ToUpper()}}}\"");
-                if (project is SolutionFolder solutionFolder && solutionFolder.Files.Any())
-                {
-                    sb.AppendLine("\tProjectSection(SolutionItems) = preProject");
-                    foreach (var file in solutionFolder.Files)
-                    {
-                        sb.AppendLine($"\t\t{file} = {file}");
-                    }
-
-                    sb.AppendLine("\tEndProjectSection");
-                }
-
-                sb.AppendLine("EndProject");
+                sb.Append(project.Render());
             }
 
             sb.AppendLine("Global");
+            sb.Append(solution.ConfigurationPlatformsSection.Render());
 
-            if (solution.ConfigurationPlatforms.Any())
+            var projectConfigurationPlatformsSection = solution.GlobalSection<ProjectConfigurationPlatformsSection>();
+            if (projectConfigurationPlatformsSection != null)
             {
-                sb.AppendLine("\tGlobalSection(SolutionConfigurationPlatforms) = preSolution");
-                foreach (var platform in solution.ConfigurationPlatforms)
-                {
-                    sb.AppendLine($"\t\t{platform.Name} = {platform.Name}");
-                }
-
-                sb.AppendLine("\tEndGlobalSection");
+                sb.Append(projectConfigurationPlatformsSection.Render());
             }
 
-            if (solution.Projects.OfType<Project>().Any(p => p.ConfigurationPlatforms.Any()))
+            var nestedProjectsSection = solution.GlobalSection<NestedProjectsSection>();
+            if (nestedProjectsSection != null)
             {
-                sb.AppendLine("\tGlobalSection(ProjectConfigurationPlatforms) = postSolution");
-                foreach (var project in solution.Projects.OfType<Project>())
-                {
-                    foreach (var platform in project.ConfigurationPlatforms)
-                    {
-                        sb.AppendLine(
-                            $"\t\t{{{project.Id.ToString().ToUpper()}}}.{platform.Name} = {platform.Configuration}|{platform.Platform}");
-                    }
-                }
-
-                sb.AppendLine("\tEndGlobalSection");
+                sb.Append(nestedProjectsSection.Render());
             }
 
-            if (solution.RootProjects.OfType<SolutionFolder>().Any(f => f.Projects.Any()))
+            var solutionPropertiesSection = solution.GlobalSection<SolutionPropertiesSection>();
+            if (solutionPropertiesSection != null)
             {
-                sb.AppendLine("\tGlobalSection(NestedProjects) = preSolution");
-                foreach (var project in solution.Projects.OfType<SolutionFolder>())
-                {
-                    foreach (var subProject in project.Projects)
-                    {
-                        sb.AppendLine(
-                            $"\t\t{{{subProject.Id.ToString().ToUpper()}}} = {{{project.Id.ToString().ToUpper()}}}");
-                    }
-                }
-
-                sb.AppendLine("\tEndGlobalSection");
+                sb.Append(solutionPropertiesSection.Render());
             }
+            var extensibilityGlobalsSection = solution.GlobalSection<ExtensibilityGlobalsSection>();
 
-            if (solution.SolutionProperties.HideSolutionNode.HasValue)
+            if (extensibilityGlobalsSection != null)
             {
-                sb.AppendLine("\tGlobalSection(SolutionProperties) = preSolution");
-                sb.AppendLine($"\t\tHideSolutionNode = {solution.SolutionProperties.HideSolutionNode.ToString().ToUpper()}");
-                sb.AppendLine("\tEndGlobalSection");
-            }
-
-            if (solution.Guid != null)
-            {
-                sb.AppendLine("\tGlobalSection(ExtensibilityGlobals) = postSolution");
-                sb.AppendLine($"\t\tSolutionGuid = {{{solution.Guid.ToString().ToUpper()}}}");
-                sb.AppendLine("\tEndGlobalSection");
+                sb.Append(extensibilityGlobalsSection.Render());
             }
 
             sb.AppendLine("EndGlobal");

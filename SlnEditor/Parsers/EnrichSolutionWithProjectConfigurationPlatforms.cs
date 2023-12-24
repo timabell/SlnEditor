@@ -17,10 +17,9 @@ namespace SlnEditor.Parsers
                 "ProjectConfiguration", // start of "ProjectConfigurationPlatforms"
                 out var sourceLine);
 
-            solution.GlobalSections.Add(new ProjectConfigurationPlatformsSection
+            solution.GlobalSections.Add(new ProjectConfigurationPlatformsSection(solution.Projects)
             {
                 SourceLine = sourceLine,
-
             });
             MapConfigurationPlatformsToProjects(solution, projectConfigurations);
         }

@@ -43,7 +43,7 @@ namespace SlnEditor.Parsers
                 fileContents,
                 "NestedProjects", out var sourceLine);
 
-            solution.GlobalSections.Add(new NestedProjectsSection
+            solution.GlobalSections.Add(new NestedProjectsSection(solution.Projects)
             {
                 SourceLine = sourceLine,
             });

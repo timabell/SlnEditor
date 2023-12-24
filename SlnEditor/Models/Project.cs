@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Text;
 
 namespace SlnEditor.Models
 {
@@ -36,6 +37,26 @@ namespace SlnEditor.Models
 
         /// <inheritdoc />
         public ProjectType Type { get; }
+
+        public string Render()
+        {
+            var sb = new StringBuilder();
+            sb.AppendLine(this.Header());
+            sb.AppendLine("EndProject");
+            return sb.ToString();
+        }
+
+        public string RenderConfigurations()
+        {
+            var sb = new StringBuilder();
+            foreach (var platform in ConfigurationPlatforms)
+            {
+                sb.AppendLine(
+                    $"\t\t{{{Id.ToString().ToUpper()}}}.{platform.Name} = {platform.Configuration}|{platform.Platform}");
+            }
+
+            return sb.ToString();
+        }
 
         private string DebuggerDisplay => $"\"{Name}\" Id: \"{Id}\"";
     }

@@ -14,6 +14,7 @@ namespace SlnEditor.Models
     {
         public Solution()
         {
+            GlobalSections = BuildDefaultSections();
         }
 
         /// <summary>
@@ -26,14 +27,7 @@ namespace SlnEditor.Models
             new SolutionParser(bestEffort).ParseInto(contents, this);
         }
 
-        public IList<IGlobalSection> GlobalSections { get; } = new List<IGlobalSection>
-        {
-            new ConfigurationPlatformsSection(),
-            new ProjectConfigurationPlatformsSection(),
-            new NestedProjectsSection(),
-            new SolutionPropertiesSection(),
-            new ExtensibilityGlobalsSection(),
-        };
+        public IList<IGlobalSection> GlobalSections { get; } = new List<IGlobalSection>();
 
 
         public string FileFormatVersion { get; set; } = string.Empty;
@@ -72,14 +66,26 @@ namespace SlnEditor.Models
             return SolutionWriter.Write(this);
         }
 
-        public T GlobalSection<T>()
+        public T? GlobalSection<T>() where T : class, IGlobalSection
         {
             var sections = GlobalSections.OfType<T>().ToList();
-            if (sections.Count != 1)
+            if (sections.Count > 1)
             {
                 throw new InvalidOperationException( $"{sections.Count} {nameof(T)} in {GlobalSections}, sections must be unique");
             }
-            return sections.Single();
+            return sections.SingleOrDefault();
+        }
+
+        private List<IGlobalSection> BuildDefaultSections()
+        {
+            return new List<IGlobalSection>
+            {
+                new ConfigurationPlatformsSection(),
+                new ProjectConfigurationPlatformsSection(Projects),
+                new NestedProjectsSection(Projects),
+                new SolutionPropertiesSection(),
+                new ExtensibilityGlobalsSection(),
+            };
         }
     }
 }

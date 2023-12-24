@@ -32,5 +32,7 @@ namespace SlnEditor.Models
         ///     The well-known <see cref="Type" />
         /// </summary>
         ProjectType Type { get; }
+
+        string Render();
     }
 }

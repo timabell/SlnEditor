@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
+using System.Text;
 
 namespace SlnEditor.Models
 {
@@ -47,6 +49,38 @@ namespace SlnEditor.Models
         /// <inheritdoc />
         public ProjectType Type => ProjectType.SolutionFolder;
 
+        public string Render()
+        {
+            var sb = new StringBuilder();
+            sb.AppendLine(this.Header());
+
+            if (Files.Any())
+            {
+                sb.AppendLine("\tProjectSection(SolutionItems) = preProject");
+                foreach (var file in Files)
+                {
+                    sb.AppendLine($"\t\t{file} = {file}");
+                }
+
+                sb.AppendLine("\tEndProjectSection");
+            }
+
+            sb.AppendLine("EndProject");
+            return sb.ToString();
+        }
+
         private string DebuggerDisplay => $"\"{Name}\" Id: \"{Id}\"";
+
+        public string RenderNestedProjects()
+        {
+            var sb = new StringBuilder();
+            foreach (var subProject in Projects)
+            {
+                sb.AppendLine(
+                    $"\t\t{{{subProject.Id.ToString().ToUpper()}}} = {{{Id.ToString().ToUpper()}}}");
+            }
+
+            return sb.ToString();
+        }
     }
 }
