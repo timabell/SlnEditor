@@ -37,8 +37,7 @@ namespace SlnEditor.Parsers
             project = projectType == ProjectType.SolutionFolder
                 ? (IProject)new SolutionFolder(
                     projectGuid,
-                    projectName,
-                    projectPath)
+                    projectName)
                 : new Project(
                     projectGuid,
                     projectName,

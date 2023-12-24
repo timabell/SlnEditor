@@ -30,7 +30,7 @@ EndGlobal
 
             // Act
             solution.Projects.Add(
-                new SolutionFolder(new Guid("9B6F52EA-B890-443D-BA30-4422FB5F0BBF"), name: "foo-project", path: "foo/"));
+                new SolutionFolder(new Guid("9B6F52EA-B890-443D-BA30-4422FB5F0BBF"), name: "foo-project"));
 
             // Assert
             solution.ToString().Should().Be(@"
@@ -38,7 +38,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project(""{2150E333-8FDC-42A3-9474-1A3956D46DE8}"") = ""foo-project"", ""foo/"", ""{9B6F52EA-B890-443D-BA30-4422FB5F0BBF}""
+Project(""{2150E333-8FDC-42A3-9474-1A3956D46DE8}"") = ""foo-project"", ""foo-project"", ""{9B6F52EA-B890-443D-BA30-4422FB5F0BBF}""
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -48,6 +48,5 @@ Global
 EndGlobal
 ");
         }
-
     }
 }

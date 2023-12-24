@@ -14,11 +14,11 @@ namespace SlnEditor.Models
     [DebuggerDisplay("{DebuggerDisplay,nq}")]
     public class SolutionFolder : IProject
     {
-        public SolutionFolder(Guid id, string name, string path)
+        public SolutionFolder(Guid id, string name)
         {
             Id = id;
             Name = name;
-            Path = path;
+            Path = name;
         }
 
         /// <summary>
