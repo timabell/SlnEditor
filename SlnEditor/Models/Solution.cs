@@ -66,14 +66,18 @@ namespace SlnEditor.Models
             return SolutionWriter.Write(this);
         }
 
-        public T? GlobalSection<T>() where T : class, IGlobalSection
+        public T GlobalSection<T>() where T : class, IGlobalSection
         {
             var sections = GlobalSections.OfType<T>().ToList();
             if (sections.Count > 1)
             {
                 throw new InvalidOperationException( $"{sections.Count} {nameof(T)} in {GlobalSections}, sections must be unique");
             }
-            return sections.SingleOrDefault();
+            if (sections.Count == 0)
+            {
+                throw new InvalidOperationException( $"{nameof(T)} not present in {GlobalSections}");
+            }
+            return sections.Single();
         }
 
         private List<IGlobalSection> BuildDefaultSections()
