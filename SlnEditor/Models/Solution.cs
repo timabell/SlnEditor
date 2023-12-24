@@ -27,7 +27,7 @@ namespace SlnEditor.Models
             new SolutionParser(bestEffort).ParseInto(contents, this);
         }
 
-        public IList<IGlobalSection> GlobalSections { get; } = new List<IGlobalSection>();
+        public IList<IGlobalSection> GlobalSections { get; internal set; } = new List<IGlobalSection>();
 
 
         public string FileFormatVersion { get; set; } = string.Empty;

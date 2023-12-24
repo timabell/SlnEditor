@@ -16,8 +16,8 @@ namespace SlnEditor.Parsers
             new EnrichSolutionWithSolutionConfigurationPlatforms(),
             new EnrichSolutionWithProjectConfigurationPlatforms(), // It's important that this happens _after_ the 'EnrichSolutionWithProjects', because we need the parsed projects before we can map the configurations to them
             new EnrichSolutionWithSolutionFolderFiles(),
-            new EnrichSolutionWithSolutionGuid(),
             new EnrichSolutionWithSolutionProperties(),
+            new EnrichSolutionWithSolutionGuid(),
         };
 
         /// <summary>
@@ -47,7 +47,8 @@ namespace SlnEditor.Parsers
             {
                 enricher.Enrich(solution, allLinesTrimmed, _bestEffort);
             }
-        }
 
+            solution.GlobalSections = solution.GlobalSections.OrderBy(s => s.SourceLine).ToList();
+        }
     }
 }

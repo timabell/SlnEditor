@@ -19,32 +19,10 @@ namespace SlnEditor.Writers
             }
 
             sb.AppendLine("Global");
-            sb.Append(solution.ConfigurationPlatformsSection.Render());
-
-            var projectConfigurationPlatformsSection = solution.GlobalSection<ProjectConfigurationPlatformsSection>();
-            if (projectConfigurationPlatformsSection != null)
+            foreach (var section in solution.GlobalSections)
             {
-                sb.Append(projectConfigurationPlatformsSection.Render());
+                sb.Append(section.Render());
             }
-
-            var nestedProjectsSection = solution.GlobalSection<NestedProjectsSection>();
-            if (nestedProjectsSection != null)
-            {
-                sb.Append(nestedProjectsSection.Render());
-            }
-
-            var solutionPropertiesSection = solution.GlobalSection<SolutionPropertiesSection>();
-            if (solutionPropertiesSection != null)
-            {
-                sb.Append(solutionPropertiesSection.Render());
-            }
-            var extensibilityGlobalsSection = solution.GlobalSection<ExtensibilityGlobalsSection>();
-
-            if (extensibilityGlobalsSection != null)
-            {
-                sb.Append(extensibilityGlobalsSection.Render());
-            }
-
             sb.AppendLine("EndGlobal");
             return sb.ToString();
         }
