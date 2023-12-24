@@ -1,7 +1,6 @@
 ﻿using FluentAssertions;
 using SlnEditor.Models;
 using SlnEditor.Models.GlobalSections;
-using System.IO;
 using System.Linq;
 using Xunit;
 
@@ -632,17 +631,6 @@ EndGlobal
 
             solution.Projects.OfType<Project>().SelectMany(p => p.ConfigurationPlatforms).Count()
                 .Should().Be(2, because: "two out of the three configs have valid project guids");
-        }
-
-        private static FileInfo LoadSolution(string solutionName)
-        {
-            var solutionFileName = $"./Solutions/{solutionName}.sln";
-            var solutionFile = new FileInfo(solutionFileName);
-
-            if (!solutionFile.Exists)
-                throw new FileNotFoundException();
-
-            return solutionFile;
         }
     }
 }
