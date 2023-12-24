@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using SlnEditor.Models;
+using SlnEditor.Models.GlobalSections;
 using System.IO;
 using System.Linq;
 using Xunit;
@@ -562,6 +563,9 @@ EndGlobal
                 .Files
                 .Should()
                 .Contain(file => file == "testNested1.txt");
+
+            solution.GlobalSection<NestedProjectsSection>().SourceLine.Should().Be(113);
+            solution.GlobalSection<SolutionPropertiesSection>().SourceLine.Should().Be(119);
         }
 
         [Fact]
@@ -603,6 +607,9 @@ EndGlobal
             project.Name.Should().Be("Test");
             project.TypeGuid.Should().Be("D183A3D8-5FD8-494B-B014-37F57B35E655");
             project.Type.Should().Be(ProjectType.SSIS);
+
+            solution.GlobalSection<ConfigurationPlatformsSection>().SourceLine.Should().Be(7);
+            solution.GlobalSection<ProjectConfigurationPlatformsSection>().SourceLine.Should().Be(10);
         }
 
         [Fact]
@@ -614,6 +621,8 @@ EndGlobal
                 .Guid
                 .Should()
                 .Be("7F92F20E-4C3D-4316-BF60-105559EFEAFF");
+
+            solution.GlobalSection<ExtensibilityGlobalsSection>().SourceLine.Should().Be(3);
         }
 
         [Fact]

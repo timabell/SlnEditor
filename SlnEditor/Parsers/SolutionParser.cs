@@ -40,7 +40,6 @@ namespace SlnEditor.Parsers
             var lines = content.Split( separators, StringSplitOptions.None ); // https://stackoverflow.com/questions/1547476/split-a-string-on-newlines-in-net/1547483#1547483
             var allLinesTrimmed = lines
                 .Select(line => line.Trim())
-                .Where(line => line.Length > 0)
                 .ToList();
 
             solution.GlobalSections.Clear();

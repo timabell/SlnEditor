@@ -2,7 +2,7 @@ namespace SlnEditor.Models.GlobalSections
 {
     public class NestedProjectsSection : IGlobalSection
     {
-        internal int SourceLine { get; set; }
+        public int SourceLine { get; internal set; }
         int ISourceLine.SourceLine => SourceLine;
     }
 }

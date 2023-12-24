@@ -25,7 +25,7 @@ namespace SlnEditor.Parsers
         {
             sourceLine = fileContents
                 .TakeWhile(line => !line.StartsWith(startSection))
-                .Count();
+                .Count()+1;
 
             var section = fileContents
                 .SkipWhile(line => !line.StartsWith(startSection))

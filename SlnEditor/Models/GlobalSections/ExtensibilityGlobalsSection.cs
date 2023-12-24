@@ -4,7 +4,7 @@ namespace SlnEditor.Models.GlobalSections
 {
     public class ExtensibilityGlobalsSection : IGlobalSection
     {
-        internal int SourceLine { get; set; }
+        public int SourceLine { get; internal set; }
         int ISourceLine.SourceLine => SourceLine;
 
         public Guid? SolutionGuid { get; set; }

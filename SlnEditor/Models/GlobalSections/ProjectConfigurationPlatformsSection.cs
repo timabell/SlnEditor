@@ -5,7 +5,7 @@ namespace SlnEditor.Models.GlobalSections
     /// </summary>
     public class ProjectConfigurationPlatformsSection : IGlobalSection
     {
-        internal int SourceLine { get; set; }
+        public int SourceLine { get; internal set; }
         int ISourceLine.SourceLine => SourceLine;
     }
 }
