@@ -599,13 +599,12 @@ EndGlobal";
         [Fact]
         public void Should_RenderNewSolution()
         {
-            // todo: better default values
             var solution = new Solution();
             solution.ToString().Should().Be(@"
-Microsoft Visual Studio Solution File, Format Version 
-# Visual Studio Version 
-VisualStudioVersion = 
-MinimumVisualStudioVersion = 
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31410.414
+MinimumVisualStudioVersion = 10.0.40219.1
 Global
 EndGlobal
 ");

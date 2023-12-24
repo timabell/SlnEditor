@@ -12,9 +12,18 @@ namespace SlnEditor.Models
     /// </summary>
     public class Solution
     {
+        /// <summary>
+        /// Build a blank solution with sensible default values
+        /// </summary>
         public Solution()
         {
             GlobalSections = BuildDefaultSections();
+            FileFormatVersion = "12.00";
+            VisualStudioVersion = new VisualStudioVersion
+            {
+                MinimumVersion = "10.0.40219.1",
+                Version = "17.0.31410.414",
+            };
         }
 
         /// <summary>
