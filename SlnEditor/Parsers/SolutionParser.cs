@@ -7,25 +7,26 @@ namespace SlnEditor.Parsers
 {
     internal class SolutionParser
     {
+        private readonly bool _bestEffort;
+
         private readonly IList<IEnrichSolution> _solutionEnrichers = new List<IEnrichSolution>
         {
+            new EnrichSolutionWithVersion(),
             new EnrichSolutionWithProjects(),
             new EnrichSolutionWithSolutionConfigurationPlatforms(),
-            /*
-                 * NOTE: It's important that this happens _after_ the 'EnrichSolutionWithProjects',
-                 * because we need the parsed projects before we can map the configurations to them
-                 */
-            new EnrichSolutionWithProjectConfigurationPlatforms(),
+            new EnrichSolutionWithProjectConfigurationPlatforms(), // It's important that this happens _after_ the 'EnrichSolutionWithProjects', because we need the parsed projects before we can map the configurations to them
             new EnrichSolutionWithSolutionFolderFiles(),
-            new EnrichSolutionWithSolutionGuid(),
             new EnrichSolutionWithSolutionProperties(),
+            new EnrichSolutionWithSolutionGuid(),
         };
 
         /// <summary>
         /// Creates a new instance of <see cref="SolutionParser" />
         /// </summary>
-        public SolutionParser()
+        /// <param name="bestEffort"></param>
+        public SolutionParser(bool bestEffort)
         {
+            _bestEffort = bestEffort;
         }
 
         /// <summary>
@@ -39,66 +40,15 @@ namespace SlnEditor.Parsers
             var lines = content.Split( separators, StringSplitOptions.None ); // https://stackoverflow.com/questions/1547476/split-a-string-on-newlines-in-net/1547483#1547483
             var allLinesTrimmed = lines
                 .Select(line => line.Trim())
-                .Where(line => line.Length > 0)
                 .ToList();
 
+            solution.GlobalSections.Clear();
             foreach (var enricher in _solutionEnrichers)
             {
-                enricher.Enrich(solution, allLinesTrimmed);
+                enricher.Enrich(solution, allLinesTrimmed, _bestEffort);
             }
 
-            foreach (var line in lines)
-            {
-                ProcessLine(line, solution);
-            }
-        }
-
-        private static void ProcessLine(string line, Solution solution)
-        {
-            ProcessSolutionFileFormatVersion(line, solution);
-            ProcessVisualStudioVersion(line, solution);
-            ProcessMinimumVisualStudioVersion(line, solution);
-        }
-
-        private static void ProcessSolutionFileFormatVersion(string line, Solution solution)
-        {
-            if (!line.StartsWith("Microsoft Visual Studio Solution File, "))
-            {
-                return;
-            }
-
-            /*
-             * 54 characters, because...
-             * "Microsoft Visual Studio Solution File, Format Version " is 54 characters long
-            */
-            var fileFormatVersion = string.Concat(line.Skip(54));
-            solution.FileFormatVersion = fileFormatVersion;
-        }
-
-        private static void ProcessVisualStudioVersion(string line, Solution solution)
-        {
-            if (!line.StartsWith("VisualStudioVersion = "))
-            {
-                return;
-            }
-
-            // because "VisualStudioVersion = " is 22 characters long
-            var visualStudioVersion = string.Concat(line.Skip(22));
-
-            solution.VisualStudioVersion.Version = visualStudioVersion;
-        }
-
-        private static void ProcessMinimumVisualStudioVersion(string line, ISolution solution)
-        {
-            if (!line.StartsWith("MinimumVisualStudioVersion = "))
-            {
-                return;
-            }
-
-            // because "MinimumVisualStudioVersion = " is 29 characters long
-            var minimumVisualStudioVersion = string.Concat(line.Skip(29));
-
-            solution.VisualStudioVersion.MinimumVersion = minimumVisualStudioVersion;
+            solution.GlobalSections = solution.GlobalSections.OrderBy(s => s.SourceLine).ToList();
         }
     }
 }

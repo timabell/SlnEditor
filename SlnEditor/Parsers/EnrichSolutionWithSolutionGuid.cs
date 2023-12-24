@@ -1,4 +1,5 @@
 ﻿using SlnEditor.Models;
+using SlnEditor.Models.GlobalSections;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,17 +9,19 @@ namespace SlnEditor.Parsers
 {
     internal class EnrichSolutionWithSolutionGuid : IEnrichSolution
     {
-        private readonly SectionParser _sectionParser = new SectionParser();
-
-        public void Enrich(Solution solution, IList<string> fileContents)
+        public void Enrich(Solution solution, IList<string> fileContents, bool bestEffort)
         {
-            var sectionContents = _sectionParser.GetFileContentsInGlobalSection(
+            var sectionContents = SectionParser.GetFileContentsInGlobalSection(
                 fileContents,
-                "ExtensibilityGlobals");
+                "ExtensibilityGlobals", out var sourceLine);
 
-            solution.Guid = sectionContents
-                .Select(ExtractSolutionGuid)
-                .FirstOrDefault(x => x.HasValue);
+            solution.GlobalSections.Add(new ExtensibilityGlobalsSection
+            {
+                SourceLine = sourceLine,
+                SolutionGuid = sectionContents
+                    .Select(ExtractSolutionGuid)
+                    .FirstOrDefault(x => x.HasValue),
+            });
         }
 
         private static Guid? ExtractSolutionGuid(string line)

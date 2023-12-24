@@ -5,6 +5,6 @@ namespace SlnEditor.Parsers
 {
     internal interface IEnrichSolution
     {
-        void Enrich(Solution solution, IList<string> fileContents);
+        void Enrich(Solution solution, IList<string> fileContents, bool bestEffort);
     }
 }

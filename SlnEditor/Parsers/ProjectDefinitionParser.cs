@@ -38,14 +38,11 @@ namespace SlnEditor.Parsers
                 ? (IProject)new SolutionFolder(
                     projectGuid,
                     projectName,
-                    projectPath,
-                    projectTypeGuid,
-                    projectType)
-                : new SolutionProject(
+                    projectPath)
+                : new Project(
                     projectGuid,
                     projectName,
                     projectPath,
-                    projectTypeGuid,
                     projectType);
 
             return true;

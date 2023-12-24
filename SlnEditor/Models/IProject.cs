@@ -3,7 +3,8 @@
 namespace SlnEditor.Models
 {
     /// <summary>
-    ///     A project that can be contained in a <see cref="Solution" />
+    /// A project that can be contained in a <see cref="Solution" />.
+    /// Can be either a <see cref="SolutionFolder"/> or a <see cref="Project"/>.
     /// </summary>
     public interface IProject
     {
@@ -31,5 +32,7 @@ namespace SlnEditor.Models
         ///     The well-known <see cref="Type" />
         /// </summary>
         ProjectType Type { get; }
+
+        string Render();
     }
 }

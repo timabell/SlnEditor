@@ -13,6 +13,14 @@ Easy (to use) Editor for your .NET Solution (.sln) Files.
 
 This project targets `netstandard2.0` so it can basically be used anywhere you want.
 
+## License
+
+The library is licensed under the "unlicense" (i.e public domain + no warranty).
+
+Referenced nuget packages remain under their respective licenses.
+
+The tests include an apache-2 licensed example sln which remains under that license.
+
 ## 💻 Usage
 
 ### Modifying a sln

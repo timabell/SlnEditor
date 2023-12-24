@@ -1,4 +1,5 @@
-﻿using SlnEditor.Parsers;
+﻿using SlnEditor.Models.GlobalSections;
+using SlnEditor.Parsers;
 using SlnEditor.Writers;
 using System;
 using System.Collections.Generic;
@@ -6,68 +7,56 @@ using System.Linq;
 
 namespace SlnEditor.Models
 {
-    /// <inheritdoc />
-    public class Solution : ISolution
+    /// <summary>
+    /// All the information contained in a Visual Studio Solution File (sln)
+    /// </summary>
+    public class Solution
     {
-        /// <summary>
-        ///     Creates a new instance of <see cref="Solution" />
-        /// </summary>
         public Solution()
         {
-            Projects = new List<IProject>();
-            ConfigurationPlatforms = new List<ConfigurationPlatform>();
+            GlobalSections = BuildDefaultSections();
         }
 
         /// <summary>
         /// Parse an existing sln file's contents
         /// </summary>
         /// <param name="contents">The raw text of a solution file</param>
-        public Solution(string contents)
+        /// <param name="bestEffort">If set to true will, will not throw errors for any parsing failures</param>
+        public Solution(string contents, bool bestEffort = false)
         {
-            new SolutionParser().ParseInto(contents, this);
+            new SolutionParser(bestEffort).ParseInto(contents, this);
         }
 
-        /// <inheritdoc />
+        public IList<IGlobalSection> GlobalSections { get; internal set; } = new List<IGlobalSection>();
+
+
         public string FileFormatVersion { get; set; } = string.Empty;
 
-        /// <inheritdoc />
         public VisualStudioVersion VisualStudioVersion { get; set; } = new VisualStudioVersion();
 
-        /// <inheritdoc />
-        public IList<IProject> AllProjects {
-            get
-            {
-                return Flatten(Projects);
-            }
-        }
-
-        private static IList<IProject> Flatten(IEnumerable<IProject> projects)
-        {
-            var flattened = new List<IProject>();
-            foreach (var project in projects)
-            {
-                flattened.Add(project);
-                var folder = project as SolutionFolder;
-                if (folder?.Projects.Any() is true)
-                {
-                    flattened.AddRange(Flatten(folder.Projects));
-                }
-            }
-
-            return flattened;
-        }
-
-        /// <inheritdoc />
+        /// <summary>
+        /// All projects in the solution regardless of whether they are nested,
+        /// stored in the order they are found in the file.
+        /// </summary>
         public IList<IProject> Projects { get; internal set; } = new List<IProject>();
 
-        /// <inheritdoc />
-        public IList<ConfigurationPlatform> ConfigurationPlatforms { get; internal set; } = new List<ConfigurationPlatform>();
+        /// <summary>
+        /// Projects that are not the child of any other project, i.e. the top level.
+        /// Calculated on the fly.
+        /// </summary>
+        public IReadOnlyList<IProject> RootProjects =>
+            Projects.Where(child =>
+                    Projects.OfType<SolutionFolder>().All(
+                        parent => parent.Projects.All(x => x != child))) // Find all the projects with no parent solution folder
+                .ToList();
 
-        /// <inheritdoc />
-        public SolutionProperties SolutionProperties { get; internal set; } = new SolutionProperties();
+        public ConfigurationPlatformsSection ConfigurationPlatformsSection => GlobalSection<ConfigurationPlatformsSection>();
+        public IList<ConfigurationPlatform> ConfigurationPlatforms => ConfigurationPlatformsSection.ConfigurationPlatforms;
 
-        /// <inheritdoc/>
-        public Guid? Guid { get; internal set; }
+        public SolutionPropertiesSection SolutionPropertiesSection => GlobalSection<SolutionPropertiesSection>();
+        public SolutionProperties SolutionProperties => SolutionPropertiesSection.SolutionProperties;
+
+        public Guid? Guid => GlobalSection<ExtensibilityGlobalsSection>().SolutionGuid;
 
         /// <summary>
         /// Convert in memory solution to sln file format for writing to or overwriting a .sln file
@@ -75,6 +64,28 @@ namespace SlnEditor.Models
         public override string ToString()
         {
             return SolutionWriter.Write(this);
+        }
+
+        public T? GlobalSection<T>() where T : class, IGlobalSection
+        {
+            var sections = GlobalSections.OfType<T>().ToList();
+            if (sections.Count > 1)
+            {
+                throw new InvalidOperationException( $"{sections.Count} {nameof(T)} in {GlobalSections}, sections must be unique");
+            }
+            return sections.SingleOrDefault();
+        }
+
+        private List<IGlobalSection> BuildDefaultSections()
+        {
+            return new List<IGlobalSection>
+            {
+                new ConfigurationPlatformsSection(),
+                new ProjectConfigurationPlatformsSection(Projects),
+                new NestedProjectsSection(Projects),
+                new SolutionPropertiesSection(),
+                new ExtensibilityGlobalsSection(),
+            };
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using SlnEditor.Exceptions;
 using SlnEditor.Models;
+using SlnEditor.Models.GlobalSections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -9,24 +10,31 @@ namespace SlnEditor.Parsers
     {
         private readonly ConfigurationPlatformParser _configurationPlatformParser = new ConfigurationPlatformParser();
 
-        public void Enrich(Solution solution, IList<string> fileContents)
+        public void Enrich(Solution solution, IList<string> fileContents, bool bestEffort)
         {
             var projectConfigurations = _configurationPlatformParser.Parse(
                 fileContents,
-                "ProjectConfiguration");
+                "ProjectConfiguration", // start of "ProjectConfigurationPlatforms"
+                out var sourceLine);
+
+            solution.GlobalSections.Add(new ProjectConfigurationPlatformsSection(solution.Projects)
+            {
+                SourceLine = sourceLine,
+            });
             MapConfigurationPlatformsToProjects(solution, projectConfigurations);
         }
 
-        private static void MapConfigurationPlatformsToProjects(
-            ISolution solution,
-            IList<ProjectConfigurationPlatform> projectConfigurations)
+        private static void MapConfigurationPlatformsToProjects(Solution solution,
+            IEnumerable<ProjectConfigurationPlatform> projectConfigurations)
         {
             foreach (var configuration in projectConfigurations)
+            {
                 MapConfigurationPlatformToProject(solution, configuration);
+            }
         }
 
         private static void MapConfigurationPlatformToProject(
-            ISolution solution,
+            Solution solution,
             ProjectConfigurationPlatform configuration)
         {
             if (!configuration.ProjectId.HasValue)
@@ -35,19 +43,19 @@ namespace SlnEditor.Parsers
                     $"for the Project-Platform-Configuration '{configuration.ConfigurationPlatform.Name}'");
 
             var project = solution
-                .AllProjects
+                .Projects
                 .FirstOrDefault(project => project.Id == configuration.ProjectId.Value);
 
             if (project == null) return;
 
-            if (!(project is SolutionProject solutionProject))
+            if (!(project is Project solutionProject))
                 throw new UnexpectedSolutionStructureException(
                     "Expected to find a Solution-Project with the id " +
                     $"'{configuration.ProjectId.Value}' for the Project-Platform-Configuration " +
                     $"'{configuration.ConfigurationPlatform.Name}' but found " +
                     $" project of type '{project.GetType().Name}' instead");
 
-            solutionProject.AddConfigurationPlatform(configuration.ConfigurationPlatform);
+            solutionProject.ConfigurationPlatforms.Add(configuration.ConfigurationPlatform);
         }
     }
 }

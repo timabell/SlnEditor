@@ -2,65 +2,35 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
+using System.Linq;
+using System.Text;
 
 namespace SlnEditor.Models
 {
     /// <summary>
-    ///     A Solution Folder that can be contained in a <see cref="Solution" />
+    /// A Solution Folder that can be contained in a <see cref="Solution" />.
+    /// Can contain files, <see cref="Project"/>s and other SolutionFolders.
     /// </summary>
     [DebuggerDisplay("{DebuggerDisplay,nq}")]
     public class SolutionFolder : IProject
     {
-        /// <summary>
-        ///     Creates a new instance of <see cref="SolutionFolder" />
-        /// </summary>
-        /// <param name="id">The id</param>
-        /// <param name="name">The name</param>
-        /// <param name="path"></param>
-        /// <param name="typeGuid">The project-type id</param>
-        /// <param name="type">The well-known project-type</param>
-        public SolutionFolder(
-            Guid id,
-            string name,
-            string path,
-            Guid typeGuid,
-            ProjectType type)
+        public SolutionFolder(Guid id, string name, string path)
         {
             Id = id;
             Name = name;
             Path = path;
-            TypeGuid = typeGuid;
-            Type = type;
         }
 
         /// <summary>
-        ///     Creates a new instance of <see cref="SolutionFolder" />
-        /// </summary>
-        /// <param name="id">The id</param>
-        /// <param name="name">The name</param>
-        /// <param name="path"></param>
-        /// <param name="type">The well-known project-type</param>
-        public SolutionFolder(
-            Guid id,
-            string name,
-            string path,
-            ProjectType type)
-        {
-            Id = id;
-            Name = name;
-            Path = path;
-            TypeGuid = new ProjectTypeMap().Guids[type];
-            Type = type;
-        }
-
-        /// <summary>
-        ///     The contained <see cref="IProject" />s in the Solution Folder
+        /// The contained <see cref="IProject" />s in the Solution Folder
         /// </summary>
         public IList<IProject> Projects { get; } = new List<IProject>();
 
         /// <summary>
-        ///     The contained <see cref="FileInfo" />s in the Solution Folder
+        /// The contained files in the Solution Folder.
+        /// The string value is the relative path to the file.
+        /// The path separator *must* be windows format backslashes ('\')
+        /// regardless of platform.
         /// </summary>
         public IList<string> Files { get; } = new List<string>();
 
@@ -74,11 +44,43 @@ namespace SlnEditor.Models
         public string Path { get; }
 
         /// <inheritdoc />
-        public Guid TypeGuid { get; }
+        public Guid TypeGuid => new ProjectTypeMap().Guids[Type];
 
         /// <inheritdoc />
-        public ProjectType Type { get; }
+        public ProjectType Type => ProjectType.SolutionFolder;
+
+        public string Render()
+        {
+            var sb = new StringBuilder();
+            sb.AppendLine(this.Header());
+
+            if (Files.Any())
+            {
+                sb.AppendLine("\tProjectSection(SolutionItems) = preProject");
+                foreach (var file in Files)
+                {
+                    sb.AppendLine($"\t\t{file} = {file}");
+                }
+
+                sb.AppendLine("\tEndProjectSection");
+            }
+
+            sb.AppendLine("EndProject");
+            return sb.ToString();
+        }
 
         private string DebuggerDisplay => $"\"{Name}\" Id: \"{Id}\"";
+
+        public string RenderNestedProjects()
+        {
+            var sb = new StringBuilder();
+            foreach (var subProject in Projects)
+            {
+                sb.AppendLine(
+                    $"\t\t{{{subProject.Id.ToString().ToUpper()}}} = {{{Id.ToString().ToUpper()}}}");
+            }
+
+            return sb.ToString();
+        }
     }
 }

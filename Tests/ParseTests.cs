@@ -1,6 +1,6 @@
 ﻿using FluentAssertions;
 using SlnEditor.Models;
-using System.ComponentModel;
+using SlnEditor.Models.GlobalSections;
 using System.IO;
 using System.Linq;
 using Xunit;
@@ -271,12 +271,12 @@ EndGlobal
                 .HaveCount(0);
 
             solution
-                .AllProjects
+                .Projects
                 .Should()
                 .HaveCount(0);
 
             solution
-                .Projects
+                .RootProjects
                 .Should()
                 .HaveCount(0);
         }
@@ -438,58 +438,58 @@ EndGlobal
 
             // -- Projects
             solution
-                .AllProjects
+                .Projects
                 .Should()
                 .HaveCount(3);
 
             // 1. Project - ClassLib
             solution
-                .AllProjects
+                .Projects
                 .ElementAt(0)
                 .Should()
-                .BeOfType<SolutionProject>();
+                .BeOfType<Project>();
             solution
-                .AllProjects
+                .Projects
                 .ElementAt(0)
                 .Name
                 .Should()
                 .Be("SlnParser");
             solution
-                .AllProjects
+                .Projects
                 .ElementAt(0)
                 .Type
                 .Should()
                 .Be(ProjectType.CSharp);
 
             solution
-                .AllProjects
+                .Projects
                 .ElementAt(0)
-                .As<SolutionProject>()
+                .As<Project>()
                 .ConfigurationPlatforms
                 .Should()
                 .Contain(config => config.Name.Equals("Debug|Any CPU.ActiveCfg"));
 
             // 2. Project - Solution Folder
             solution
-                .AllProjects
+                .Projects
                 .ElementAt(1)
                 .Should()
                 .BeOfType<SolutionFolder>();
             solution
-                .AllProjects
+                .Projects
                 .ElementAt(1)
                 .Name
                 .Should()
                 .Be("Solution Items");
             solution
-                .AllProjects
+                .Projects
                 .ElementAt(1)
                 .As<SolutionFolder>()
                 .Projects
                 .Should()
                 .BeEmpty();
             solution
-                .AllProjects
+                .Projects
                 .ElementAt(1)
                 .Type
                 .Should()
@@ -497,27 +497,27 @@ EndGlobal
 
             // 3. Project - Test Project
             solution
-                .AllProjects
+                .Projects
                 .ElementAt(2)
                 .Should()
-                .BeOfType<SolutionProject>();
+                .BeOfType<Project>();
             solution
-                .AllProjects
+                .Projects
                 .ElementAt(2)
                 .Name
                 .Should()
                 .Be("SlnParser.Tests");
             solution
-                .AllProjects
+                .Projects
                 .ElementAt(2)
                 .Type
                 .Should()
                 .Be(ProjectType.CSharp2);
 
             solution
-                .AllProjects
+                .Projects
                 .ElementAt(2)
-                .As<SolutionProject>()
+                .As<Project>()
                 .ConfigurationPlatforms
                 .Should()
                 .Contain(config => config.Name.Equals("Debug|x86.Build.0"));
@@ -529,17 +529,17 @@ EndGlobal
             var solution = new Solution(SlnContentsTestSln);
 
             solution
-                .AllProjects
+                .Projects
                 .Should()
                 .HaveCount(8);
 
             solution
-                .Projects
+                .RootProjects
                 .Should()
                 .HaveCount(4);
 
             var firstSolutionFolder = solution
-                .AllProjects
+                .Projects
                 .OfType<SolutionFolder>()
                 .FirstOrDefault(folder => folder.Name == "SolutionFolder1");
 
@@ -553,7 +553,7 @@ EndGlobal
                                  file == "test456.txt");
 
             var nestedSolutionFolder = solution
-                .AllProjects
+                .Projects
                 .OfType<SolutionFolder>()
                 .FirstOrDefault(folder => folder.Name == "NestedSolutionFolder");
 
@@ -563,6 +563,9 @@ EndGlobal
                 .Files
                 .Should()
                 .Contain(file => file == "testNested1.txt");
+
+            solution.GlobalSection<NestedProjectsSection>().SourceLine.Should().Be(113);
+            solution.GlobalSection<SolutionPropertiesSection>().SourceLine.Should().Be(119);
         }
 
         [Fact]
@@ -590,20 +593,23 @@ EndGlobal
                 .Be("SolutionPlatformName");
 
             solution
-                .AllProjects
-                .Should()
-                .HaveCount(1);
-
-            solution
                 .Projects
                 .Should()
                 .HaveCount(1);
 
-            var project = solution.Projects.Single();
+            solution
+                .RootProjects
+                .Should()
+                .HaveCount(1);
+
+            var project = solution.RootProjects.Single();
             project.Id.Should().Be("D5BDBC46-CEAF-4C92-8335-31450B76914F");
             project.Name.Should().Be("Test");
             project.TypeGuid.Should().Be("D183A3D8-5FD8-494B-B014-37F57B35E655");
             project.Type.Should().Be(ProjectType.SSIS);
+
+            solution.GlobalSection<ConfigurationPlatformsSection>().SourceLine.Should().Be(7);
+            solution.GlobalSection<ProjectConfigurationPlatformsSection>().SourceLine.Should().Be(10);
         }
 
         [Fact]
@@ -615,6 +621,8 @@ EndGlobal
                 .Guid
                 .Should()
                 .Be("7F92F20E-4C3D-4316-BF60-105559EFEAFF");
+
+            solution.GlobalSection<ExtensibilityGlobalsSection>().SourceLine.Should().Be(3);
         }
 
         [Fact]
@@ -622,7 +630,7 @@ EndGlobal
         {
             var solution = new Solution(SlnContentsUnknownConfigGuid);
 
-            solution.AllProjects.OfType<SolutionProject>().SelectMany(p => p.ConfigurationPlatforms).Count()
+            solution.Projects.OfType<Project>().SelectMany(p => p.ConfigurationPlatforms).Count()
                 .Should().Be(2, because: "two out of the three configs have valid project guids");
         }
 

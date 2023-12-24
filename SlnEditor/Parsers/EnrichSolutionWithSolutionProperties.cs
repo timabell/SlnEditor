@@ -1,6 +1,6 @@
 ﻿using SlnEditor.Exceptions;
 using SlnEditor.Models;
-using System;
+using SlnEditor.Models.GlobalSections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -9,17 +9,21 @@ namespace SlnEditor.Parsers
 {
     internal class EnrichSolutionWithSolutionProperties : IEnrichSolution
     {
-        private readonly SectionParser _sectionParser = new SectionParser();
-
-        public void Enrich(Solution solution, IList<string> fileContents)
+        public void Enrich(Solution solution, IList<string> fileContents, bool bestEffort)
         {
-            var sectionContents = _sectionParser.GetFileContentsInGlobalSection(
-                fileContents,
-                "SolutionProperties");
+            var sectionContents = SectionParser.GetFileContentsInGlobalSection(
+                fileContents, "SolutionProperties", out var sourceLine);
 
-            solution.SolutionProperties.HideSolutionNode = sectionContents
-                .Select(ExtractHideSolutionNode)
-                .FirstOrDefault(x => x.HasValue);
+            solution.GlobalSections.Add(new SolutionPropertiesSection
+            {
+                SourceLine = sourceLine,
+                SolutionProperties = new SolutionProperties
+                {
+                    HideSolutionNode = sectionContents
+                        .Select(ExtractHideSolutionNode)
+                        .FirstOrDefault(x => x.HasValue),
+                },
+            });
         }
 
         private static bool? ExtractHideSolutionNode(string line)
@@ -35,8 +39,10 @@ namespace SlnEditor.Parsers
             var success = bool.TryParse(boolString, out var parsedBool);
             if (!success)
             {
-                throw new UnexpectedSolutionStructureException("Unexpected HideSolutionNode value, expected true/false");
+                throw new UnexpectedSolutionStructureException(
+                    "Unexpected HideSolutionNode value, expected true/false");
             }
+
             return parsedBool;
             return bool.Parse(boolString);
         }

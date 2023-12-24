@@ -1,4 +1,6 @@
-﻿namespace SlnEditor.Models
+﻿using System.Text;
+
+namespace SlnEditor.Models
 {
     /// <summary>
     ///     A Visual Studio Version
@@ -19,5 +21,23 @@
         ///
         /// </summary>
         public string MajorVersion => Version.Contains(".") ? Version.Substring(0, Version.IndexOf('.')) : Version;
+
+        public string Render()
+        {
+            var sb = new StringBuilder();
+            switch (MajorVersion)
+            {
+                case "2008":
+                case "15":
+                    sb.AppendLine($"# Visual Studio {MajorVersion}");
+                    break;
+                default:
+                    sb.AppendLine($"# Visual Studio Version {MajorVersion}");
+                    break;
+            }
+            sb.AppendLine($"VisualStudioVersion = {Version}");
+            sb.AppendLine($"MinimumVisualStudioVersion = {MinimumVersion}");
+            return sb.ToString();
+        }
     }
 }
