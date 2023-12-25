@@ -44,20 +44,13 @@ namespace SlnEditor.Models
         public VisualStudioVersion VisualStudioVersion { get; set; } = new VisualStudioVersion();
 
         /// <summary>
-        /// All projects in the solution regardless of whether they are nested,
-        /// stored in the order they are found in the file.
-        /// </summary>
-        public IList<IProject> Projects { get; internal set; } = new List<IProject>();
-
-        /// <summary>
         /// Projects that are not the child of any other project, i.e. the top level.
-        /// Calculated on the fly.
+        /// A flattened list can be created with <see cref="Extensions.FlatProjectList"/>.
+        /// The list of root projects and the solution folder hierarchy is the source of truth for what projects exist in the solution.
+        /// This list of "root" projects and the hierarchy of folders and projects can be modified as you wish, and will be flattened
+        /// and rendered out to sln format on demand (with <see cref="ToString"/>)
         /// </summary>
-        public IReadOnlyList<IProject> RootProjects =>
-            Projects.Where(child =>
-                    Projects.OfType<SolutionFolder>().All(
-                        parent => parent.Projects.All(x => x != child))) // Find all the projects with no parent solution folder
-                .ToList();
+        public IList<IProject> RootProjects { get; set; } = new List<IProject>();
 
         public ConfigurationPlatformsSection ConfigurationPlatformsSection => GlobalSection<ConfigurationPlatformsSection>();
         public IList<ConfigurationPlatform> ConfigurationPlatforms => ConfigurationPlatformsSection.ConfigurationPlatforms;
@@ -94,8 +87,8 @@ namespace SlnEditor.Models
             return new List<IGlobalSection>
             {
                 new ConfigurationPlatformsSection(),
-                new ProjectConfigurationPlatformsSection(Projects),
-                new NestedProjectsSection(Projects),
+                new ProjectConfigurationPlatformsSection(this),
+                new NestedProjectsSection(this),
                 new SolutionPropertiesSection(),
                 new ExtensibilityGlobalsSection(),
             };

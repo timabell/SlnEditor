@@ -14,6 +14,14 @@ namespace SlnEditor.Models
     [DebuggerDisplay("{DebuggerDisplay,nq}")]
     public class SolutionFolder : IProject
     {
+        internal SolutionFolder(Guid id, string name, int lineNumber)
+        {
+            Id = id;
+            Name = name;
+            Path = name;
+            SourceLine = lineNumber;
+        }
+
         public SolutionFolder(Guid id, string name)
         {
             Id = id;
@@ -21,10 +29,17 @@ namespace SlnEditor.Models
             Path = name;
         }
 
+        public SolutionFolder(string name)
+        {
+            Id = Guid.NewGuid();
+            Name = name;
+            Path = name;
+        }
+
         /// <summary>
         /// The contained <see cref="IProject" />s in the Solution Folder
         /// </summary>
-        public IList<IProject> Projects { get; } = new List<IProject>();
+        public IList<IProject> Projects { get; set; } = new List<IProject>();
 
         /// <summary>
         /// The contained files in the Solution Folder.
@@ -32,7 +47,7 @@ namespace SlnEditor.Models
         /// The path separator *must* be windows format backslashes ('\')
         /// regardless of platform.
         /// </summary>
-        public IList<string> Files { get; } = new List<string>();
+        public IList<string> Files { get; set; } = new List<string>();
 
         /// <inheritdoc />
         public Guid Id { get; }
@@ -82,5 +97,7 @@ namespace SlnEditor.Models
 
             return sb.ToString();
         }
+
+        public int? SourceLine { get; }
     }
 }

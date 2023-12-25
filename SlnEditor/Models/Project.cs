@@ -8,14 +8,31 @@ namespace SlnEditor.Models
 {
     /// <summary>
     /// A project that can be contained in a <see cref="Solution" />.
-    /// Can be one of any of the many supported types.
+    /// Can be one of any of the many supported types apart from SolutionFolder is represented by <seealso cref="SolutionFolder"/>.
     /// </summary>
     [DebuggerDisplay("{DebuggerDisplay,nq}")]
     public class Project : IProject
     {
+        internal Project(Guid id, string name, string path, ProjectType type, int lineNumber)
+        {
+            Id = id;
+            Name = name;
+            Path = path;
+            Type = type;
+            SourceLine = lineNumber;
+        }
+
         public Project(Guid id, string name, string path, ProjectType type)
         {
             Id = id;
+            Name = name;
+            Path = path;
+            Type = type;
+        }
+
+        public Project(string name, string path, ProjectType type)
+        {
+            Id = Guid.NewGuid();
             Name = name;
             Path = path;
             Type = type;
@@ -46,18 +63,7 @@ namespace SlnEditor.Models
             return sb.ToString();
         }
 
-        public string RenderConfigurations()
-        {
-            var sb = new StringBuilder();
-            foreach (var platform in ConfigurationPlatforms)
-            {
-                sb.AppendLine(
-                    $"\t\t{{{Id.ToString().ToUpper()}}}.{platform.Name} = {platform.Configuration}|{platform.Platform}");
-            }
-
-            return sb.ToString();
-        }
-
         private string DebuggerDisplay => $"\"{Name}\" Id: \"{Id}\"";
+        public int? SourceLine { get; }
     }
 }

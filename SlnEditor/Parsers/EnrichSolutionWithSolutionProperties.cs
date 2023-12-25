@@ -11,15 +11,14 @@ namespace SlnEditor.Parsers
     {
         public void Enrich(Solution solution, IList<string> fileContents, bool bestEffort)
         {
-            var sectionContents = SectionParser.GetFileContentsInGlobalSection(
-                fileContents, "SolutionProperties", out var sourceLine);
+            var section = SectionParser.ExtractGlobalSection(fileContents, "SolutionProperties");
 
             solution.GlobalSections.Add(new SolutionPropertiesSection
             {
-                SourceLine = sourceLine,
+                SourceLine = section.SourceStartLine,
                 SolutionProperties = new SolutionProperties
                 {
-                    HideSolutionNode = sectionContents
+                    HideSolutionNode = section.Lines
                         .Select(ExtractHideSolutionNode)
                         .FirstOrDefault(x => x.HasValue),
                 },

@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace SlnEditor.Exceptions
 {
     /// <summary>
-    ///     An <see cref="Exception" /> that describes an unexpected structure of a Solution
+    /// An <see cref="Exception" /> that describes an unexpected structure of a Solution
     /// </summary>
     [Serializable]
     public class UnexpectedSolutionStructureException : Exception

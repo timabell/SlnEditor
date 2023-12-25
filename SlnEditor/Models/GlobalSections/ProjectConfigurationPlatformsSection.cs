@@ -1,3 +1,5 @@
+using SlnEditor.Parsers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,28 +11,38 @@ namespace SlnEditor.Models.GlobalSections
     /// </summary>
     public class ProjectConfigurationPlatformsSection : IGlobalSection
     {
-        private readonly IList<IProject> _projects;
+        private readonly Solution _solution;
         public int SourceLine { get; internal set; }
-        int ISourceLine.SourceLine => SourceLine;
+        int? ISourceLine.SourceLine => SourceLine;
 
-        /// <param name="projects">Reference to solution.Projects - required for rendering</param>
-        public ProjectConfigurationPlatformsSection(IList<IProject> projects)
+        /// <summary>
+        /// Only for passing data while parsing, not for users of the library.
+        /// Users should use <see cref="Project.ConfigurationPlatforms"/> instead.
+        /// </summary>
+        internal IList<ProjectConfigurationPlatform> ProjectConfigurationPlatforms { get; set; }
+
+        /// <param name="solution">Required for rendering as config lives in project list</param>
+        public ProjectConfigurationPlatformsSection(Solution solution)
         {
-            _projects = projects;
+            _solution = solution;
         }
 
         public string Render()
         {
-            if (!_projects.OfType<Project>().Any(p => p.ConfigurationPlatforms.Any()))
+            var projects = _solution.FlatProjectList().OfType<Project>().ToList();
+            if (!projects.Any(p => p.ConfigurationPlatforms.Any()))
             {
                 return "";
             }
 
             var sb = new StringBuilder();
             sb.AppendLine("\tGlobalSection(ProjectConfigurationPlatforms) = postSolution");
-            foreach (var project in _projects.OfType<Project>())
+            var configs = projects.SelectMany(project => project.ConfigurationPlatforms,
+                (project, config) => new { ProjectId = project.Id, Config = config })
+                .ToList();
+            foreach (var projectConfig in configs.OrderBy(c => c.Config.SourceLine ?? int.MaxValue)) // put new entries on end
             {
-                sb.Append(project.RenderConfigurations());
+                sb.AppendLine(projectConfig.Config.Render(projectConfig.ProjectId));
             }
 
             sb.AppendLine("\tEndGlobalSection");
