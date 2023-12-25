@@ -30,7 +30,7 @@ namespace SlnEditor.Models
         /// Parse an existing sln file's contents
         /// </summary>
         /// <param name="contents">The raw text of a solution file</param>
-        /// <param name="bestEffort">If set to true will, will not throw errors for any parsing failures</param>
+        /// <param name="bestEffort">If set to true will not throw exceptions for any parsing failures. Unfinished feature, contributions welcome.</param>
         public Solution(string contents, bool bestEffort = false)
         {
             new SolutionParser(bestEffort).ParseInto(contents, this);
