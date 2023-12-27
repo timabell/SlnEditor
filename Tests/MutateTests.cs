@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using SlnEditor.Models;
 using System;
+using System.Collections.Generic;
 using Xunit;
 
 namespace SlnEditor.Tests
@@ -77,7 +78,14 @@ EndGlobal
             var parentFolder = new SolutionFolder(new Guid("3B2E7276-2FF3-4DF1-ACB3-5243D4F9BBE1"), name: "parent-folder");
             solutionItemsFolder.Projects.Add(parentFolder);
 
-            var childFolder = new SolutionFolder(new Guid("9E5901F5-0E50-41CD-81C2-3E130F124F92"), name: "child-folder");
+            var childFolder = new SolutionFolder(new Guid("9E5901F5-0E50-41CD-81C2-3E130F124F92"), name: "child-folder")
+            {
+                Files = new List<string> { "path/to/file.txt"},
+                Projects = new List<IProject>
+                {
+                    new Project(new Guid("B9AC6D9C-1CAD-4E12-95EB-F53A4ACD4552"), "MyCode", "code.csproj", ProjectType.CSharp),
+                },
+            };
             parentFolder.Projects.Add(childFolder);
 
             // Assert
@@ -91,6 +99,11 @@ EndProject
 Project(""{2150E333-8FDC-42A3-9474-1A3956D46DE8}"") = ""parent-folder"", ""parent-folder"", ""{3B2E7276-2FF3-4DF1-ACB3-5243D4F9BBE1}""
 EndProject
 Project(""{2150E333-8FDC-42A3-9474-1A3956D46DE8}"") = ""child-folder"", ""child-folder"", ""{9E5901F5-0E50-41CD-81C2-3E130F124F92}""
+	ProjectSection(SolutionItems) = preProject
+		path/to/file.txt = path/to/file.txt
+	EndProjectSection
+EndProject
+Project(""{9A19103F-16F7-4668-BE54-9A1E7A4F7556}"") = ""MyCode"", ""code.csproj"", ""{B9AC6D9C-1CAD-4E12-95EB-F53A4ACD4552}""
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -100,6 +113,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{3B2E7276-2FF3-4DF1-ACB3-5243D4F9BBE1} = {4EA04FF3-B1C7-446E-A9D8-5041715C7F29}
 		{9E5901F5-0E50-41CD-81C2-3E130F124F92} = {3B2E7276-2FF3-4DF1-ACB3-5243D4F9BBE1}
+		{B9AC6D9C-1CAD-4E12-95EB-F53A4ACD4552} = {9E5901F5-0E50-41CD-81C2-3E130F124F92}
 	EndGlobalSection
 EndGlobal
 ");
