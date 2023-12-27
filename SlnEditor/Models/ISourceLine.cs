@@ -9,6 +9,6 @@ namespace SlnEditor.Models
         /// Line number this section was found at when parsing.
         /// Used internally to provide stable ordering.
         /// </summary>
-        public int SourceLine { get; }
+        public int? SourceLine { get; }
     }
 }

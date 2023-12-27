@@ -1,4 +1,5 @@
 ﻿using SlnEditor.Exceptions;
+using SlnEditor.Mappings;
 using SlnEditor.Models;
 using SlnEditor.Models.GlobalSections;
 using System;
@@ -10,108 +11,180 @@ namespace SlnEditor.Parsers
 {
     internal class EnrichSolutionWithProjects : IEnrichSolution
     {
-        private readonly ProjectDefinitionParser _projectDefinitionParser = new ProjectDefinitionParser();
+        private readonly ProjectTypeMap _projectTypeMap = new ProjectTypeMap();
 
         public void Enrich(Solution solution, IList<string> fileContents, bool bestEffort)
         {
             if (solution == null) throw new ArgumentNullException(nameof(solution));
             if (fileContents == null) throw new ArgumentNullException(nameof(fileContents));
 
-            solution.Projects = GetProjectsFlat(solution, fileContents);
-            ParseProjectHierarchy(fileContents, solution);
+            // Get projects
+            var allProjects = ParseFlatProjectList(fileContents, bestEffort);
+
+            // Process nested project section
+            var nestedProjectsSection = SectionParser.ExtractGlobalSection(fileContents, "NestedProjects");
+            solution.GlobalSections.Add(
+                new NestedProjectsSection(solution) { SourceLine = nestedProjectsSection.SourceStartLine, });
+            var nestedProjectMappings = ParseNestedProjectMappings(nestedProjectsSection.Lines);
+            AttachChildProjects(allProjects, nestedProjectMappings, bestEffort);
+
+            // Find root project list to use as source of truth, i.e. those with no parent relationships
+            solution.RootProjects = allProjects
+                .Where(child => allProjects.OfType<SolutionFolder>()
+                    .All(parentFolder => !parentFolder.Projects.Contains(child)))
+                .ToList();
         }
 
-        private IList<IProject> GetProjectsFlat(Solution solution, IEnumerable<string> fileContents)
+        /// <summary>
+        /// Solution files have all projects listed in a flat list.
+        /// Hierarchy is held in a separate <see cref="NestedProjectsSection"/>
+        /// </summary>
+        private IList<IProject> ParseFlatProjectList(IEnumerable<string> fileContents, bool bestEffort)
         {
-            var flatProjects = new List<IProject>();
+            var projectDefinitionParser = new ProjectDefinitionParser();
+            var solutionFolderDefinitionParser = new SolutionFolderDefinitionParser();
+            var lineNumber = 0;
+            var projects = new List<IProject>();
+            IProject? currentProject = null;
+            var inItemsSection = false;
             foreach (var line in fileContents)
             {
-                if (!_projectDefinitionParser.TryParseProjectDefinition(solution, line, out var project) ||
-                    project == null) continue;
-
-                flatProjects.Add(project);
-            }
-
-            return flatProjects;
-        }
-
-        private static void ParseProjectHierarchy(IList<string> fileContents,
-            Solution solution)
-        {
-
-            var sectionContents = SectionParser.GetFileContentsInGlobalSection(
-                fileContents,
-                "NestedProjects", out var sourceLine);
-
-            solution.GlobalSections.Add(new NestedProjectsSection(solution.Projects)
-            {
-                SourceLine = sourceLine,
-            });
-
-            var nestedProjectMappings = GetNestedProjectMappings(sectionContents);
-
-            ApplyProjectNesting(solution.Projects, nestedProjectMappings);
-        }
-
-        private static IList<NestedProjectMapping> GetNestedProjectMappings(IEnumerable<string> sectionContents)
-        {
-            var nestedProjectMappings = new List<NestedProjectMapping>();
-            foreach (var nestedProject in sectionContents)
-            {
-                if (TryGetNestedProjectMapping(nestedProject, out var nestedProjectMapping) &&
-                    nestedProjectMapping != null)
+                lineNumber++;
+                var project = projectDefinitionParser.Parse(line, lineNumber);
+                if (project != null)
                 {
-                    nestedProjectMappings.Add(nestedProjectMapping);
+                    currentProject = project;
+                    continue;
+                }
+
+                var solutionFolder = solutionFolderDefinitionParser.Parse(line, lineNumber);
+                if (solutionFolder != null)
+                {
+                    currentProject = solutionFolder;
+                    continue;
+                }
+
+                var isItemsStart = ParseProjectSolutionItemsSectionStart(line);
+                if (isItemsStart)
+                {
+                    inItemsSection = true;
+                    continue;
+                }
+
+                if (inItemsSection && currentProject is SolutionFolder currentSolutionFolder)
+                {
+                    var file = SolutionFolderDefinitionParser.ParseFile(line, lineNumber, bestEffort);
+                    if (file != null)
+                    {
+                        currentSolutionFolder.Files.Add(file);
+                    }
+                }
+
+                if (ParseProjectSectionEnd(line))
+                {
+                    inItemsSection = false;
+                    continue;
+                }
+
+                if (ParseProjectEndLine(line))
+                {
+                    if (currentProject == null)
+                    {
+                        if (bestEffort)
+                        {
+                            continue;
+                        }
+
+                        throw new UnexpectedSolutionStructureException(
+                            $"Found EndProject when not in project block. Line {lineNumber}");
+                    }
+
+                    projects.Add(currentProject);
+                    currentProject = null;
                 }
             }
 
-            return nestedProjectMappings;
+            // return fileContents.Select(line => _parser.ParseProjectStartLine(line: line, lineNumber++))
+            // .OfType<IProject>().ToList();
+            return projects;
         }
 
-        private static bool TryGetNestedProjectMapping(string nestedProject,
-            out NestedProjectMapping? nestedProjectMapping)
+        private static IList<NestedProjectMapping> ParseNestedProjectMappings(IEnumerable<string> sectionContents)
+            => sectionContents.Select(NestedProjectMapping.Parse).OfType<NestedProjectMapping>().ToList();
+
+        private static void AttachChildProjects(IList<IProject> allProjects,
+            IList<NestedProjectMapping> nestedProjectMappings, bool bestEffort)
         {
-            // https://regexr.com/653pi
-            const string pattern = @"{(?<targetProjectId>[A-Za-z0-9\-]+)} = {(?<destinationProjectId>[A-Za-z0-9\-]+)}";
-
-            nestedProjectMapping = null;
-            var match = Regex.Match(nestedProject, pattern);
-            if (!match.Success) return false;
-
-            var targetProjectId = match.Groups["targetProjectId"].Value;
-            var destinationProject = match.Groups["destinationProjectId"].Value;
-
-            nestedProjectMapping = new NestedProjectMapping(targetProjectId, destinationProject);
-            return true;
-        }
-
-        private static void ApplyProjectNesting(IList<IProject> flatProjects, IList<NestedProjectMapping> nestedProjectMappings)
-        {
-            var flatProjectList = flatProjects.ToList();
-            foreach (var project in flatProjectList)
+            foreach (var childProject in allProjects)
             {
-                ApplyNestingForProject(project, flatProjectList, nestedProjectMappings);
+                // Find mapping (if any) where this project is the child
+                var nestedProjectMapping =
+                    nestedProjectMappings.FirstOrDefault(mapping => mapping.ChildProjectId == childProject.Id);
+                if (nestedProjectMapping == null)
+                {
+                    continue;
+                }
+
+                var parent = allProjects.FirstOrDefault(project => project.Id == nestedProjectMapping.ParentProjectId);
+                if (parent == null) // corrupt mapping
+                {
+                    if (bestEffort)
+                    {
+                        continue;
+                    }
+
+                    throw new UnexpectedSolutionStructureException(
+                        $"Invalid {nameof(NestedProjectMapping)}. Parent project '{nestedProjectMapping.ParentProjectId}' not found");
+                }
+
+                if (!(parent is SolutionFolder parentSolutionFolder))
+                {
+                    if (bestEffort)
+                    {
+                        continue;
+                    }
+
+                    throw new UnexpectedSolutionStructureException(
+                        $"Invalid {nameof(NestedProjectMapping)}. Parent project '{nestedProjectMapping.ParentProjectId}' is not a solution folder");
+                }
+
+                parentSolutionFolder.Projects.Add(childProject);
             }
         }
 
-        private static void ApplyNestingForProject(IProject project, IEnumerable<IProject> flatProjects, IEnumerable<NestedProjectMapping> nestedProjectMappings)
+        private static bool ParseProjectEndLine(string line) => line.StartsWith("EndProject");
+
+        private bool ParseProjectSolutionItemsSectionStart(string line) => line.StartsWith("ProjectSection(SolutionItems)");
+        private bool ParseProjectSectionEnd(string line) => line.StartsWith("EndProjectSection");
+
+        private class NestedProjectMapping
         {
-            var mappingCandidate = nestedProjectMappings.FirstOrDefault(mapping => mapping.TargetId == project.Id);
-            if (mappingCandidate == null)
+            private NestedProjectMapping(
+                string childProjectId,
+                string parentProjectId)
             {
-                return;
+                ChildProjectId = new Guid(childProjectId);
+                ParentProjectId = new Guid(parentProjectId);
             }
 
-            var destinationCandidate = flatProjects.FirstOrDefault(proj => proj.Id == mappingCandidate.DestinationId);
-            if (destinationCandidate == null)
-                throw new UnexpectedSolutionStructureException(
-                    $"Expected to find a project with id '{mappingCandidate.DestinationId}', but found none");
+            public Guid ChildProjectId { get; }
 
-            if (!(destinationCandidate is SolutionFolder solutionFolder))
-                throw new UnexpectedSolutionStructureException(
-                    $"Expected project with id '{destinationCandidate.Id}' to be a Solution-Folder but found '{destinationCandidate.GetType()}'");
+            public Guid ParentProjectId { get; }
 
-            solutionFolder.Projects.Add(project);
+            public static NestedProjectMapping? Parse(string line)
+            {
+                var match = Regex.Match(line,
+                    @"{(?<childProjectId>[A-Za-z0-9\-]+)} = {(?<parentProjectId>[A-Za-z0-9\-]+)}");
+
+                if (!match.Success)
+                {
+                    return null;
+                }
+
+                return new NestedProjectMapping(
+                    childProjectId: match.Groups["childProjectId"].Value,
+                    parentProjectId: match.Groups["parentProjectId"].Value);
+            }
         }
     }
 }

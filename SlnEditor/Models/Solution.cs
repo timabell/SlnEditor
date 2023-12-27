@@ -12,16 +12,25 @@ namespace SlnEditor.Models
     /// </summary>
     public class Solution
     {
+        /// <summary>
+        /// Build a blank solution with sensible default values
+        /// </summary>
         public Solution()
         {
             GlobalSections = BuildDefaultSections();
+            FileFormatVersion = "12.00";
+            VisualStudioVersion = new VisualStudioVersion
+            {
+                MinimumVersion = "10.0.40219.1",
+                Version = "17.0.31410.414",
+            };
         }
 
         /// <summary>
         /// Parse an existing sln file's contents
         /// </summary>
         /// <param name="contents">The raw text of a solution file</param>
-        /// <param name="bestEffort">If set to true will, will not throw errors for any parsing failures</param>
+        /// <param name="bestEffort">If set to true will not throw exceptions for any parsing failures. Unfinished feature, contributions welcome.</param>
         public Solution(string contents, bool bestEffort = false)
         {
             new SolutionParser(bestEffort).ParseInto(contents, this);
@@ -35,20 +44,13 @@ namespace SlnEditor.Models
         public VisualStudioVersion VisualStudioVersion { get; set; } = new VisualStudioVersion();
 
         /// <summary>
-        /// All projects in the solution regardless of whether they are nested,
-        /// stored in the order they are found in the file.
-        /// </summary>
-        public IList<IProject> Projects { get; internal set; } = new List<IProject>();
-
-        /// <summary>
         /// Projects that are not the child of any other project, i.e. the top level.
-        /// Calculated on the fly.
+        /// A flattened list can be created with <see cref="Extensions.FlatProjectList"/>.
+        /// The list of root projects and the solution folder hierarchy is the source of truth for what projects exist in the solution.
+        /// This list of "root" projects and the hierarchy of folders and projects can be modified as you wish, and will be flattened
+        /// and rendered out to sln format on demand (with <see cref="ToString"/>)
         /// </summary>
-        public IReadOnlyList<IProject> RootProjects =>
-            Projects.Where(child =>
-                    Projects.OfType<SolutionFolder>().All(
-                        parent => parent.Projects.All(x => x != child))) // Find all the projects with no parent solution folder
-                .ToList();
+        public IList<IProject> RootProjects { get; set; } = new List<IProject>();
 
         public ConfigurationPlatformsSection ConfigurationPlatformsSection => GlobalSection<ConfigurationPlatformsSection>();
         public IList<ConfigurationPlatform> ConfigurationPlatforms => ConfigurationPlatformsSection.ConfigurationPlatforms;
@@ -66,14 +68,18 @@ namespace SlnEditor.Models
             return SolutionWriter.Write(this);
         }
 
-        public T? GlobalSection<T>() where T : class, IGlobalSection
+        public T GlobalSection<T>() where T : class, IGlobalSection
         {
             var sections = GlobalSections.OfType<T>().ToList();
             if (sections.Count > 1)
             {
                 throw new InvalidOperationException( $"{sections.Count} {nameof(T)} in {GlobalSections}, sections must be unique");
             }
-            return sections.SingleOrDefault();
+            if (sections.Count == 0)
+            {
+                throw new InvalidOperationException( $"{nameof(T)} not present in {GlobalSections}");
+            }
+            return sections.Single();
         }
 
         private List<IGlobalSection> BuildDefaultSections()
@@ -81,8 +87,8 @@ namespace SlnEditor.Models
             return new List<IGlobalSection>
             {
                 new ConfigurationPlatformsSection(),
-                new ProjectConfigurationPlatformsSection(Projects),
-                new NestedProjectsSection(Projects),
+                new ProjectConfigurationPlatformsSection(this),
+                new NestedProjectsSection(this),
                 new SolutionPropertiesSection(),
                 new ExtensibilityGlobalsSection(),
             };

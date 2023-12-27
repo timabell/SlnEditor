@@ -1,5 +1,4 @@
 using SlnEditor.Models;
-using SlnEditor.Models.GlobalSections;
 using System.Linq;
 using System.Text;
 
@@ -13,7 +12,7 @@ namespace SlnEditor.Writers
             sb.AppendLine("");
             sb.AppendLine($"Microsoft Visual Studio Solution File, Format Version {solution.FileFormatVersion}");
             sb.Append(solution.VisualStudioVersion.Render());
-            foreach (var project in solution.Projects)
+            foreach (var project in solution.FlatProjectList().OrderBy(p => p.SourceLine ?? int.MaxValue)) // put new items at end
             {
                 sb.Append(project.Render());
             }

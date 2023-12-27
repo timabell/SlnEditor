@@ -6,26 +6,27 @@ namespace SlnEditor.Models.GlobalSections
 {
     public class NestedProjectsSection : IGlobalSection
     {
-        private readonly IList<IProject> _projects;
+        private readonly Solution _solution;
         public int SourceLine { get; internal set; }
-        int ISourceLine.SourceLine => SourceLine;
+        int? ISourceLine.SourceLine => SourceLine;
 
-        /// <param name="projects">Reference to solution.Projects - required for rendering</param>
-        public NestedProjectsSection(IList<IProject> projects)
+        /// <param name="solution">Required for rendering as config lives in project list</param>
+        public NestedProjectsSection(Solution solution)
         {
-            _projects = projects;
+            _solution = solution;
         }
 
         public string Render()
         {
-            if (!_projects.OfType<SolutionFolder>().Any(f => f.Projects.Any()))
+            var allSolutionFolders = _solution.FlatProjectList().OfType<SolutionFolder>().ToList();
+            if (!allSolutionFolders.Any(f => f.Projects.Any()))
             {
                 return "";
             }
 
             var sb = new StringBuilder();
             sb.AppendLine("\tGlobalSection(NestedProjects) = preSolution");
-            foreach (var solutionFolder in _projects.OfType<SolutionFolder>())
+            foreach (var solutionFolder in allSolutionFolders)
             {
                 sb.Append(solutionFolder.RenderNestedProjects());
             }

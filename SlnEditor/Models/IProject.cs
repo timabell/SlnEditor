@@ -6,7 +6,7 @@ namespace SlnEditor.Models
     /// A project that can be contained in a <see cref="Solution" />.
     /// Can be either a <see cref="SolutionFolder"/> or a <see cref="Project"/>.
     /// </summary>
-    public interface IProject
+    public interface IProject : ISourceLine
     {
         /// <summary>
         ///     The Id of the Project

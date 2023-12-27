@@ -7,7 +7,7 @@ namespace SlnEditor.Models.GlobalSections
     public class ConfigurationPlatformsSection : IGlobalSection
     {
         public int SourceLine { get; internal set; }
-        int ISourceLine.SourceLine => SourceLine;
+        int? ISourceLine.SourceLine => SourceLine;
 
         public IList<ConfigurationPlatform> ConfigurationPlatforms { get; internal set; } =
             new List<ConfigurationPlatform>();
@@ -24,7 +24,7 @@ namespace SlnEditor.Models.GlobalSections
             sb.AppendLine("\tGlobalSection(SolutionConfigurationPlatforms) = preSolution");
             foreach (var platform in ConfigurationPlatforms)
             {
-                sb.AppendLine($"\t\t{platform.Name} = {platform.Name}");
+                sb.AppendLine(platform.Render());
             }
 
             sb.AppendLine("\tEndGlobalSection");

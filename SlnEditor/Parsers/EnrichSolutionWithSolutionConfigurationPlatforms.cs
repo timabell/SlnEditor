@@ -1,27 +1,19 @@
 ﻿using SlnEditor.Models;
-using SlnEditor.Models.GlobalSections;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace SlnEditor.Parsers
 {
     internal class EnrichSolutionWithSolutionConfigurationPlatforms : IEnrichSolution
     {
-        private readonly ConfigurationPlatformParser _configurationPlatformParser = new ConfigurationPlatformParser();
+        private readonly SolutionConfigurationPlatformParser _parser = new SolutionConfigurationPlatformParser();
 
         public void Enrich(Solution solution, IList<string> fileContents, bool bestEffort)
         {
-            var projectConfigurations = _configurationPlatformParser.Parse(
+            var section = _parser.Parse(
                 fileContents,
-                "SolutionConfiguration", out var sourceLine);
+                "SolutionConfiguration");
 
-            solution.GlobalSections.Add(new ConfigurationPlatformsSection
-            {
-                SourceLine = sourceLine,
-                ConfigurationPlatforms = projectConfigurations
-                    .Select(projectConfiguration => projectConfiguration.ConfigurationPlatform)
-                    .ToList(),
-            });
+            solution.GlobalSections.Add(section);
         }
     }
 }
