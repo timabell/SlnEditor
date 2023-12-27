@@ -27,7 +27,14 @@ The tests include an apache-2 licensed example sln which remains under that lice
 
 ```cs
 var solution = new Solution("path/to/your/solution.sln");
-solution.Projects.Add(new SolutionFolder(Guid.NewGuid(), name: "foo-project", path: "foo/", typeGuid: new ProjectTypeMapper().ToGuid(ProjectType.Test), ProjectType.Test));
+solution.Projects.Add(new SolutionFolder(name: "A Sln Folder")
+{
+    Files = new List<string> { "path/to/file.txt"},
+    Projects = new List<IProject>
+    {
+        new Project("MyCode", "code.csproj", ProjectType.CSharp),
+    },
+};
 var modifiedSln = solution.ToString();
 File.WriteAllText("path/to/your/solution.sln", modifiedSln);
 ```
