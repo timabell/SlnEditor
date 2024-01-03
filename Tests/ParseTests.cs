@@ -509,12 +509,12 @@ EndGlobal
             solution
                 .FlatProjectList()
                 .Should()
-                .HaveCount(8);
+                .HaveCount(9);
 
             solution
                 .RootProjects
                 .Should()
-                .HaveCount(4);
+                .HaveCount(5);
 
             var firstSolutionFolder = solution
                 .RootProjects
@@ -542,8 +542,8 @@ EndGlobal
                 .Should()
                 .Contain(file => file == "testNested1.txt");
 
-            solution.GlobalSection<NestedProjectsSection>().SourceLine.Should().Be(113);
-            solution.GlobalSection<SolutionPropertiesSection>().SourceLine.Should().Be(119);
+            solution.GlobalSection<NestedProjectsSection>().SourceLine.Should().Be(115);
+            solution.GlobalSection<SolutionPropertiesSection>().SourceLine.Should().Be(121);
         }
 
         [Fact]
