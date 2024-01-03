@@ -280,6 +280,11 @@
         /// <summary>
         ///     SharePoint Workflow
         /// </summary>
-        SharePointWorkflow
+        SharePointWorkflow,
+
+        /// <summary>
+        /// Sql Server Data Tools, aka Database projects.
+        /// </summary>
+        SqlServerDataTools,
     }
 }

@@ -96,6 +96,8 @@ Project(""{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"") = ""WinFormsApp1"", ""WinFor
 EndProject
 Project(""{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"") = ""WebApplication"", ""WebApplication\WebApplication.csproj"", ""{20AD21B6-0ABB-4DB5-8BA0-D9896E58E3E4}""
 EndProject
+Project(""{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}"") = ""SSDT Database Project"", ""Database\Database.sqlproj"", ""{400900EF-5FB6-4F11-AC39-384F4F5D3E64}""
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -507,12 +509,12 @@ EndGlobal
             solution
                 .FlatProjectList()
                 .Should()
-                .HaveCount(8);
+                .HaveCount(9);
 
             solution
                 .RootProjects
                 .Should()
-                .HaveCount(4);
+                .HaveCount(5);
 
             var firstSolutionFolder = solution
                 .RootProjects
@@ -540,8 +542,8 @@ EndGlobal
                 .Should()
                 .Contain(file => file == "testNested1.txt");
 
-            solution.GlobalSection<NestedProjectsSection>().SourceLine.Should().Be(113);
-            solution.GlobalSection<SolutionPropertiesSection>().SourceLine.Should().Be(119);
+            solution.GlobalSection<NestedProjectsSection>().SourceLine.Should().Be(115);
+            solution.GlobalSection<SolutionPropertiesSection>().SourceLine.Should().Be(121);
         }
 
         [Fact]

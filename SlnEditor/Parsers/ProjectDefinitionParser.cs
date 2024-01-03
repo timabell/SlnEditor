@@ -1,4 +1,5 @@
-﻿using SlnEditor.Mappings;
+﻿using SlnEditor.Exceptions;
+using SlnEditor.Mappings;
 using SlnEditor.Models;
 using System;
 using System.Text.RegularExpressions;
@@ -23,6 +24,10 @@ namespace SlnEditor.Parsers
             }
 
             var typeGuid = Guid.Parse(match.Groups["projectTypeGuid"].Value);
+            if (!_projectTypeMapMapper.Types.ContainsKey(typeGuid))
+            {
+                throw new UnexpectedSolutionStructureException($"Unknown project type guid {typeGuid}.");
+            }
             var projectType = _projectTypeMapMapper.Types[typeGuid];
             if (projectType == ProjectType.SolutionFolder)
             {

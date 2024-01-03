@@ -27,6 +27,7 @@ namespace SlnEditor.Mappings
             { ProjectType.CSharpDynamicsAxAot , new Guid("BF6F8E12-879D-49E7-ADF0-5503146B24B8")},
             { ProjectType.Database , new Guid("4F174C21-8C12-11D0-8340-0000F80270F8")},
             { ProjectType.Database2 , new Guid("A9ACE9BB-CECE-4E62-9AA4-C7E7C5BD2124")},
+            { ProjectType.SqlServerDataTools, new Guid("00D1A9C2-B5F0-4AF3-8072-F6C62B433612")},
             { ProjectType.DeploymentCab , new Guid("3EA9E505-35AC-4774-B492-AD1749C4943A")},
             { ProjectType.DeploymentMergeModule , new Guid("06A35CCD-C46D-44D5-987B-CF40FF872267")},
             { ProjectType.DeploymentSetup , new Guid("978C614F-708E-4E1A-B201-565925725DBA")},
