@@ -4,8 +4,6 @@
 
 This fork of [https://github.com/wgnf/SlnParser/](https://github.com/wgnf/SlnParser/) adds write support, allowing a full round-trip of the sln file to disk or string.
 
-[![GitHub license](https://img.shields.io/badge/Unlicense-blue.svg)](LICENSE)
-[![Uses SemVer 2.0.0](https://img.shields.io/badge/Uses%20SemVer-2.0.0-green)](https://semver.org/spec/v2.0.0.html)
 [![Latest Release](https://img.shields.io/nuget/v/SlnEditor)](https://www.nuget.org/packages/SlnEditor/)
 [![Downloads](https://img.shields.io/nuget/dt/SlnEditor)](https://www.nuget.org/packages/SlnEditor/)  
 
@@ -13,9 +11,9 @@ Easy (to use) Editor for your .NET Solution (.sln) Files.
 
 This project targets `netstandard2.0` so it can basically be used anywhere you want.
 
-## License
+## License: MIT
 
-The library is licensed under the "unlicense" (i.e public domain + no warranty).
+The library is licensed under the MIT license.
 
 Referenced nuget packages remain under their respective licenses.
 

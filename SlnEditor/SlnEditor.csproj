@@ -15,7 +15,7 @@
         <PackageTags>.net c# solution sln editor</PackageTags>
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
 
-        <PackageLicenseExpression>Unlicense</PackageLicenseExpression>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
 
         <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
         <PublishRepositoryUrl>true</PublishRepositoryUrl>
