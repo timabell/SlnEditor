@@ -7,6 +7,6 @@ then
 	dotnet tool install --global dotnet-outdated-tool
 fi
 
-dotnet outdated -u
+dotnet outdated -u --no-restore
 dotnet test
 git commit --include Directory.Packages.props --message "Nuget update/upgrade"
