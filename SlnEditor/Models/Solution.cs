@@ -73,11 +73,11 @@ namespace SlnEditor.Models
             var sections = GlobalSections.OfType<T>().ToList();
             if (sections.Count > 1)
             {
-                throw new InvalidOperationException( $"{sections.Count} {nameof(T)} in {GlobalSections}, sections must be unique");
+                throw new InvalidOperationException($"{sections.Count} {nameof(T)} in {GlobalSections}, sections must be unique");
             }
             if (sections.Count == 0)
             {
-                throw new InvalidOperationException( $"{nameof(T)} not present in {GlobalSections}");
+                throw new InvalidOperationException($"{nameof(T)} not present in {GlobalSections}");
             }
             return sections.Single();
         }

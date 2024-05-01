@@ -36,7 +36,7 @@ namespace SlnEditor.Parsers
         public void ParseInto(string content, Solution solution)
         {
             var separators = new[] { "\r\n", "\r", "\n" };
-            var lines = content.Split( separators, StringSplitOptions.None ); // https://stackoverflow.com/questions/1547476/split-a-string-on-newlines-in-net/1547483#1547483
+            var lines = content.Split(separators, StringSplitOptions.None); // https://stackoverflow.com/questions/1547476/split-a-string-on-newlines-in-net/1547483#1547483
             var allLinesTrimmed = lines
                 .Select(line => line.Trim())
                 .ToList();

@@ -35,7 +35,7 @@ namespace SlnEditor.Parsers
                     "Expected to find ConfigurationPlatform but pattern did not match");
             }
 
-            return  new ConfigurationPlatform(
+            return new ConfigurationPlatform(
                 match.Groups["name"].Value,
                 match.Groups["buildConfiguration"].Value,
                 match.Groups["buildPlatform"].Value,

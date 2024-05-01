@@ -21,7 +21,8 @@ namespace SlnEditor.Parsers
 
             return new ProjectConfigurationPlatformsSection(solution)
             {
-                SourceLine = section.SourceStartLine, ProjectConfigurationPlatforms = projectConfigurationPlatforms,
+                SourceLine = section.SourceStartLine,
+                ProjectConfigurationPlatforms = projectConfigurationPlatforms,
             };
         }
 

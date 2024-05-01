@@ -80,7 +80,7 @@ EndGlobal
 
             var childFolder = new SolutionFolder(new Guid("9E5901F5-0E50-41CD-81C2-3E130F124F92"), name: "child-folder")
             {
-                Files = new List<string> { "path/to/file.txt"},
+                Files = new List<string> { "path/to/file.txt" },
                 Projects = new List<IProject>
                 {
                     new Project(new Guid("B9AC6D9C-1CAD-4E12-95EB-F53A4ACD4552"), "MyCode", "code.csproj", ProjectType.CSharp),
