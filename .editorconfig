@@ -65,5 +65,4 @@ csharp_preferred_modifier_order = public, internal, private, static, readonly, s
 #prefer fields not to be prefaced with this. or Me. in Visual Basic
 dotnet_style_qualification_for_field = false:warning
 
-end_of_line = crlf
 insert_final_newline = true
