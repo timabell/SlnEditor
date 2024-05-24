@@ -286,5 +286,13 @@
         /// Sql Server Data Tools, aka Database projects.
         /// </summary>
         SqlServerDataTools,
+
+        /// <summary>
+        /// Some kind of azure cloud project.
+        /// - https://github.com/timabell/SlnEditor/issues/11
+        /// - https://stackoverflow.com/questions/27556901/visual-studio-2013-2015-cant-load-azure-project
+        /// - https://github.com/microsoft/slngen/blob/main/src/Microsoft.VisualStudio.SlnGen/VisualStudioProjectTypeGuids.cs#L12-L15
+        /// </summary>
+        AzureSdk,
     }
 }
