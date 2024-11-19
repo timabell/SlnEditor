@@ -595,6 +595,25 @@ Global
 	EndGlobalSection
 EndGlobal";
 
+        private const string SlnContentsFilesWithSpaces = @"
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project(""{2150E333-8FDC-42A3-9474-1A3956D46DE8}"") = ""Solution Items"", ""Solution Items"", ""{34448D97-83B4-4E18-A461-149287204509}""
+EndProject
+Project(""{2150E333-8FDC-42A3-9474-1A3956D46DE8}"") = ""some folder"", ""some folder"", ""{F928870D-CBD1-4FD0-9A10-2784B9F8EDE8}""
+	ProjectSection(SolutionItems) = preProject
+		some folder\some file.txt = some folder\some file.txt
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(NestedProjects) = preSolution
+		{F928870D-CBD1-4FD0-9A10-2784B9F8EDE8} = {34448D97-83B4-4E18-A461-149287204509}
+	EndGlobalSection
+EndGlobal
+";
+
         [Theory]
         [InlineData(nameof(SlnContentsSlnParser), SlnContentsSlnParser)]
         [InlineData(nameof(SlnContentsTestSln), SlnContentsTestSln)]
@@ -603,6 +622,7 @@ EndGlobal";
         [InlineData(nameof(SlnContentsNoProperties), SlnContentsNoProperties)]
         [InlineData(nameof(SlnContentsSlnSync), SlnContentsSlnSync)]
         [InlineData(nameof(SlnContentsHttpAbstractions), SlnContentsHttpAbstractions)]
+        [InlineData(nameof(SlnContentsFilesWithSpaces), SlnContentsFilesWithSpaces)]
         public void Should_RoundTripFile(string name, string originalSln)
         {
             // Arrange

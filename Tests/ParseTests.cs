@@ -77,6 +77,7 @@ Project(""{2150E333-8FDC-42A3-9474-1A3956D46DE8}"") = ""SolutionFolder1"", ""Sol
 		something\something.txt = something\something.txt
 		test123.txt = test123.txt
 		test456.txt = test456.txt
+		test 789.txt = test 789.txt
 	EndProjectSection
 EndProject
 Project(""{2150E333-8FDC-42A3-9474-1A3956D46DE8}"") = ""NestedSolutionFolder"", ""NestedSolutionFolder"", ""{DA01EB1C-A2F7-4851-AD58-D1319B29EE3D}""
@@ -526,9 +527,13 @@ EndGlobal
             firstSolutionFolder
                 .Files
                 .Should()
-                .Contain(file => file == "something.txt" ||
-                                 file == "test123.txt" ||
-                                 file == "test456.txt");
+                .BeEquivalentTo(new List<string>
+                {
+                    "something\\something.txt",
+                    "test123.txt",
+                    "test456.txt",
+                    "test 789.txt",
+                });
 
             var nestedSolutionFolder = solution
                 .FlatProjectList()
@@ -542,8 +547,8 @@ EndGlobal
                 .Should()
                 .Contain(file => file == "testNested1.txt");
 
-            solution.GlobalSection<NestedProjectsSection>().SourceLine.Should().Be(115);
-            solution.GlobalSection<SolutionPropertiesSection>().SourceLine.Should().Be(121);
+            solution.GlobalSection<NestedProjectsSection>().SourceLine.Should().Be(116);
+            solution.GlobalSection<SolutionPropertiesSection>().SourceLine.Should().Be(122);
         }
 
         [Fact]

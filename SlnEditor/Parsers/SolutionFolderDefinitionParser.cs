@@ -41,19 +41,21 @@ namespace SlnEditor.Parsers
         /// </summary>
         public static string? ParseFile(string line, int lineNumber, bool bestEffort)
         {
-            var match = Regex.Match(line, @"(?<key>[\S]+)\s*=\s*(?<value>[\S]+)");
+            var match = Regex.Match(line, @"(?<key>[\S ]+)\s*=\s*(?<value>[\S ]+)");
             if (!match.Success)
             {
                 return null;
             }
 
-            if (!bestEffort && match.Groups["key"].Value != match.Groups["value"].Value)
+            var key = match.Groups["key"].Value.Trim();
+            var value = match.Groups["value"].Value.Trim();
+            if (!bestEffort && key != value)
             {
                 throw new UnexpectedSolutionStructureException(
                     $"Unexpected solution file format. Expected 'path/to/file.txt = path/to/file.txt'. Line {lineNumber}.");
             }
 
-            return match.Groups["key"].Value;
+            return key;
         }
     }
 }
