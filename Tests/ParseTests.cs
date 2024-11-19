@@ -527,9 +527,13 @@ EndGlobal
             firstSolutionFolder
                 .Files
                 .Should()
-                .Contain(file => file == "something.txt" ||
-                                 file == "test123.txt" ||
-                                 file == "test456.txt");
+                .BeEquivalentTo(new List<string>
+                {
+                    "something\\something.txt",
+                    "test123.txt",
+                    "test456.txt",
+                    "test 789.txt",
+                });
 
             var nestedSolutionFolder = solution
                 .FlatProjectList()
