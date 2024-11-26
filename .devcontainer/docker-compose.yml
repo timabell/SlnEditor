@@ -1,0 +1,7 @@
+version: '3.8'
+services:
+  app:
+    image: mcr.microsoft.com/dotnet/sdk:8.0
+    volumes:
+      - ..:/workspace
+    command: sleep infinity

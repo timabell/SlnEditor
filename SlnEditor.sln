@@ -33,6 +33,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".devcontainer", ".devcontainer", "{14894B5B-C9EE-48B8-82CD-69EA4332FE0E}"
 	ProjectSection(SolutionItems) = preProject
 		.devcontainer\devcontainer.json = .devcontainer\devcontainer.json
+		.devcontainer\docker-compose.yml = .devcontainer\docker-compose.yml
 	EndProjectSection
 EndProject
 Global
