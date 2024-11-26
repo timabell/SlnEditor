@@ -30,6 +30,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{
 		.github\workflows\publish.yml = .github\workflows\publish.yml
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".devcontainer", ".devcontainer", "{14894B5B-C9EE-48B8-82CD-69EA4332FE0E}"
+	ProjectSection(SolutionItems) = preProject
+		.devcontainer\devcontainer.json = .devcontainer\devcontainer.json
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -67,6 +72,7 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{803BB6CD-EA92-4CB8-9F51-9D65A0B46CF5} = {E8290A65-86C3-4F21-8516-395E04033831}
+		{14894B5B-C9EE-48B8-82CD-69EA4332FE0E} = {E8290A65-86C3-4F21-8516-395E04033831}
 		{66FD9CD4-7970-4C68-A98D-54CCDFC6139C} = {803BB6CD-EA92-4CB8-9F51-9D65A0B46CF5}
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
