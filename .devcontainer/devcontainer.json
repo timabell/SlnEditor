@@ -1,0 +1,15 @@
+{
+	"name": "C# (.NET)",
+	"dockerComposeFile": "docker-compose.yml",
+	"service": "app",
+	"workspaceFolder": "/workspace",
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"formulahendry.dotnet-test-explorer",
+				"ms-dotnettools.csharp",
+				"k--kato.docomment"
+			]
+		}
+	}
+}

@@ -83,3 +83,9 @@ The usual host of people asking on stackoverflow, with mixed responses for this 
 - <https://stackoverflow.com/questions/8742316/how-to-create-visual-studio-solution-sln-files-programmatically-including-we>
 - <https://stackoverflow.com/questions/2736260/programmatically-generate-visual-studio-solution>
 - <https://stackoverflow.com/questions/14153614/how-to-generate-a-new-visual-studio-project-in-a-visual-studio-project-programma>
+
+# Developer setup
+
+You can either build/run/test this locally or in [dev containers](https://containers.dev/)
+
+You should be able to use the dev tools of your choice - VSCode, Rider, Visual Studio etc
