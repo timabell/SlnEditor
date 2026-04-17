@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+﻿using AwesomeAssertions;
 using SlnEditor.Models;
 using System.IO;
 using Xunit;

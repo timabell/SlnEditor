@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+﻿using AwesomeAssertions;
 using SlnEditor.Models;
 using SlnEditor.Models.GlobalSections;
 using System.Collections.Generic;
