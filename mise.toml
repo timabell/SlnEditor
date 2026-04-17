@@ -1,2 +1,2 @@
 [tools]
-dotnet-core = "8.0.404"
+dotnet-core = "10.0.202"
