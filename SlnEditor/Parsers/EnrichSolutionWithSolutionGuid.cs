@@ -15,13 +15,23 @@ namespace SlnEditor.Parsers
                 fileContents,
                 "ExtensibilityGlobals");
 
-            solution.GlobalSections.Add(new ExtensibilityGlobalsSection
+            var section = new ExtensibilityGlobalsSection
             {
                 SourceLine = sectionContents.SourceStartLine,
                 SolutionGuid = sectionContents.Lines
                     .Select(ExtractSolutionGuid)
                     .FirstOrDefault(x => x.HasValue),
-            });
+            };
+
+            foreach (var line in sectionContents.Lines)
+            {
+                if (ExtractSolutionGuid(line) == null)
+                {
+                    section.AdditionalEntries.Add(line.Trim());
+                }
+            }
+
+            solution.GlobalSections.Add(section);
         }
 
         private static Guid? ExtractSolutionGuid(string line)

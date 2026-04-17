@@ -595,6 +595,35 @@ Global
 	EndGlobalSection
 EndGlobal";
 
+        private const string SlnContentsExtensibilityGlobalsExtraEntries = @"
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31410.414
+MinimumVisualStudioVersion = 10.0.40219.1
+Project(""{9A19103F-16F7-4668-BE54-9A1E7A4F7556}"") = ""MyProject"", ""MyProject\MyProject.csproj"", ""{EDC2B9FC-02D0-4541-8484-CAB27B00252D}""
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EDC2B9FC-02D0-4541-8484-CAB27B00252D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EDC2B9FC-02D0-4541-8484-CAB27B00252D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EDC2B9FC-02D0-4541-8484-CAB27B00252D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EDC2B9FC-02D0-4541-8484-CAB27B00252D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		EnterpriseLibraryConfigurationToolBinariesPath = packages\TransientFaultHandling.Core.5.1.1209.1\lib\NET4
+		EnterpriseLibraryConfigurationToolBinariesPathV6 = packages\EnterpriseLibrary.TransientFaultHandling.6.0.1304.0\lib\portable-net45+win+wp8;packages\EnterpriseLibrary.TransientFaultHandling.Caching.6.0.1304.0\lib\NET45
+		SolutionGuid = {7F92F20E-4C3D-4316-BF60-105559EFEAFF}
+	EndGlobalSection
+EndGlobal
+";
+
         private const string SlnContentsFilesWithSpaces = @"
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
@@ -622,6 +651,7 @@ EndGlobal
         [InlineData(nameof(SlnContentsNoProperties), SlnContentsNoProperties)]
         [InlineData(nameof(SlnContentsSlnSync), SlnContentsSlnSync)]
         [InlineData(nameof(SlnContentsHttpAbstractions), SlnContentsHttpAbstractions)]
+        [InlineData(nameof(SlnContentsExtensibilityGlobalsExtraEntries), SlnContentsExtensibilityGlobalsExtraEntries)]
         [InlineData(nameof(SlnContentsFilesWithSpaces), SlnContentsFilesWithSpaces)]
         public void Should_RoundTripFile(string name, string originalSln)
         {
