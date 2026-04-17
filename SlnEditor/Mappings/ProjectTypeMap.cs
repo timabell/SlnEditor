@@ -22,6 +22,7 @@ namespace SlnEditor.Mappings
             { ProjectType.AspNetMvc5 , new Guid("349C5851-65DF-11DA-9384-00065B846F21")},
             { ProjectType.AzureSdk , new Guid("CC5FD16D-436D-48AD-A40C-5A424C6E3E79")},
             { ProjectType.CPlusPlus , new Guid("8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942")},
+            { ProjectType.DockerCompose , new Guid("E53339B2-1760-4266-BCC7-CA923CBCF16C")},
             { ProjectType.CSharp , new Guid("9A19103F-16F7-4668-BE54-9A1E7A4F7556")},
             { ProjectType.CSharp2 , new Guid("FAE04EC0-301F-11D3-BF4B-00C04F79EFBC")},
             { ProjectType.CSharpDynamicsAxAot , new Guid("BF6F8E12-879D-49E7-ADF0-5503146B24B8")},

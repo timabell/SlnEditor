@@ -294,5 +294,14 @@
         /// - https://github.com/microsoft/slngen/blob/main/src/Microsoft.VisualStudio.SlnGen/VisualStudioProjectTypeGuids.cs#L12-L15
         /// </summary>
         AzureSdk,
+
+        /// <summary>
+        /// Docker Compose
+        /// - https://github.com/timabell/SlnEditor/issues/16
+        /// - https://www.jetbrains.com/help/rider/Docker_tools_for_net_projects.html
+        /// - https://github.com/dotnet/sdk/issues/35134
+        /// - https://learn.microsoft.com/en-us/aspnet/core/host-and-deploy/docker/visual-studio-tools-for-docker
+        /// </summary>
+        DockerCompose,
     }
 }
