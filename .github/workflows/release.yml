@@ -72,6 +72,9 @@ jobs:
           name: build-output
           path: SlnEditor/
 
+      - name: Restore dependencies
+        run: dotnet restore SlnEditor/SlnEditor.csproj
+
       - name: Detect bump type
         id: bump
         run: |
