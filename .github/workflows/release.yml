@@ -101,7 +101,7 @@ jobs:
       - name: Pack NuGet packages
         run: |
           VERSION=${{ steps.version_outputs.outputs.version }}
-          dotnet pack SlnEditor/SlnEditor/SlnEditor.csproj \
+          dotnet pack SlnEditor/SlnEditor.csproj \
             --configuration Release \
             --no-build \
             -p:PackageVersion=$VERSION \
